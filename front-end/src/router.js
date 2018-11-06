@@ -1,7 +1,17 @@
+import VueRouter from 'vue-router'
 import index from '@/pages/index'
-export default new VueRouter([
-  {
+import Vue from 'vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+  { 
     path: '/',
-    component: index
+    name: 'index',
+    component: index, 
   }
-])
+]
+export default new VueRouter({
+  routes,
+  mode: 'history',
+})
