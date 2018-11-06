@@ -17,6 +17,13 @@ const wishlist = {
     addToWishlistById({commit}, phone_id) {
       commit('addToWishlistById', phone_id)
     }
+  },
+  getter: {
+    countAmount() {
+      return lodash.reduce(state.wishlist, (total_amount, {amount}) => {
+        return total_amount + amount
+      }, 0);
+    }
   }
 }
 

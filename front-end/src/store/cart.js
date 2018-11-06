@@ -17,8 +17,15 @@ const cart = {
     }
   },
   actions: {
-    addToCartById({commit, }, [phone_id, amount]) {
+    addToCartById({commit}, [phone_id, amount]) {
       commit('addToCartById', [phone_id, amount])
+    }
+  },
+  getter: {
+    countAmount() {
+      return lodash.reduce(state.cart, (total_amount, {amount}) => {
+        return total_amount + amount
+      }, 0);
     }
   }
 }
