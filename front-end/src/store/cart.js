@@ -1,4 +1,5 @@
 import lodash from 'lodash'
+
 const cart = {
   state: {
     cart: []
