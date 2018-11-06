@@ -1,8 +1,10 @@
 const wishlist = {
-    state: {
-  
-    },
-    mutations: {
-      
-    }
+  state: {
+
+  },
+  mutations: {
+    
   }
+}
+
+export default wishlist;
