@@ -1,18 +1,10 @@
 <template>
   <div id="app">
-<<<<<<< HEAD
     <vue-router></vue-router>
-=======
-    <img alt="Vue logo" src="./assets/logo.png">
->>>>>>> origin/store
   </div>
 </template>
 
 <script>
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/store
 export default {
   name: 'app',
 }

@@ -1,7 +1,7 @@
-import hello from "@/components/HelloWorld.vue"
+import index from '@/pages/index'
 export default new VueRouter([
   {
-    path: '/index',
-    component: hello
+    path: '/',
+    component: index
   }
 ])
