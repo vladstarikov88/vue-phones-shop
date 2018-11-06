@@ -13,13 +13,9 @@
     "node-sass": "^4.10.0",
     "sass-loader": "^7.1.0",
     "vue": "^2.5.17",
-<<<<<<< HEAD
     "vue-router": "^3.0.1",
-    "vuex": "^3.0.1"
-=======
     "vuex": "^3.0.1",
     "vuex-persistedstate": "^2.5.4"
->>>>>>> origin/store
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",
