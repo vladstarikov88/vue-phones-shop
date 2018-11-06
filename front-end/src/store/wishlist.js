@@ -1,0 +1,8 @@
+const wishlist = {
+    state: {
+  
+    },
+    mutations: {
+      
+    }
+  }

@@ -1,0 +1,8 @@
+const user = {
+    state: {
+  
+    },
+    mutations: {
+      
+    }
+  }
