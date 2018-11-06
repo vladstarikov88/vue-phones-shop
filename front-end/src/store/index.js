@@ -17,3 +17,5 @@ const store = new Vuex.Store({
         user
     }
 })
+
+export default store
