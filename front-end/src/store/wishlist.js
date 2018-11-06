@@ -19,7 +19,7 @@ const wishlist = {
     }
   },
   getter: {
-    countAmount() {
+    countAmount(state) {
       return lodash.reduce(state.wishlist, (total_amount, {amount}) => {
         return total_amount + amount
       }, 0);

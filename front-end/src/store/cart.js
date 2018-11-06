@@ -22,7 +22,7 @@ const cart = {
     }
   },
   getter: {
-    countAmount() {
+    countAmount(state) {
       return lodash.reduce(state.cart, (total_amount, {amount}) => {
         return total_amount + amount
       }, 0);
