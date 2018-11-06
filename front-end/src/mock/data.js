@@ -1,16 +1,13 @@
-export default {
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
 
-    ['GET */example'] (pathMatch, query, request) {
-      let body = {
-        collection1: [
-          { id: 1, name: 'name1' },
-          { id: 2, name: 'name2' },
-        ]
-      }
-  
-      return {
-        body: body,
-        status: 200
-      }
-    }
-  }
+const mock = new MockAdapter(axios);
+
+// Mock GET request to /users when param `searchText` is 'John' 
+// arguments for reply are (status, data, headers)
+mock.onGet('/users', { params: { searchText: 'John' } }).reply(200, {
+  users: [
+    { id: 1, name: 'John Smith' }
+  ]
+});
+export default mock
