@@ -1,6 +1,7 @@
 import lodash from 'lodash'
 
 const cart = {
+  namespaced: true,
   state: {
     cart: []
   },
