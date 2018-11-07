@@ -10,7 +10,10 @@ import user from './user'
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
-    plugins: [createLogger(), createPersistedState()],
+    plugins: [
+        ...(process.env.NODE_ENV !== 'production' ? [createLogger()] : []), 
+        createPersistedState()
+    ],
     modules: {
         cart,
         wishlist,
