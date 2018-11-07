@@ -18,7 +18,7 @@
 
 </template>
 <script>
-import axios from "axios";
+
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
 export default {
@@ -28,7 +28,7 @@ export default {
     }
   },
   created() {
-    axios
+    this.axios
       .get("/phones")
       .then((response) => {
         this.phones = response.data.phones
