@@ -8,5 +8,8 @@ module.exports = {
         data: `@import "bulma";`
       }
     }
+  },
+  configureWebpack: {
+    devtool: 'source-map'
   }
 }

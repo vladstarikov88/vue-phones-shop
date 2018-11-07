@@ -1,4 +1,5 @@
 import lodash from 'lodash'
+import axios from '@/plugins/axios'
 
 const cart = {
   namespaced: true,
@@ -7,8 +8,10 @@ const cart = {
   },
   mutations: {
     addToCartById(state, [phone_id, amount]) {
-      const record = lodash.find(state.cart, { phone_id })
-      if(record) {
+      const record = lodash.find(state.cart, {
+        phone_id
+      })
+      if (record) {
         record.amount += amount;
       } else {
         state.cart.push({
@@ -18,10 +21,14 @@ const cart = {
       }
     },
     removeFromCartById(state, phone_id) {
-      lodash.remove(state.cart, {phone_id})
+      lodash.remove(state.cart, {
+        phone_id
+      })
     },
     changeAmountFromCartById(state, [phone_id, new_amount]) {
-      const current = lodash.find(state.cart, {phone_id}) 
+      const current = lodash.find(state.cart, {
+        phone_id
+      })
 
       if (current) {
         current.amount = new_amount
@@ -29,19 +36,39 @@ const cart = {
     }
   },
   actions: {
-    addToCartById({commit}, [phone_id, amount]) {
+    addToCartById({
+      commit
+    }, [phone_id, amount]) {
       commit('addToCartById', [phone_id, amount])
     },
-    removeFromCartById({commit}, phone_id) {
+    removeFromCartById({
+      commit
+    }, phone_id) {
       commit('removeFromCartById', phone_id)
     },
-    changeAmountFromCartById({commit}, [phone_id, new_amount]) {
+    changeAmountFromCartById({
+      commit
+    }, [phone_id, new_amount]) {
       commit('changeAmountFromCartById', [phone_id, new_amount])
     }
   },
-  getter: {
+
+  getters: {
     countAmount(state) {
-      return lodash.reduce(state.cart, (total_amount, {amount}) => total_amount + amount, 0);
+      return lodash.reduce(state.cart, (total_amount, {
+        amount
+      }) => total_amount + amount, 0);
+    },
+    async getTotalPrice(state) {
+      const phones_promises = lodash.map(state.cart, (record) => {
+        return axios
+          .get("/phone", { id: record.phone_id })
+      })
+      const phones = await Promise.all(phones_promises).then(response => lodash.map(response, 'data'));  
+      
+      const result = phones.reduce( (sum, {price}) => sum.price + price);
+
+      return result;
     }
   }
 }
