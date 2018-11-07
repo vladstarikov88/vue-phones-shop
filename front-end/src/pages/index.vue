@@ -10,9 +10,13 @@ import { mapActions, mapState } from 'vuex';
 
 export default {
   created() {
-    console.log(this.$store)
     axios
-      .get("/users", { params: { searchText: "John" } })
+      .get("/phones")
+      .then(function(response) {
+        //console.log(response.data);
+      });
+    axios
+      .get("/phone", { id: 2 })
       .then(function(response) {
         console.log(response.data);
       });

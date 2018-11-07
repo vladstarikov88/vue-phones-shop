@@ -36,9 +36,6 @@ export default {
   props: {
     msg: String
   },
-  created() {
-    console.log(this.lodash.map( [0,1,2,3], (val)=> val*2 ));
-  }
 }
 </script>
 
