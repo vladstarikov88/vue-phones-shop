@@ -58,9 +58,8 @@ export default {
   methods: {
     ...mapActions('cart', ['addToCartById']),
     openModal(phoneId) {
-      console.log(`showModal from ${phoneId}`)
-
-      console.log(`is_open: ${this.is_open}`)
+      
+      //Это шо?
       
       this.is_open === false ?
         this.is_open = true :
