@@ -1,28 +1,40 @@
 <template>
-  <div>
-    <button @click="addToCartById([0, 2])">add</button>
-    {{cart}}
-  </div>
+   <section class="section">
+    <div class="columns is-multiline">
+      <template v-if="phones && phones.length" v-for="phone in phones">
+        <div class="column is-4-tablet" :key="phone.id">
+          <phone-card :phone="phone">
+          </phone-card>
+        </div>
+      </template>
+    </div>
+  </section>
+
 </template>
 <script>
-import axios from "axios";
 import { mapActions, mapState } from 'vuex';
+import PhoneCard from '@/components/PhoneCard'
+import axios from 'axios';
+
 
 export default {
   created() {
     axios
       .get("/phones")
-      .then(function(response) {
-        //console.log(response.data);
+      .then((response) => {
+        this.phones = response.data.phones
       });
-    axios
-      .get("/phone", { id: 2 })
-      .then(function(response) {
-        console.log(response.data);
-      });
+  },
+  components: {
+    PhoneCard,
   },
   computed: {
     ...mapState('cart', ['cart'])
+  },
+  data() {
+    return {
+      phones: []
+    }
   },
   methods: {
     ...mapActions('cart', ['addToCartById'])
