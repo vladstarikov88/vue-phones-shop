@@ -32,7 +32,7 @@
 <script>
   export default {
     name: "PhoneCard",
-    props: ['phone', 'hasInWishList'],
+    props: ['phone', 'hasInWishList']
   }
 </script>
 
