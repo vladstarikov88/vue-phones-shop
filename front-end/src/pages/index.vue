@@ -1,11 +1,12 @@
 <template>
-  <div>
-    <div>
-      <ul>
-        <li v-for="item in phonesList" :key="item.id">
-          {{ item.id }}. {{ item.name }} - {{ item.price }}
-        </li>
-      </ul>
+   <section class="section">
+    <div class="columns is-multiline">
+      <template v-if="phones && phones.length" v-for="phone in phones">
+        <div class="column is-4-tablet" :key="phone.id">
+          <phone-card :phone="phone">
+          </phone-card>
+        </div>
+      </template>
     </div>
     <div>
       <button @click="addToCartById([1, 2])">add</button>
@@ -13,30 +14,29 @@
       <div>Кол-во: {{ countAmount }}</div>
       <div>Итог: {{ getTotalPrice }}</div>
     </div>
-  </div>
+  </section>
+
 </template>
 <script>
 import axios from "axios";
 import { mapActions, mapState, mapGetters } from 'vuex';
-
+import PhoneCard from '@/components/PhoneCard'
 export default {
   data() {
     return {
-      phonesList: []
+      phones: []
     }
   },
   created() {
     axios
       .get("/phones")
-      .then( response => {
-        this.phonesList = response.data.phones;
-      });
-    axios
-      .get("/phone", { id: 2 })
-      .then(function(response) {
-        //console.log(response.data);
+      .then((response) => {
+        this.phones = response.data.phones
       });
     
+  },
+  components: {
+    PhoneCard,
   },
   computed: {
     ...mapState('cart', ['cart']),
@@ -44,6 +44,11 @@ export default {
   },
   asyncComputed: {
     ...mapGetters('cart', ['getTotalPrice'])
+  },
+  data() {
+    return {
+      phones: []
+    }
   },
   methods: {
     ...mapActions('cart', ['addToCartById'])
