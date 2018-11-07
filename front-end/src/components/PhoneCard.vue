@@ -21,9 +21,7 @@
         </button>
         <button class="button is-info" @click="$emit('toggle-favorite', phone.id)">
           <span class="icon">
-            <no-ssr>
-              <i class="fa-star" :class="[ hasInWishList ? 'fas': 'far']"></i>
-            </no-ssr>
+            <i class="fa-star" :class="[ hasInWishList ? 'fas': 'far']"></i>
           </span>
         </button>
       </div>

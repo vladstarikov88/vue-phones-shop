@@ -8,28 +8,42 @@
         </div>
       </template>
     </div>
+    <div>
+      <button @click="addToCartById([1, 2])">add</button>
+      <div>{{cart}}</div>
+      <div>Кол-во: {{ countAmount }}</div>
+      <div>Итог: {{ getTotalPrice }}</div>
+    </div>
   </section>
 
 </template>
 <script>
-import { mapActions, mapState } from 'vuex';
+import axios from "axios";
+import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
-import axios from 'axios';
-
-
 export default {
+  data() {
+    return {
+      phones: []
+    }
+  },
   created() {
     axios
       .get("/phones")
       .then((response) => {
         this.phones = response.data.phones
       });
+    
   },
   components: {
     PhoneCard,
   },
   computed: {
-    ...mapState('cart', ['cart'])
+    ...mapState('cart', ['cart']),
+    ...mapGetters('cart', ['countAmount', ])
+  },
+  asyncComputed: {
+    ...mapGetters('cart', ['getTotalPrice'])
   },
   data() {
     return {
