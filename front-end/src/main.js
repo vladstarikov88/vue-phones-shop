@@ -5,13 +5,13 @@ import router from '@/router'
 import store from '@/store/index'
 import axiosMock from '@/mock/data'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import icons from '@fortawesome/free-solid-svg-icons'
+import faStar from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import axios from './plugins/axios'
 import AsyncComputed from 'vue-async-computed'
 
 
-library.add(icons)
+//library.add(faStart)
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

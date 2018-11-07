@@ -66,7 +66,7 @@ const cart = {
       })
       const phones = await Promise.all(phones_promises).then(response => lodash.map(response, 'data'));  
       
-      const result = phones.reduce( (sum, {price}) => sum.price + price);
+      const result = lodash.reduce(phones, (sum, {price}) => sum.price + price, 0)
 
       return result;
     }
