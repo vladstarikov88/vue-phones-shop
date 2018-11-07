@@ -13,12 +13,13 @@ export default {
     axios
       .get("/phones")
       .then(function(response) {
-        //console.log(response.data);
+        console.log(response);
+        
       });
     axios
       .get("/phone", { id: 2 })
       .then(function(response) {
-        console.log(response.data);
+        //console.log(response.data);
       });
   },
   computed: {
