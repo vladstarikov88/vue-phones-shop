@@ -1,0 +1,49 @@
+[
+    {
+        "id": 1,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": true,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": true,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 3,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": false,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": true,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 5,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": true,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 6,
+        "name": "Apple iPhone 5",
+        "price": 4700,
+        "is_available": true,
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+    },
+    {
+        "id": 7,
+        "name": "Apple iPhone 5",
+        "price": 4700
+    }
+]

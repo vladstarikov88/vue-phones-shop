@@ -2,6 +2,7 @@ import moment from 'moment'
 import lodash from 'lodash'
 
 const wishlist = {
+  namespaced: true,
   state: {
     wishlist: []
   },
