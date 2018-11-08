@@ -11,7 +11,8 @@
       </template>
     </div>
     <modal-window
-      :is-open="is_open">
+      :is-open="is_open"
+      v-on:close="closeModal()">
       <p>dadas</p>
     </modal-window>
     <div>
@@ -50,20 +51,19 @@ export default {
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount', ])
+    ...mapGetters('cart', ['countAmount'])
   },
   asyncComputed: {
     ...mapGetters('cart', ['getTotalPrice'])
   },
   methods: {
     ...mapActions('cart', ['addToCartById']),
+
     openModal(phoneId) {
-      
-      //Это шо?
-      
-      this.is_open === false ?
-        this.is_open = true :
-        this.is_open = false
+      this.is_open = !this.is_open
+    },
+    closeModal() {
+      this.is_open = !this.is_open
     }
   },
 };
