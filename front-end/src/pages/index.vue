@@ -51,8 +51,7 @@ export default {
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount']),
-    ...mapGetters('cart', ['getTotalPrice'])
+    ...mapGetters('cart', ['countAmount','getTotalPrice']),
   },
   asyncComputed: {
   
