@@ -13,7 +13,7 @@ mock.onPost('/login').reply(function (config) {
   if (config.usename === 'root' && config.password === 'toor') {
     return [200, {access_token: 'test_access_token' }]
   } else {
-    
+    return [401, {msg: 'incorrect login or password'}]
   }
 });
 mock.onGet('/phone').reply(function (config) {
