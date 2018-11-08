@@ -51,10 +51,11 @@ export default {
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount'])
+    ...mapGetters('cart', ['countAmount']),
+    ...mapGetters('cart', ['getTotalPrice'])
   },
   asyncComputed: {
-    ...mapGetters('cart', ['getTotalPrice'])
+  
   },
   methods: {
     ...mapActions('cart', ['addToCartById']),
