@@ -55,6 +55,7 @@ export default {
         ...mapActions('cart', ['addToCartById']),
         close() {
             this.$emit('close')
+            console.log('close')
         }
     }
 }
