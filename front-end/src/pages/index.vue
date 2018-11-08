@@ -5,16 +5,17 @@
         <div class="column is-4-tablet" :key="phone.id">
           <phone-card 
             :phone="phone"
-            v-on:open-modal="openModal(phone.id)">
+            v-on:open-modal="openModal(phone)">
           </phone-card>
         </div>
       </template>
     </div>
-    <modal-window
+    <modal-add-to-cart
       :is-open="is_open"
-      v-on:close="closeModal()">
-      <p>dadas</p>
-    </modal-window>
+      v-on:close="closeModal()"
+      :phone="current_phone">
+
+    </modal-add-to-cart>
     <div>
       <button @click="addToCartById([1, 2])">add</button>
       <div>{{cart}}</div>
@@ -28,11 +29,12 @@
 
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
-import ModalWindow from '@/components/ModalWindow'
+import ModalAddToCart from '@/components/ModalAddToCart'
 export default {
   data() {
     return {
       phones: [],
+      current_phone: {},
       is_open: false
     }
   },
@@ -46,8 +48,7 @@ export default {
   },
   components: {
     PhoneCard,
-    ModalWindow
-    
+    ModalAddToCart    
   },
   computed: {
     ...mapState('cart', ['cart']),
@@ -59,8 +60,10 @@ export default {
   methods: {
     ...mapActions('cart', ['addToCartById']),
 
-    openModal(phoneId) {
+    openModal(phone) {
       this.is_open = !this.is_open
+      this.current_phone = phone;
+      console.log(this.current_phone)
     },
     closeModal() {
       this.is_open = !this.is_open
