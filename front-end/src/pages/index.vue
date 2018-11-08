@@ -17,7 +17,6 @@
 
     </modal-add-to-cart>
     <div>
-      <button @click="addToCartById([1, 2])">add</button>
       <div>{{cart}}</div>
       <div>Кол-во: {{ countAmount }}</div>
       <div>Итог: {{ getTotalPrice }}</div>

@@ -15,7 +15,7 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "ModalWindow",
-  props: ["isOpen", "phone"],
+  props: ["isOpen"],
   store,
   computed: {
     ...mapGetters('cart', ['countAmount'])

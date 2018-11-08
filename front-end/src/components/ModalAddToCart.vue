@@ -3,7 +3,7 @@
         :is-open="isOpen"
         v-on:close="close">
         <div>
-            <button class="button" @click="addToCartById([2, 1])">Добавить товар в корзину</button>
+            <button class="button" @click="addToCartById([phone.id, 1])">Добавить товар в корзину</button>
             <div>
             <p>{{ phone.id }}</p>
             <p>{{ phone.name }}</p>
