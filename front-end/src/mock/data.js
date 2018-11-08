@@ -9,6 +9,13 @@ const mock = new MockAdapter(axios);
 mock.onGet('/phones').reply(200, {
   phones
 });
+mock.onPost('/login').reply(function (config) {
+  if (config.usename === 'root' && config.password === 'toor') {
+    return [200, {access_token: 'test_access_token' }]
+  } else {
+    
+  }
+});
 mock.onGet('/phone').reply(function (config) {
   const phone = lodash.find(phones, { id: config.id });
   if(phone){

@@ -11,7 +11,8 @@
       </template>
     </div>
     <modal-window
-      :is-open="is_open">
+      :is-open="modal_is_open"
+      @close="closeModal">
       <p>dadas</p>
     </modal-window>
     <div>
@@ -32,7 +33,7 @@ export default {
   data() {
     return {
       phones: [],
-      is_open: false
+      modal_is_open: false
     }
   },
   created() {
@@ -58,12 +59,10 @@ export default {
   methods: {
     ...mapActions('cart', ['addToCartById']),
     openModal(phoneId) {
-      
-      //Это шо?
-      
-      this.is_open === false ?
-        this.is_open = true :
-        this.is_open = false
+      this.modal_is_open = true;
+    },
+    closeModal() {
+      this.modal_is_open = false;
     }
   },
 };
