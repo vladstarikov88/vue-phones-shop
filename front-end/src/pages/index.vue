@@ -19,7 +19,7 @@
     <div>
       <div>{{cart}}</div>
       <div>Кол-во: {{ countAmount }}</div>
-      <div>Итог: {{ getTotalPrice }}</div>
+      <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
     </div>
   </section>
 
@@ -55,6 +55,7 @@ export default {
     ...mapGetters('cart', ['getTotalPrice'])
   },
   asyncComputed: {
+    ...mapGetters('cart', ['promiseTotalPrice'])
   
   },
   methods: {
