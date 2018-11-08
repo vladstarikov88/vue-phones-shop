@@ -12,9 +12,9 @@
     </div>
     <modal-add-to-cart
       :is-open="is_open"
+      :key="current_phone.id"
       v-on:close="closeModal()"
       :phone="current_phone">
-
     </modal-add-to-cart>
     <div>
       <div>{{cart}}</div>
