@@ -1,5 +1,6 @@
 import lodash from 'lodash'
 import axios from '@/plugins/axios'
+import co from 'co'
 
 const cart = {
   namespaced: true,
@@ -54,7 +55,7 @@ const cart = {
   },
 
   getters: {
-    countAmount(state) {
+    getAmountPhones(state) {
       return lodash.reduce(state.cart, (total_amount, {
         amount
       }) => total_amount + amount, 0);

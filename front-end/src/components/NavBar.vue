@@ -39,7 +39,7 @@
         <div class="navbar-item">
           <div class="counters">
             <p class="is-marginless">Общая стоймость: {{getTotalPrice}} руб.</p>
-            <p class="is-marginless">Общее кол-во телефонов: {{getAmountPhone}} шт.</p>
+            <p class="is-marginless">Общее кол-во телефонов: {{getAmountPhones}} шт.</p>
           </div>
         </div>
       </div>
@@ -47,11 +47,11 @@
   </nav>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
   computed: {
-    ...mapState("cart", ["cart"])
+    ...mapGetters("cart", ["getAmountPhones"])
   }
 };
 </script>
