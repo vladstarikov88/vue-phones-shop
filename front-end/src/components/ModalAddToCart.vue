@@ -52,10 +52,9 @@ export default {
         }
     },
     methods: {
-        ...mapActions('cart', ['addToCartById']),
+        ...mapActions('cart', ['addToCartById', 'removeFromCartById']),
         close() {
             this.$emit('close')
-            console.log('close')
         }
     }
 }

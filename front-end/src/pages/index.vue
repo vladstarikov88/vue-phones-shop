@@ -5,7 +5,9 @@
         <div class="column is-4-tablet" :key="phone.id">
           <phone-card 
             :phone="phone"
-            v-on:open-modal="openModal(phone)">
+            :has-in-wish-list="hasInWishList"
+            v-on:open-modal="openModal(phone)"
+            v-on:toggle-favorite="addToWishList(phone)">
           </phone-card>
         </div>
       </template>
@@ -20,12 +22,13 @@
       <div>{{cart}}</div>
       <div>Кол-во: {{ countAmount }}</div>
       <div>Итог: {{ getTotalPrice }}</div>
+      <div>{{ wishlist }}</div>
+      <!-- <div>Товаров в корзине: {{ getTotalFromWishlist }}</div> -->
     </div>
   </section>
 
 </template>
 <script>
-
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
 import ModalAddToCart from '@/components/ModalAddToCart'
@@ -34,7 +37,8 @@ export default {
     return {
       phones: [],
       current_phone: {},
-      is_open: false
+      is_open: false,
+      hasInWishList: false
     }
   },
   created() {
@@ -51,8 +55,8 @@ export default {
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount']),
-    ...mapGetters('cart', ['getTotalPrice'])
+    ...mapGetters('cart', ['countAmount', 'getTotalPrice']),
+    ...mapState('wishlist', ['wishlist'])
   },
   asyncComputed: {
   
@@ -67,6 +71,12 @@ export default {
     },
     closeModal() {
       this.is_open = !this.is_open
+    },
+    addToWishList(phone) {
+      this.hasInWishList = !this.hasInWishList
+
+      console.log(phone.id)
+      console.log(this.hasInWishList)
     }
   },
 };
