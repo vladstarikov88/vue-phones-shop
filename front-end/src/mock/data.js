@@ -9,6 +9,18 @@ const mock = new MockAdapter(axios);
 mock.onGet('/phones').reply(200, {
   phones
 });
+mock.onPost('/check').reply(function (config) {
+  console.log(config)
+  return [200, {}]
+})
+mock.onPost('/login').reply(function (config) {
+  const {username, password} = JSON.parse(config.data);
+  if (username === 'root' && password === 'toor') {
+    return [200, {access_token: 'test_access_token' }]
+  } else {
+    return [401, {msg: 'incorrect login or password'}]
+  }
+});
 mock.onGet('/phone').reply(function (config) {
   const phone = lodash.find(phones, { id: config.id });
   if(phone){

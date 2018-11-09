@@ -10,7 +10,7 @@ const wishlist = {
     addToWishlistById(state, phone_id) {
       state.wishlist.push({
         phone_id, 
-        date: moment.unix()
+        date: moment().unix()
       })
     },
     removeFromWishlistById(state, phone_id) {
@@ -32,8 +32,11 @@ const wishlist = {
     }
   },
   getters: {
-    getTotalFromWishlist(state) {
-      
+    getTotalAmountFromWishlist(state) {
+      let result = 0;
+
+      state.wishlist.forEach(el => result++);
+      return result
     }
   }
 }

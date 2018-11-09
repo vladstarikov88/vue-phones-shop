@@ -13,16 +13,11 @@
       </template>
     </div>
     <modal-add-to-cart
-      :is-open="is_open"
+      :is-open="modal_is_open"
       :key="current_phone.id"
       v-on:close="closeModal()"
       :phone="current_phone">
     </modal-add-to-cart>
-    <div>
-      <div>{{cart}}</div>
-      <div>Кол-во: {{ getTotalAmountPhones }}</div>
-      <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
-    </div>
   </section>
 
 </template>
@@ -35,7 +30,7 @@ export default {
     return {
       phones: [],
       current_phone: {},
-      is_open: false,
+      modal_is_open: false,
     }
   },
   created() {
@@ -51,8 +46,6 @@ export default {
     ModalAddToCart    
   },
   computed: {
-    ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['getTotalAmountPhones', 'getTotalPrice']),
     ...mapState('wishlist', ['wishlist'])
   },
   asyncComputed: {
@@ -60,15 +53,14 @@ export default {
   
   },
   methods: {
-    ...mapActions('cart', ['addToCartById']),
     ...mapActions('wishlist', ['toggleToWishlistById']),
 
     openModal(phone) {
-      this.is_open = !this.is_open
+      this.modal_is_open = !this.modal_is_open
       this.current_phone = phone;
     },
     closeModal() {
-      this.is_open = !this.is_open
+      this.modal_is_open = !this.modal_is_open
     },
     hasInWishList(phone_id) {
       return !!this.lodash.find(this.wishlist, {phone_id})
