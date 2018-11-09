@@ -69,7 +69,8 @@ export default {
     ModalLoginForm
   },
   computed: {
-    ...mapGetters('cart', ['getTotalAmountPhones'])
+    ...mapGetters('cart', ['getTotalAmountPhones']),
+    ...mapGetters('user', ['getAccessTocken'])
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
