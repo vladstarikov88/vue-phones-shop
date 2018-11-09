@@ -33,6 +33,7 @@
                         <td> {{ phone.price }} руб.</td>
                     </tr>
                     <tr>
+                        <!-- Исправить, когда кол-во равно 0 -->
                         <td>Сумма:</td>
                         <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
                         <td v-else>-</td>
