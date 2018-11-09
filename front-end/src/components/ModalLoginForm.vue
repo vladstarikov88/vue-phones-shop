@@ -10,20 +10,22 @@
         <div class="columns">
             <div class="column">
                 <input 
-                    type="email" 
-                    placeholder="email"
-                    class="input">
+                    type="username" 
+                    placeholder="username"
+                    class="input"
+                    v-model="username">
             </div>
             <div class="column">
                 <input 
                     type="password" 
                     placeholder="password"
-                    class="input">
+                    class="input"
+                    v-model="password">
             </div>
         </div>
         <div class="columns">
             <div class="column has-text-centered">
-                <button class="button">Войти</button>
+                <button class="button" @click="authorization(username, password)">Войти</button>
             </div>
         </div>
     </modal-window>
@@ -33,12 +35,28 @@ import ModalWindow from '@/components/ModalWindow'
 
 export default {
     props: ["isOpen"],
+    data() {
+        return {
+            username: '',
+            password: ''
+        }
+    },
     components: {
         ModalWindow
     },
     methods: {
         close() {
             this.$emit('close')
+        },
+        authorization(username, password) {
+            this.axios
+              .post("/login", {username, password})
+              .then( response => {
+                  console.log(response)
+              } )
+              .catch( error => {
+                  console.log(error)
+              })
         }
     }    
 }
