@@ -17,6 +17,8 @@
             <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
           </td>
           <td>{{purchase.name}}</td>
+          <td>{{purchase.amount}}</td>
+          <td>{{purchase.price * purchase.amount}}</td>
           <td class="is-center">
             <nuxt-link to="/purchases">К списку желаний</nuxt-link>
           </td>
@@ -28,13 +30,10 @@
 </template>
 
 <script lang="js">
-import Popup from '@/components/Popup'
+  import {mapState} from 'vuex';
   export default  {
     name: 'popup-cart',
     props: [],
-    components: {
-      Popup
-    }
     mounted() {
 
     },
@@ -47,7 +46,14 @@ import Popup from '@/components/Popup'
 
     },
     computed: {
-      ...mapState('')
+      ...mapState('cart', ['cart'])
+    },
+    asyncComputed: {
+      async purchases() {
+        return await Promise.all(this.lodash.map(this.cart, ({phone_id, amount})=>{
+          return this.axios.get('/phone', {id: phone_id}).then(res=>({...res.data, amount}))
+        }))
+      }
     }
 }
 </script>
