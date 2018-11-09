@@ -29,7 +29,7 @@
                 <i class="fas fa-shopping-cart "></i>
               </router-link>
             </a>
-            <a class="button is-white popup-toggle" @click="togglePopupFavorite">
+            <a class="button is-white popup-toggle">
               <span class="icon">
                 <i class="far fa-star"></i>
               </span>
@@ -38,7 +38,7 @@
         </div>
         <div class="navbar-item">
           <div class="counters">
-            <p class="is-marginless">Общая стоймость: {{getTotalPrice}} руб.</p>
+            <p class="is-marginless">Общая стоймость: {{promiseTotalPrice}} руб.</p>
             <p class="is-marginless">Общее кол-во телефонов: {{getAmountPhones}} шт.</p>
           </div>
         </div>
@@ -47,11 +47,14 @@
   </nav>
 </template>
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters("cart", ["getAmountPhones"])
+    ...mapGetters('cart', ['getAmountPhones'])
+  },
+  asyncComputed: {
+    ...mapGetters('cart', ['promiseTotalPrice'])
   }
 };
 </script>
