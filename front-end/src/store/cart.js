@@ -1,6 +1,8 @@
 import lodash from 'lodash'
 import axios from '@/plugins/axios'
 import phones from '@/assets/dummy/phones'
+import co from 'co'
+
 const cart = {
   namespaced: true,
   state: {
@@ -64,6 +66,14 @@ const cart = {
           const phone_price = lodash.find(phones, {id: phone_id}).price
           return  sum + (phone_price * amount)
         }, 0)
+    },
+    async promiseTotalPrice(state) {
+      return await co(function * (){
+          const prices = yield lodash.map(state.cart, ({phone_id, amount}) => {
+          return axios.get('phone',{id: phone_id}).then(res=>res.data.price * amount)
+        })
+          return lodash.sum(prices)
+      })
     }
   }
 }

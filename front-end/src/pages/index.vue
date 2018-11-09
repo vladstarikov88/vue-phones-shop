@@ -21,7 +21,7 @@
     <div>
       <div>{{cart}}</div>
       <div>Кол-во: {{ countAmount }}</div>
-      <div>Итог: {{ getTotalPrice }}</div>
+      <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
       <div>{{ wishlist }}</div>
       <div>Товаров в списке желаний: {{ getTotalAmountFromWishlist }}</div>
     </div>
@@ -59,6 +59,7 @@ export default {
     ...mapGetters('wishlist', ['getTotalAmountFromWishlist'])
   },
   asyncComputed: {
+    ...mapGetters('cart', ['promiseTotalPrice'])
   
   },
   methods: {

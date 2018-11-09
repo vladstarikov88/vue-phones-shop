@@ -14,16 +14,24 @@
                     <img :src="phone.image_url" alt="">
                 </figure>
             </div>
-            <!-- <p class="title is-6">{{ phone.name }}</p> -->
-            <div class="column">
-                <p class="title is-6">Кол-во:</p>
-                <p class="title is-6">Цена:</p>
-                <p class="title is-6">Сумма:</p>
-            </div>
-            <div class="column">
-                <input type="number" class="input" v-model.number="current_amount">
-                <p class="title is-6">{{ phone.price }}</p>
-                <p class="title is-6">{{ countPrice || phone.price}}</p>
+            
+            <div class="column content">
+                <p class="title is-6">{{ phone.name }}</p>
+                <table class="table is-fullwidth">
+                    <tr>
+                        <td>Кол-во</td>
+                        <td><input type="number" class="input" v-model.number="current_amount"></td>
+                    </tr>
+                    <tr>
+                        <td>Цена:</td>
+                        <td> {{ phone.price }} руб.</td>
+                    </tr>
+                    <tr>
+                        <td>Сумма:</td>
+                        <td>{{ total_price}} руб.</td>
+                    </tr>
+                </table>
+                
             </div>
         </div>
         <div class="columns">
@@ -47,8 +55,8 @@ export default {
         ModalWindow
     },
     computed: {
-        countPrice() {
-            return this.phone.price * this.current_amount
+        total_price() {
+            return this.phone.price * (this.current_amount || 1)
         }
     },
     methods: {
@@ -59,3 +67,13 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.table {
+    td {
+        vertical-align: middle !important;
+        &:nth-child(2) {
+            text-align: right;
+        }
+    }
+}
+</style>
