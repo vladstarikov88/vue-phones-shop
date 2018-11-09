@@ -18,7 +18,7 @@ export default {
   props: ["isOpen"],
   store,
   computed: {
-    ...mapGetters('cart', ['countAmount'])
+    ...mapGetters('cart', ['getTotalAmountPhones'])
   },
   methods: {
     ...mapActions('cart', ['addToCartById']),

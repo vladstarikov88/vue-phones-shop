@@ -18,13 +18,6 @@
       v-on:close="closeModal()"
       :phone="current_phone">
     </modal-add-to-cart>
-    <div>
-      <div>{{cart}}</div>
-      <div>Кол-во: {{ countAmount }}</div>
-      <div>Итог: {{promiseTotalPrice}}</div>
-      <div>{{ wishlist }}</div>
-      <div>Товаров в списке желаний: {{ getTotalAmountFromWishlist }}</div>
-    </div>
   </section>
 
 </template>
@@ -53,17 +46,13 @@ export default {
     ModalAddToCart    
   },
   computed: {
-    ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount', 'getTotalPrice']),
-    ...mapState('wishlist', ['wishlist']),
-    ...mapGetters('wishlist', ['getTotalAmountFromWishlist'])
+    ...mapState('wishlist', ['wishlist'])
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
   
   },
   methods: {
-    ...mapActions('cart', ['addToCartById']),
     ...mapActions('wishlist', ['toggleToWishlistById']),
 
     openModal(phone) {
