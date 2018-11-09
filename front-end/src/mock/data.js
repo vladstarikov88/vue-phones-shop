@@ -10,6 +10,7 @@ mock.onGet('/phones').reply(200, {
   phones
 });
 mock.onPost('/login').reply(function (config) {
+  console.log('config - ', config)
   if (config.usename === 'root' && config.password === 'toor') {
     return [200, {access_token: 'test_access_token' }]
   } else {
