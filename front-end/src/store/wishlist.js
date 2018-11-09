@@ -10,7 +10,7 @@ const wishlist = {
     addToWishlistById(state, phone_id) {
       state.wishlist.push({
         phone_id, 
-        date: moment.unix()
+        date: moment().unix()
       })
     },
     removeFromWishlistById(state, phone_id) {
