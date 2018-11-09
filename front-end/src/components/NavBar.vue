@@ -70,7 +70,8 @@
     </div>
     <modal-login-form
       :is-open="modal_is_open"
-      v-on:close="toggleModal()">
+      v-on:close="toggleModal()"
+      v-if="modal_is_open">
     </modal-login-form>
   </nav>
 </template>

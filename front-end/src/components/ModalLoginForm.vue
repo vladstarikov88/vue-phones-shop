@@ -58,6 +58,7 @@ export default {
                   this.axios.defaults.headers.common['Authorization'] = current_tocken;
 
                   this.setAccessToken(current_tocken)
+                  this.close()
               })
               .catch(e => console.log(e))
         }
