@@ -45,7 +45,7 @@
             <div class="column has-text-centered ">
                 <button 
                     class="button" 
-                    @click="addToCartById([phone.id, current_amount])"
+                    @click="addToCart()"
                     :disabled="errors.has('regex')">Добавить</button>
             </div>
         </div>    
@@ -71,6 +71,11 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['addToCartById', 'removeFromCartById']),
+
+        addToCart() {
+            this.addToCartById([this.phone.id, this.current_amount])
+            this.close()
+        },
         close() {
             this.$emit('close')
         }
