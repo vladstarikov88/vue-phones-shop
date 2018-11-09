@@ -14,7 +14,8 @@ const wishlist = {
       })
     },
     removeFromWishlistById(state, phone_id) {
-      lodash.remove(state.cart, {phone_id})
+      const idx = lodash.findIndex(state.wishlist, {phone_id});
+      state.wishlist.splice(idx, 1);
     }
   },
   actions: {
@@ -23,13 +24,16 @@ const wishlist = {
     },
     removeFromWishlistById({commit}, phone_id) {
       commit('removeFromWishlistById', phone_id)
+    },
+    toggleToWishlistById({commit, state}, phone_id) {
+      lodash.find(state.wishlist, {phone_id}) ?
+        commit('removeFromWishlistById', phone_id) :
+        commit('addToWishlistById', phone_id)
     }
   },
-  getter: {
-    countAmount(state) {
-      return lodash.reduce(state.wishlist, (total_amount, {amount}) => {
-        return total_amount + amount
-      }, 0);
+  getters: {
+    getTotalFromWishlist(state) {
+      
     }
   }
 }

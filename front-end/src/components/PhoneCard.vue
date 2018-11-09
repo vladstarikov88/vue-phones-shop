@@ -16,10 +16,11 @@
         нет в наличии
       </p>
       <div class="buttons">
-        <button class="button is-success" :disabled="!phone.is_available" @click="$emit('open-modal', phone.id)">
+        <button class="button is-success" :disabled="!phone.is_available" @click="$emit('open-modal', phone)">
           Добавить в корзину
         </button>
-        <button class="button is-info" @click="$emit('toggle-favorite', phone.id)">
+        <button class="button is-info" @click="$emit('toggle-favorite', phone)">
+        <!-- <button class="button is-info" @click="toggleToWishlistById(phone.id)"> -->
           <span class="icon">
             <i class="fa-star" :class="[ hasInWishList ? 'fas': 'far']"></i>
           </span>
@@ -30,9 +31,13 @@
 </template>
 
 <script>
+import {mapActions} from 'vuex'
   export default {
     name: "PhoneCard",
-    props: ['phone', 'hasInWishList']
+    props: ['phone', 'hasInWishList'],
+    methods: {
+      ...mapActions('wishlist', ['addToWishlistById', 'toggleToWishlistById']),
+    }
   }
 </script>
 

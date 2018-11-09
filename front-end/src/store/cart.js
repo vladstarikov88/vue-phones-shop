@@ -1,5 +1,7 @@
 import lodash from 'lodash'
 import axios from '@/plugins/axios'
+import phones from '@/assets/dummy/phones'
+import co from 'co'
 
 const cart = {
   namespaced: true,
@@ -54,21 +56,24 @@ const cart = {
   },
 
   getters: {
-    countAmount(state) {
+    getTotalAmountPhones(state) {
       return lodash.reduce(state.cart, (total_amount, {
         amount
       }) => total_amount + amount, 0);
     },
-    async getTotalPrice(state) {
-      const phones_promises = lodash.map(state.cart, (record) => {
-        return axios
-          .get("/phone", { id: record.phone_id })
+    getTotalPrice(state) {
+        return lodash.reduce(state.cart, (sum, {amount, phone_id}) => { 
+          const phone_price = lodash.find(phones, {id: phone_id}).price
+          return  sum + (phone_price * amount)
+        }, 0)
+    },
+    async promiseTotalPrice(state) {
+      return await co(function * (){
+          const prices = yield lodash.map(state.cart, ({phone_id, amount}) => {
+          return axios.get('phone',{id: phone_id}).then(res=>res.data.price * amount)
+        })
+          return lodash.sum(prices)
       })
-      const phones = await Promise.all(phones_promises).then(response => lodash.map(response, 'data'));  
-      
-      const result = lodash.reduce(phones, (sum, {price}) => sum + price, 0)
-
-      return result;
     }
   }
 }

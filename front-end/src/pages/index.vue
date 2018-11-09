@@ -5,35 +5,37 @@
         <div class="column is-4-tablet" :key="phone.id">
           <phone-card 
             :phone="phone"
-            v-on:open-modal="openModal(phone.id)">
+            :has-in-wish-list="hasInWishList(phone.id)"
+            v-on:open-modal="openModal(phone)"
+            v-on:toggle-favorite="toggleToWishlistById(phone.id)">
           </phone-card>
         </div>
       </template>
     </div>
-    <modal-window
+    <modal-add-to-cart
       :is-open="modal_is_open"
-      @close="closeModal">
-      <p>dadas</p>
-    </modal-window>
+      :key="current_phone.id"
+      v-on:close="closeModal()"
+      :phone="current_phone">
+    </modal-add-to-cart>
     <div>
-      <button @click="addToCartById([1, 2])">add</button>
       <div>{{cart}}</div>
-      <div>Кол-во: {{ countAmount }}</div>
-      <div>Итог: {{ getTotalPrice }}</div>
+      <div>Кол-во: {{ getTotalAmountPhones }}</div>
+      <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
     </div>
   </section>
 
 </template>
 <script>
-
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
-import ModalWindow from '@/components/ModalWindow'
+import ModalAddToCart from '@/components/ModalAddToCart'
 export default {
   data() {
     return {
       phones: [],
-      modal_is_open: false
+      current_phone: {},
+      modal_is_open: false,
     }
   },
   created() {
@@ -46,23 +48,30 @@ export default {
   },
   components: {
     PhoneCard,
-    ModalWindow
-    
+    ModalAddToCart    
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount', ])
+    ...mapGetters('cart', ['getTotalAmountPhones', 'getTotalPrice']),
+    ...mapState('wishlist', ['wishlist'])
   },
   asyncComputed: {
-    ...mapGetters('cart', ['getTotalPrice'])
+    ...mapGetters('cart', ['promiseTotalPrice'])
+  
   },
   methods: {
     ...mapActions('cart', ['addToCartById']),
-    openModal(phoneId) {
-      this.modal_is_open = true;
+    ...mapActions('wishlist', ['toggleToWishlistById']),
+
+    openModal(phone) {
+      this.modal_is_open = !this.modal_is_open
+      this.current_phone = phone;
     },
     closeModal() {
-      this.modal_is_open = false;
+      this.modal_is_open = !this.modal_is_open
+    },
+    hasInWishList(phone_id) {
+      return !!this.lodash.find(this.wishlist, {phone_id})
     }
   },
 };
