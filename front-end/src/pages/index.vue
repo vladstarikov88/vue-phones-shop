@@ -20,7 +20,7 @@
     </modal-add-to-cart>
     <div>
       <div>{{cart}}</div>
-      <div>Кол-во: {{ countAmount }}</div>
+      <div>Кол-во: {{ getTotalAmountPhones }}</div>
       <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
     </div>
   </section>
@@ -52,7 +52,7 @@ export default {
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapGetters('cart', ['countAmount', 'getTotalPrice']),
+    ...mapGetters('cart', ['getTotalAmountPhones', 'getTotalPrice']),
     ...mapState('wishlist', ['wishlist'])
   },
   asyncComputed: {

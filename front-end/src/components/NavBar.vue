@@ -39,7 +39,7 @@
         <div class="navbar-item">
           <div class="counters">
             <p class="is-marginless">Общая стоймость: {{promiseTotalPrice}} руб.</p>
-            <p class="is-marginless">Общее кол-во телефонов: {{getAmountPhones}} шт.</p>
+            <p class="is-marginless">Общее кол-во телефонов: {{getTotalAmountPhones}} шт.</p>
           </div>
         </div>
       </div>
@@ -51,7 +51,7 @@ import { mapGetters } from 'vuex';
 
 export default {
   computed: {
-    ...mapGetters('cart', ['getAmountPhones'])
+    ...mapGetters('cart', ['getTotalAmountPhones'])
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
