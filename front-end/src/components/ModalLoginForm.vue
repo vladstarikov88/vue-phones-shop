@@ -31,6 +31,7 @@
     </modal-window>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import ModalWindow from '@/components/ModalWindow'
 
 export default {
@@ -45,18 +46,21 @@ export default {
         ModalWindow
     },
     methods: {
+        ...mapActions('user', ['setAccessToken']),
         close() {
             this.$emit('close')
         },
         authorization(username, password) {
             this.axios
               .post("/login", {username, password})
-              .then( response => {
-                  console.log(response)
-              } )
-              .catch( error => {
-                  console.log(error)
+              .then(response => {
+                  const current_tocken = 'Bearer ' + response.data.access_token;
+                  this.axios.defaults.headers.common['Authorization'] = current_tocken;
+
+                  this.setAccessToken(current_tocken)
+                  console.log(this.axios.defaults.headers.common)
               })
+              .catch(e => console.log(e))
         }
     }    
 }
