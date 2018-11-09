@@ -20,7 +20,13 @@
                 <table class="table is-fullwidth">
                     <tr>
                         <td>Кол-во</td>
-                        <td><input type="number" class="input" v-model.number="current_amount"></td>
+                        <td><input 
+                            type="number" 
+                            class="input" 
+                            v-validate="{ required: true, regex: /^([1-9]+)$/ }"
+                            name="regex"
+                            :class="{'is-danger' : errors.has('regex')}"
+                            v-model.number="current_amount"></td>
                     </tr>
                     <tr>
                         <td>Цена:</td>
@@ -28,7 +34,8 @@
                     </tr>
                     <tr>
                         <td>Сумма:</td>
-                        <td>{{ total_price}} руб.</td>
+                        <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
+                        <td v-else>-</td>
                     </tr>
                 </table>
                 
@@ -36,7 +43,10 @@
         </div>
         <div class="columns">
             <div class="column has-text-centered ">
-                <button class="button" @click="addToCartById([phone.id, current_amount])">Добавить</button>
+                <button 
+                    class="button" 
+                    @click="addToCart()"
+                    :disabled="errors.has('regex')">Добавить</button>
             </div>
         </div>    
     </modal-window>
@@ -61,6 +71,11 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['addToCartById', 'removeFromCartById']),
+
+        addToCart() {
+            this.addToCartById([this.phone.id, this.current_amount])
+            this.close()
+        },
         close() {
             this.$emit('close')
         }

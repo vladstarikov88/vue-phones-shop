@@ -20,7 +20,6 @@
           Добавить в корзину
         </button>
         <button class="button is-info" @click="$emit('toggle-favorite', phone)">
-        <!-- <button class="button is-info" @click="toggleToWishlistById(phone.id)"> -->
           <span class="icon">
             <i class="fa-star" :class="[ hasInWishList ? 'fas': 'far']"></i>
           </span>
