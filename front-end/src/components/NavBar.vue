@@ -24,6 +24,11 @@
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
           <div class="buttons">
+            <a class="button" @click="toggleModal()">
+              <span class="icon">
+                <i class="fas fa-sign-in-alt"></i>
+              </span>
+            </a>
             <a class="button is-white">
               <router-link to="/cart" tag="span" class="icon">
                 <i class="fas fa-shopping-cart "></i>
@@ -44,17 +49,35 @@
         </div>
       </div>
     </div>
+    <modal-login-form
+      :is-open="modal_is_open"
+      v-on:close="toggleModal()">
+    </modal-login-form>
   </nav>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import ModalLoginForm from '@/components/ModalLoginForm'
 
 export default {
+  data() {
+    return {
+      modal_is_open: false
+    }
+  },
+  components: {
+    ModalLoginForm
+  },
   computed: {
     ...mapGetters('cart', ['getTotalAmountPhones'])
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
+  },
+  methods: {
+    toggleModal() {
+      this.modal_is_open = !this.modal_is_open;
+    }
   }
 };
 </script>
