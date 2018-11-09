@@ -21,7 +21,7 @@
     <div>
       <div>{{cart}}</div>
       <div>Кол-во: {{ countAmount }}</div>
-      <div>Итог: {{ getTotalPrice }}  {{promiseTotalPrice}}</div>
+      <div>Итог: {{promiseTotalPrice}}</div>
       <div>{{ wishlist }}</div>
       <div>Товаров в списке желаний: {{ getTotalAmountFromWishlist }}</div>
     </div>
