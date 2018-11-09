@@ -23,7 +23,7 @@
       <div>Кол-во: {{ countAmount }}</div>
       <div>Итог: {{ getTotalPrice }}</div>
       <div>{{ wishlist }}</div>
-      <!-- <div>Товаров в корзине: {{ getTotalFromWishlist }}</div> -->
+      <div>Товаров в списке желаний: {{ getTotalAmountFromWishlist }}</div>
     </div>
   </section>
 
@@ -55,7 +55,8 @@ export default {
   computed: {
     ...mapState('cart', ['cart']),
     ...mapGetters('cart', ['countAmount', 'getTotalPrice']),
-    ...mapState('wishlist', ['wishlist'])
+    ...mapState('wishlist', ['wishlist']),
+    ...mapGetters('wishlist', ['getTotalAmountFromWishlist'])
   },
   asyncComputed: {
   

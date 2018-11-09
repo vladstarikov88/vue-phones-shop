@@ -32,8 +32,11 @@ const wishlist = {
     }
   },
   getters: {
-    getTotalFromWishlist(state) {
-      
+    getTotalAmountFromWishlist(state) {
+      let result = 0;
+
+      state.wishlist.forEach(el => result++);
+      return result
     }
   }
 }
