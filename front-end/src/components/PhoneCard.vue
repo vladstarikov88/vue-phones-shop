@@ -19,8 +19,8 @@
         <button class="button is-success" :disabled="!phone.is_available" @click="$emit('open-modal', phone)">
           Добавить в корзину
         </button>
-        <!-- <button class="button is-info" @click="$emit('toggle-favorite', phone)"> -->
-        <button class="button is-info" @click="toggleToWishlistById(phone.id)">
+        <button class="button is-info" @click="$emit('toggle-favorite', phone)">
+        <!-- <button class="button is-info" @click="toggleToWishlistById(phone.id)"> -->
           <span class="icon">
             <i class="fa-star" :class="[ hasInWishList ? 'fas': 'far']"></i>
           </span>
@@ -36,7 +36,7 @@ import {mapActions} from 'vuex'
     name: "PhoneCard",
     props: ['phone', 'hasInWishList'],
     methods: {
-      ...mapActions('wishlist', ['addToWishlistById', 'toggleToWishlistById'])
+      ...mapActions('wishlist', ['addToWishlistById', 'toggleToWishlistById']),
     }
   }
 </script>

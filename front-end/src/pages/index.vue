@@ -5,9 +5,9 @@
         <div class="column is-4-tablet" :key="phone.id">
           <phone-card 
             :phone="phone"
-            :has-in-wish-list="hasInWishList"
+            :has-in-wish-list="hasInWishList(phone.id)"
             v-on:open-modal="openModal(phone)"
-            v-on:toggle-favorite="addToWishList(phone)">
+            v-on:toggle-favorite="toggleToWishlistById(phone.id)">
           </phone-card>
         </div>
       </template>
@@ -38,7 +38,6 @@ export default {
       phones: [],
       current_phone: {},
       is_open: false,
-      hasInWishList: false
     }
   },
   created() {
@@ -63,20 +62,17 @@ export default {
   },
   methods: {
     ...mapActions('cart', ['addToCartById']),
+    ...mapActions('wishlist', ['toggleToWishlistById']),
 
     openModal(phone) {
       this.is_open = !this.is_open
       this.current_phone = phone;
-      console.log(this.current_phone)
     },
     closeModal() {
       this.is_open = !this.is_open
     },
-    addToWishList(phone) {
-      this.hasInWishList = !this.hasInWishList
-
-      console.log(phone.id)
-      console.log(this.hasInWishList)
+    hasInWishList(phone_id) {
+      return !!this.lodash.find(this.wishlist, {phone_id})
     }
   },
 };

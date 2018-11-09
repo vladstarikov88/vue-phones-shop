@@ -14,7 +14,7 @@ const wishlist = {
       })
     },
     removeFromWishlistById(state, phone_id) {
-      const idx = state.wishlist.findIndex(phone => phone.phone_id === phone_id);
+      const idx = lodash.findIndex(state.wishlist, {phone_id});
       state.wishlist.splice(idx, 1);
     }
   },
@@ -26,7 +26,7 @@ const wishlist = {
       commit('removeFromWishlistById', phone_id)
     },
     toggleToWishlistById({commit, state}, phone_id) {
-      state.wishlist.find(el => el.phone_id == phone_id) ?
+      lodash.find(state.wishlist, {phone_id}) ?
         commit('removeFromWishlistById', phone_id) :
         commit('addToWishlistById', phone_id)
     }
