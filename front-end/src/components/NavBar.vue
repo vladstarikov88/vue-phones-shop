@@ -24,13 +24,26 @@
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
           <div class="buttons">
+
             <a class="button" @click="checkAuth()">
               Проверка на авторизацию
             </a>
-            <!-- <a v-if="!existsAccessTocken()"></a> -->
+
+            <!-- Выйти из системы -->
             <a 
               class="button" 
-              @click="toggleModal()">
+              @click="clearAcessTocken()"
+              v-if="existsAccessTocken()">
+              <span class="icon">
+                <i class="fas fa-sign-out-alt"></i>
+              </span>
+            </a>  
+
+            <!-- Войти в систему -->
+            <a 
+              class="button" 
+              @click="toggleModal()"
+              v-if="!existsAccessTocken()">
               <span class="icon">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
@@ -62,7 +75,7 @@
   </nav>
 </template>
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import ModalLoginForm from '@/components/ModalLoginForm'
 
 export default {
@@ -82,20 +95,24 @@ export default {
     ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
+    ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
       this.modal_is_open = !this.modal_is_open;
-      console.log(this.getAccessTocken)
     },
     checkAuth() {
       this.axios
         .post("/check");
     },
     existsAccessTocken() {
-      if (this.getAccessTocken) 
-        return true
-      else
-        return false
+      return this.getAccessTocken ? 
+        true :
+        false
     }
   }
 };
 </script>
+<style lang="scss" scoped>
+  span.login{
+    margin: 1em;
+  }
+</style>

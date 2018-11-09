@@ -11,6 +11,9 @@ const user = {
   actions: {
     setAccessToken({commit}, access_token) {
       commit('setAccessToken', access_token)
+    },
+    clearAcessTocken({commit}) {
+      commit('setAccessToken', null)
     }
   },
   getters: {
