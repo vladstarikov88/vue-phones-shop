@@ -9,8 +9,11 @@ const mock = new MockAdapter(axios);
 mock.onGet('/phones').reply(200, {
   phones
 });
+mock.onPost('/check').reply(function (config) {
+  console.log(config)
+  return [200, {}]
+})
 mock.onPost('/login').reply(function (config) {
-  console.log('config --- ', config)
   const {username, password} = JSON.parse(config.data);
   if (username === 'root' && password === 'toor') {
     return [200, {access_token: 'test_access_token' }]
