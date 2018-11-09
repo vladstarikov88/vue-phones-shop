@@ -24,7 +24,13 @@
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
           <div class="buttons">
-            <a class="button" @click="toggleModal()">
+            <a class="button" @click="checkAuth()">
+              Проверка на авторизацию
+            </a>
+            <!-- <a v-if="!existsAccessTocken()"></a> -->
+            <a 
+              class="button" 
+              @click="toggleModal()">
               <span class="icon">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
@@ -43,7 +49,7 @@
         </div>
         <div class="navbar-item">
           <div class="counters">
-            <p class="is-marginless">Общая стоймость: {{promiseTotalPrice}} руб.</p>
+            <p class="is-marginless">Общая стоимость: {{promiseTotalPrice}} руб.</p>
             <p class="is-marginless">Общее кол-во телефонов: {{getTotalAmountPhones}} шт.</p>
           </div>
         </div>
@@ -70,7 +76,7 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getTotalAmountPhones']),
-    ...mapGetters('user', ['getAccessTocken'])
+    ...mapGetters('user', ['getAccessTocken']),
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
@@ -78,6 +84,17 @@ export default {
   methods: {
     toggleModal() {
       this.modal_is_open = !this.modal_is_open;
+      console.log(this.getAccessTocken)
+    },
+    checkAuth() {
+      this.axios
+        .post("/check");
+    },
+    existsAccessTocken() {
+      if (this.getAccessTocken) 
+        return true
+      else
+        return false
     }
   }
 };

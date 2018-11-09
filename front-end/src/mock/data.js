@@ -10,7 +10,7 @@ mock.onGet('/phones').reply(200, {
   phones
 });
 mock.onPost('/check').reply(function (config) {
-  console.log(config)
+  console.log(config.headers)
   return [200, {}]
 })
 mock.onPost('/login').reply(function (config) {
