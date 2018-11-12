@@ -1,6 +1,6 @@
 <template>
-  <div class="popup">
-<table v-if="purchases.length" class="table is-fullwidth">
+  <div class="popup box">
+    <table v-if="purchases && purchases.length" class="table is-fullwidth">
       <thead>
       <tr>
         <th>Миниатюра</th>
@@ -17,20 +17,27 @@
             <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
           </td>
           <td>{{purchase.name}}</td>
-          <td>{{purchase.amount}}</td>
-          <td>{{purchase.price * purchase.amount}}</td>
+          <td>x {{purchase.amount}} шт.</td>
+          <td>{{purchase.price * purchase.amount}} руб.</td>
           <td class="is-center">
-            <nuxt-link to="/purchases">К списку желаний</nuxt-link>
+            <a class="button is-danger" @click="removeFromCartById(purchase.id)">
+              <span class="icon is-small">
+                <i class="fas fa-trash"></i>
+              </span>
+            </a>
           </td>
         </tr>
       </template>
       </tbody>
     </table>
+    <h1 class="title is-centered" v-else>
+      В корзину пока ни чего не добавленно
+    </h1>
   </div>
 </template>
 
-<script lang="js">
-  import {mapState} from 'vuex';
+<script>
+  import {mapState, mapActions} from 'vuex';
   export default  {
     name: 'popup-cart',
     props: [],
@@ -39,24 +46,59 @@
     },
     data() {
       return {
-
+        phones: []
       }
     },
     methods: {
-
+      ...mapActions('cart',['removeFromCartById']),
+      fetchPhones() {
+        const promises = this.lodash.map(this.cart, ({phone_id})=>
+          this.axios.get('/phone', {id: phone_id}).then(({data})=> data)
+        );
+        Promise.all(promises).then( data => {
+          this.phones = data
+        })
+      }
     },
     computed: {
-      ...mapState('cart', ['cart'])
+      ...mapState('cart', ['cart']),
+      purchases() {
+        const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
+          const phone = this.lodash.find(this.phones, {id: phone_id})
+          if(phone) {
+            return {
+              price: phone.price,
+              name: phone.name,
+              image_url: phone.image_url,
+              id: phone_id,
+              amount
+            }
+          }
+          return null
+        })
+        return this.lodash.filter(raw_purchases)
+      }
     },
-    asyncComputed: {
-      async purchases() {
-        return await Promise.all(this.lodash.map(this.cart, ({phone_id, amount})=>{
-          return this.axios.get('/phone', {id: phone_id}).then(res=>({...res.data, amount}))
-        }))
+    watch: {
+      cart: {
+        deep: true,
+        handler: 'fetchPhones',
+        immediate: true,
       }
     }
 }
 </script>
 
 <style scoped lang="scss">
+.table { 
+  th, td{
+    text-align: center;
+  }
+  tr td {
+    vertical-align: middle!important;
+    img {
+      max-height: unset;
+    }
+  }
+}
 </style>

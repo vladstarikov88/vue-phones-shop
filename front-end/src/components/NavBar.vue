@@ -23,17 +23,17 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
+          <popup-cart v-show="popup_cart_is_open"></popup-cart>
           <div class="buttons">
-            <a class="button" @click="toggleModal()">
+            <a class="button" @click="toggleModal">
               <span class="icon">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle">
+            <a class="button is-white popup-toggle" @click="togglePopupCart">
               <span class="icon">
                 <i class="fas fa-shopping-cart "></i>
               </span>
-              <popup-cart></popup-cart>
             </a>
             <a class="button is-white popup-toggle">
               <span class="icon">
@@ -64,7 +64,8 @@ import ModalLoginForm from '@/components/ModalLoginForm'
 export default {
   data() {
     return {
-      modal_is_open: false
+      modal_is_open: false,
+      popup_cart_is_open: false,
     }
   },
   components: {
@@ -78,6 +79,9 @@ export default {
     ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
+    togglePopupCart() {
+      this.popup_cart_is_open = !this.popup_cart_is_open;
+    },
     toggleModal() {
       this.modal_is_open = !this.modal_is_open;
     }
