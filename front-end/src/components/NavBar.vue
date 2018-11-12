@@ -32,7 +32,7 @@
             <!-- Выйти из системы -->
             <a 
               class="button" 
-              @click="clearAcessTocken()"
+              @click="logOut()"
               v-if="existsAccessTocken()">
               <span class="icon">
                 <i class="fas fa-sign-out-alt"></i>
@@ -101,6 +101,11 @@ export default {
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
       this.modal_form_is_open = !this.modal_form_is_open;
+    },
+    logOut() {
+      this.clearAcessTocken();
+      delete this.axios.defaults.headers.common['Authorization']
+
     },
     checkAuth() {
       this.axios
