@@ -24,7 +24,9 @@
                             v-validate="{ required: true, regex: /^([1-9]+)$/ }"
                             name="regex"
                             :class="{'is-danger' : errors.has('regex')}"
-                            v-model.number="current_amount"></td>
+                            v-model.number="current_amount"
+                            v-on:keyup.enter="addToCart()">
+                        </td>
                     </tr>
                     <tr>
                         <td>Цена:</td>
