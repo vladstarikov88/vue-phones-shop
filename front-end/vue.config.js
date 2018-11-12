@@ -5,7 +5,9 @@ module.exports = {
       sass: {
         // @/ это псевдоним к каталогу src/ поэтому предполагается,
         // что у вас в проекте есть файл `src/variables.scss`
-        data: `@import "bulma";`
+        data: `
+        @import "bulma";
+        @import "@/assets/scss/index.scss";`
       }
     }
   },
