@@ -1,7 +1,5 @@
 <template>
-    <modal-window 
-        :is-open="isOpen"
-        v-on:close="close">
+    <modal-window v-on:close="close">
         <div class="columns">
             <div class="column has-text-centered">
                 <h4 class="title is-4">Добавить в корзину</h4>
@@ -26,7 +24,9 @@
                             v-validate="{ required: true, regex: /^([1-9]+)$/ }"
                             name="regex"
                             :class="{'is-danger' : errors.has('regex')}"
-                            v-model.number="current_amount"></td>
+                            v-model.number="current_amount"
+                            v-on:keyup.enter="addToCart()">
+                        </td>
                     </tr>
                     <tr>
                         <td>Цена:</td>

@@ -1,7 +1,5 @@
 <template>
-    <modal-window
-        :is-open="isOpen"
-        v-on:close="close">
+    <modal-window v-on:close="close">
         <div class="columns">
             <div class="column has-text-centered">
                 <h4 class="title is-4">Вход</h4>
@@ -13,14 +11,19 @@
                     type="username" 
                     placeholder="username"
                     class="input"
-                    v-model="username">
+                    v-model="username"
+                    @keyup.enter="authorization(username, password)">
+                <p 
+                    v-if="error_in_form"
+                    class="help is-danger">Проверьте ваш логин или пароль</p>
             </div>
             <div class="column">
                 <input 
                     type="password" 
                     placeholder="password"
                     class="input"
-                    v-model="password">
+                    v-model="password"
+                    @keyup.enter="authorization(username, password)">
             </div>
         </div>
         <div class="columns">
@@ -31,6 +34,7 @@
     </modal-window>
 </template>
 <script>
+import { mapActions } from 'vuex'
 import ModalWindow from '@/components/ModalWindow'
 
 export default {
@@ -38,24 +42,32 @@ export default {
     data() {
         return {
             username: '',
-            password: ''
+            password: '',
+            error_in_form: false
         }
     },
     components: {
         ModalWindow
     },
     methods: {
+        ...mapActions('user', ['setAccessToken']),
         close() {
             this.$emit('close')
         },
         authorization(username, password) {
             this.axios
               .post("/login", {username, password})
-              .then( response => {
-                  console.log(response)
-              } )
-              .catch( error => {
-                  console.log(error)
+              .then(response => {
+                  this.error_in_form = false;
+                  
+                  const current_tocken = 'Bearer ' + response.data.access_token;
+                  this.axios.defaults.headers.common['Authorization'] = current_tocken;
+
+                  this.setAccessToken(current_tocken)
+                  this.close()
+              })
+              .catch(e => {
+                  this.error_in_form = true;
               })
         }
     }    

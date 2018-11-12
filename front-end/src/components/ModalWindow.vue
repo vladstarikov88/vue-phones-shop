@@ -1,5 +1,5 @@
 <template>
-  <div class="modal" :class="{ 'is-active': isOpen}">
+  <div class="modal is-active">
     <div class="modal-background" @click.self="close"></div>
     <div class="modal-content">
       <div class="box">
@@ -15,7 +15,6 @@ import { mapActions, mapGetters } from 'vuex';
 
 export default {
   name: "ModalWindow",
-  props: ["isOpen"],
   store,
   computed: {
     ...mapGetters('cart', ['getTotalAmountPhones'])
