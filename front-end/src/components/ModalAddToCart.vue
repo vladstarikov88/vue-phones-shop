@@ -1,7 +1,5 @@
 <template>
-    <modal-window 
-        :is-open="isOpen"
-        v-on:close="close">
+    <modal-window v-on:close="close">
         <div class="columns">
             <div class="column has-text-centered">
                 <h4 class="title is-4">Добавить в корзину</h4>

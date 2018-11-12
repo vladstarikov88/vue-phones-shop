@@ -72,9 +72,8 @@
       </div>
     </div>
     <modal-login-form
-      :is-open="modal_is_open"
       v-on:close="toggleModal()"
-      v-if="modal_is_open">
+      v-if="modal_form_is_open">
     </modal-login-form>
   </nav>
 </template>
@@ -85,7 +84,7 @@ import ModalLoginForm from '@/components/ModalLoginForm'
 export default {
   data() {
     return {
-      modal_is_open: false
+      modal_form_is_open: false
     }
   },
   components: {
@@ -101,7 +100,7 @@ export default {
   methods: {
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
-      this.modal_is_open = !this.modal_is_open;
+      this.modal_form_is_open = !this.modal_form_is_open;
     },
     checkAuth() {
       this.axios
