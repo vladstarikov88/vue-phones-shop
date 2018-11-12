@@ -23,7 +23,9 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
-          <popup-cart v-show="popup_cart_is_open"></popup-cart>
+          <popup-cart 
+            v-if="popup_cart_is_open" 
+            v-click-outside="closePopupCart"></popup-cart>
           <div class="buttons">
 
             <a class="button" @click="checkAuth()">
@@ -50,7 +52,7 @@
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle" @click="togglePopupCart">
+            <a class="button is-white popup-toggle" @click="togglePopupCart()">
               <span class="icon">
                 <i class="fas fa-shopping-cart "></i>
               </span>
@@ -102,6 +104,10 @@ export default {
   methods: {
     togglePopupCart() {
       this.popup_cart_is_open = !this.popup_cart_is_open;
+    },
+    closePopupCart() {
+      this.popup_cart_is_open = false;
+      console.log('close')
     },
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
