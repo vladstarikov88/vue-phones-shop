@@ -13,14 +13,19 @@
                     type="username" 
                     placeholder="username"
                     class="input"
-                    v-model="username">
+                    v-model="username"
+                    @keyup.enter="authorization(username, password)">
+                <p 
+                    v-if="error_in_form"
+                    class="help is-danger">Проверьте ваш логин или пароль</p>
             </div>
             <div class="column">
                 <input 
                     type="password" 
                     placeholder="password"
                     class="input"
-                    v-model="password">
+                    v-model="password"
+                    @keyup.enter="authorization(username, password)">
             </div>
         </div>
         <div class="columns">
@@ -39,7 +44,8 @@ export default {
     data() {
         return {
             username: '',
-            password: ''
+            password: '',
+            error_in_form: false
         }
     },
     components: {
@@ -54,13 +60,17 @@ export default {
             this.axios
               .post("/login", {username, password})
               .then(response => {
+                  this.error_in_form = false;
+                  
                   const current_tocken = 'Bearer ' + response.data.access_token;
                   this.axios.defaults.headers.common['Authorization'] = current_tocken;
 
                   this.setAccessToken(current_tocken)
                   this.close()
               })
-              .catch(e => console.log(e))
+              .catch(e => {
+                  this.error_in_form = true;
+              })
         }
     }    
 }

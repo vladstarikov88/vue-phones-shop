@@ -38,6 +38,7 @@
                 <i class="fas fa-sign-out-alt"></i>
               </span>
             </a>  
+            <!--  -->
 
             <!-- Войти в систему -->
             <a 
@@ -48,6 +49,8 @@
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
+            <!--  -->
+            
             <a class="button is-white">
               <router-link to="/cart" tag="span" class="icon">
                 <i class="fas fa-shopping-cart "></i>
