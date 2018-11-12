@@ -52,9 +52,11 @@
     methods: {
       ...mapActions('cart',['removeFromCartById']),
       fetchPhones() {
+        //Создаем массив промисов из запросов на сервер
         const promises = this.lodash.map(this.cart, ({phone_id})=>
           this.axios.get('/phone', {id: phone_id}).then(({data})=> data)
         );
+        // Ждем весь массив промисов и сразу записываем в переменную компонента
         Promise.all(promises).then( data => {
           this.phones = data
         })
@@ -63,7 +65,9 @@
     computed: {
       ...mapState('cart', ['cart']),
       purchases() {
+        // Создаем массив покупок из корзины и телефонов полученых с сервера
         const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
+          //Ищем в полученых телефонах телефон из корзины
           const phone = this.lodash.find(this.phones, {id: phone_id})
           if(phone) {
             return {
@@ -76,13 +80,18 @@
           }
           return null
         })
+        //Избавляемся от нулевых значений
         return this.lodash.filter(raw_purchases)
       }
     },
     watch: {
+      //Ватчер должен также называться как называется свойство  в компоеннте за которым будет слежка
+      //Каждый раз при изменении свойства за которым следят будет вызван handler
       cart: {
         deep: true,
+        //Если хендлер указан как строка то Vue находит одноименный метод в компоненте
         handler: 'fetchPhones',
+        // Заставляет сработать хендлер сразу после того как вотчер начал следить за свойством
         immediate: true,
       }
     }
