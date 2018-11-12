@@ -25,9 +25,6 @@
         <div class="navbar-item" style="position: relative">
           <popup-cart v-show="popup_cart_is_open"></popup-cart>
           <div class="buttons">
-<<<<<<< HEAD
-            <a class="button" @click="toggleModal">
-=======
 
             <a class="button" @click="checkAuth()">
               Проверка на авторизацию
@@ -49,20 +46,12 @@
               class="button" 
               @click="toggleModal()"
               v-if="!existsAccessTocken()">
->>>>>>> login
               <span class="icon">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
-<<<<<<< HEAD
             <a class="button is-white popup-toggle" @click="togglePopupCart">
               <span class="icon">
-=======
-            <!--  -->
-            
-            <a class="button is-white">
-              <router-link to="/cart" tag="span" class="icon">
->>>>>>> login
                 <i class="fas fa-shopping-cart "></i>
               </span>
             </a>
@@ -88,23 +77,15 @@
   </nav>
 </template>
 <script>
-<<<<<<< HEAD
-import { mapGetters } from 'vuex';
 import PopupCart from '@/components/PopupCart';
-=======
 import { mapGetters, mapActions } from 'vuex';
->>>>>>> login
 import ModalLoginForm from '@/components/ModalLoginForm'
 
 export default {
   data() {
     return {
-<<<<<<< HEAD
-      modal_is_open: false,
       popup_cart_is_open: false,
-=======
       modal_form_is_open: false
->>>>>>> login
     }
   },
   components: {
@@ -119,13 +100,10 @@ export default {
     ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
-<<<<<<< HEAD
     togglePopupCart() {
       this.popup_cart_is_open = !this.popup_cart_is_open;
     },
-=======
     ...mapActions('user', ['clearAcessTocken']),
->>>>>>> login
     toggleModal() {
       this.modal_form_is_open = !this.modal_form_is_open;
     },
