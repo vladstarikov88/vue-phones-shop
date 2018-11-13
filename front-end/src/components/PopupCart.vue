@@ -69,6 +69,7 @@
         const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
           //Ищем в полученых телефонах телефон из корзины
           const phone = this.lodash.find(this.phones, {id: phone_id})
+
           if(phone) {
             return {
               price: phone.price,
