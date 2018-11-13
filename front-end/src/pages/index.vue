@@ -1,6 +1,13 @@
 <template>
-   <section class="section">
-    <div class="columns is-multiline">
+<main>
+    <section class="section is-small">
+      <div class="container">
+        <filters-block @set-filters="debounceFeatchData"></filters-block>
+      </div>
+    </section>
+   <section class="section is-small">
+     <div class="container">
+      <div class="columns is-multiline">
       <template v-if="phones && phones.length" v-for="phone in phones">
         <div class="column is-4-tablet" :key="phone.id">
           <phone-card 
@@ -12,6 +19,7 @@
         </div>
       </template>
     </div>
+    </div>
     <modal-add-to-cart
       v-if="modal_is_open"
       v-on:close="closeModal()"
@@ -19,12 +27,14 @@
       :phone="current_phone">
     </modal-add-to-cart>
   </section>
-
+</main>
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
-import PhoneCard from '@/components/PhoneCard'
-import ModalAddToCart from '@/components/ModalAddToCart'
+import PhoneCard from '@/components/PhoneCard';
+import ModalAddToCart from '@/components/ModalAddToCart';
+import FiltersBlock from '@/components/FiltersBlock';
+
 export default {
   data() {
     return {
@@ -34,14 +44,11 @@ export default {
     }
   },
   created() {
-    this.axios
-      .get("/phones")
-      .then((response) => {
-        this.phones = response.data.phones
-      });
-    
+    this.fetchData();
+    this.debounceFeatchData = this.lodash.debounce(this.fetchData, 1000);
   },
   components: {
+    FiltersBlock,
     PhoneCard,
     ModalAddToCart    
   },
@@ -54,7 +61,14 @@ export default {
   },
   methods: {
     ...mapActions('wishlist', ['toggleToWishlistById']),
-
+    fetchData(query) {
+      console.log('fetch')
+      this.axios
+        .get("/phones", {query})
+        .then((response) => {
+          this.phones = response.data.phones
+        });
+    },
     openModal(phone) {
       this.modal_is_open = !this.modal_is_open
       this.current_phone = phone;

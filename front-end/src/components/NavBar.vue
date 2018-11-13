@@ -122,7 +122,6 @@ export default {
     },
     closePopupCart() {
       this.popup_cart_is_open = false;
-      console.log('close')
     },
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
