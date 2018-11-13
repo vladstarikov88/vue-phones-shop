@@ -6,6 +6,7 @@
                 <th>Миниатюра</th>
                 <th>Модель</th>
                 <th>Цена</th>
+                <th>Дата добавления</th>
                 <th>Убрать</th>
             </tr>
             </thead>
@@ -17,6 +18,7 @@
                 </td>
                 <td class="pre">{{product.name}}</td>
                 <td class="pre">{{product.price}} руб.</td>
+                <td>{{product.date}}</td>
                 <td class="is-center">
                     <a class="button is-danger" @click="removeFromWishlistById(product.id)">
                     <span class="icon is-small">
@@ -32,6 +34,7 @@
     </div>
 </template>
 <script>
+import moment from 'moment'
 import {mapState, mapGetters, mapActions} from 'vuex';
 export default {
     name: "popup-wishlist",
@@ -44,7 +47,7 @@ export default {
         ...mapState('wishlist', ['wishlist']),
         ...mapGetters('wishlist', ['getWishlist']),
         products() {
-            const raw_products = this.lodash.map(this.wishlist, ({phone_id}) => {
+            const raw_products = this.lodash.map(this.wishlist, ({phone_id, date}) => {
                 const phone = this.lodash.find(this.phones, {id: phone_id})
                 if (phone) {
                     return {
@@ -52,6 +55,7 @@ export default {
                         name: phone.name,
                         image_url: phone.image_url,
                         id: phone_id,
+                        date: moment(date*1000).fromNow()
                     }
                 }
                 return null
