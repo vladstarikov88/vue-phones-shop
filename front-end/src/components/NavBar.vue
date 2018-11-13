@@ -55,12 +55,18 @@
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle" @click="togglePopupCart()">
+            <a 
+              class="button is-white popup-toggle" 
+              :class="[ popup_cart_is_open ? 'bg--grey' : '' ]"
+              @click="togglePopupCart()">
               <span class="icon">
                 <i class="fas fa-shopping-cart "></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle" @click="togglePopupWishlist()">
+            <a 
+              class="button is-white popup-toggle" 
+              :class="[ popup_wishlist_is_open ? 'bg--grey' : '' ]"
+              @click="togglePopupWishlist()">
               <span class="icon">
                 <i class="far fa-star"></i>
               </span>
@@ -141,5 +147,8 @@ export default {
 <style lang="scss" scoped>
   span.login{
     margin: 1em;
+  }
+  .bg--grey{
+    background-color: #ddd !important;
   }
 </style>

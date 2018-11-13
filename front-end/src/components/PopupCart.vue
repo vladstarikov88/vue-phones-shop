@@ -30,9 +30,7 @@
       </template>
       </tbody>
     </table>
-    <h1 class="title is-centered" v-else>
-      В корзину пока ни чего не добавленно
-    </h1>
+    <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
   </div>
 </template>
 
