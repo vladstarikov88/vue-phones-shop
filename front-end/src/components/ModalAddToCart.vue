@@ -13,12 +13,13 @@
         <tr>
           <td>Кол-во</td>
           <td>
+            <!-- Добавить ограничение на кол-во товаров со склада. В dummy указать оставшееся вол-во товара -->
             <input 
               type="number" 
               class="input" 
-              v-validate="{ required: true, regex: /^([1-9]+)$/ }"
-              name="regex"
-              :class="{'is-danger' : errors.has('regex')}"
+              v-validate="'between:1,9999'" 
+              :class="{'is-danger' : errors.has('between_field')}"
+              name="between_field"
               v-model.number="current_amount"
               v-on:keyup.enter="addToCart()">
           </td>
@@ -30,7 +31,7 @@
         <tr>
           <!-- Исправить, когда кол-во равно 0 -->
           <td>Сумма:</td>
-          <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
+          <td v-if="!errors.has('between_field')">{{ total_price }} руб.</td>
           <td v-else>-</td>
         </tr>
       </table>
@@ -41,7 +42,7 @@
     <button 
         class="button" 
         @click="addToCart()"
-        :disabled="errors.has('regex')">Добавить</button>  
+        :disabled="errors.has('between_field')">Добавить</button>  
   </modal-window>
 </template>
 <script>
@@ -77,6 +78,18 @@ export default {
     }
   }
 };
+
+
+let ex = /^[1-9]+[0-9]*/g;
+let elements = ['3124', '0', '0123', '359']
+
+elements.forEach( el => {
+  if (el === null) {
+    console.log('null')
+  }
+})
+
+
 </script>
 <style lang="scss" scoped>
 .table {
