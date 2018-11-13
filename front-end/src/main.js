@@ -8,7 +8,9 @@ import AsyncComputed from 'vue-async-computed'
 import vClickOutside from 'v-click-outside'
 import VeeValidate from 'vee-validate';
 import AxiosPlugin from './plugins/AxiosPlugin'
+import Notifications from './plugins/Notifications'
  
+Vue.use(Notifications)
 Vue.use(vClickOutside)
 Vue.use(AsyncComputed)
 Vue.use(VeeValidate)

@@ -2,6 +2,7 @@
   <div>
     <nav-bar></nav-bar>
     <router-view></router-view>
+    <notifications></notifications>
   </div>
 </template>
 
@@ -11,7 +12,7 @@ export default {
   name: 'app',
   components: {
     NavBar
-  }
+  },
 }
 </script>
 

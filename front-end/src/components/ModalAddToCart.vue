@@ -1,95 +1,90 @@
 <template>
-    <modal-window v-on:close="close">
-        <div class="columns">
-            <div class="column has-text-centered">
-                <h4 class="title is-4">Добавить в корзину</h4>
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column is-two-trird">
-                <img>
-                <figure class="image">
-                    <img :src="phone.image_url" alt="">
-                </figure>
-            </div>
-            
-            <div class="column content">
-                <p class="title is-6">{{ phone.name }}</p>
-                <table class="table is-fullwidth">
-                    <tr>
-                        <td>Кол-во</td>
-                        <td><input 
-                            type="number" 
-                            class="input" 
-                            v-validate="{ required: true, regex: /^([1-9]+)$/ }"
-                            name="regex"
-                            :class="{'is-danger' : errors.has('regex')}"
-                            v-model.number="current_amount"
-                            v-on:keyup.enter="addToCart()">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Цена:</td>
-                        <td> {{ phone.price }} руб.</td>
-                    </tr>
-                    <tr>
-                        <!-- Исправить, когда кол-во равно 0 -->
-                        <td>Сумма:</td>
-                        <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
-                        <td v-else>-</td>
-                    </tr>
-                </table>
-                
-            </div>
-        </div>
-        <div class="columns">
-            <div class="column has-text-centered ">
-                <button 
-                    class="button" 
-                    @click="addToCart()"
-                    :disabled="errors.has('regex')">Добавить</button>
-            </div>
-        </div>    
-    </modal-window>
+  <modal-window v-on:close="close">
+  <h4 class="title is-4">Добавить в корзину</h4>
+  <div class="columns">
+      <div class="column is-two-trird">
+          <img>
+          <figure class="image">
+              <img :src="phone.image_url" alt="">
+          </figure>
+      </div>
+      <div class="column content">
+          <p class="title is-6">{{ phone.name }}</p>
+          <table class="table is-fullwidth">
+              <tr>
+                  <td>Кол-во</td>
+                  <td><input 
+                      type="number" 
+                      class="input" 
+                      v-validate="{ required: true, regex: /^([1-9]+)$/ }"
+                      name="regex"
+                      :class="{'is-danger' : errors.has('regex')}"
+                      v-model.number="current_amount"
+                      v-on:keyup.enter="addToCart()">
+                  </td>
+              </tr>
+              <tr>
+                  <td>Цена:</td>
+                  <td> {{ phone.price }} руб.</td>
+              </tr>
+              <tr>
+                  <!-- Исправить, когда кол-во равно 0 -->
+                  <td>Сумма:</td>
+                  <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
+                  <td v-else>-</td>
+              </tr>
+          </table>
+          
+      </div>
+  </div>
+
+    <button 
+        class="button" 
+        @click="addToCart()"
+        :disabled="errors.has('regex')">Добавить</button>  
+  </modal-window>
 </template>
 <script>
-import ModalWindow from '@/components/ModalWindow'
-import {mapActions} from 'vuex'
+import ModalWindow from "@/components/ModalWindow";
+import { mapActions } from "vuex";
 export default {
-    props: ["isOpen", "phone"],
-    data() {
-        return {
-            current_amount: 1
-        }
-    },
-    components: {
-        ModalWindow
-    },
-    computed: {
-        total_price() {
-            return this.phone.price * (this.current_amount || 1)
-        }
-    },
-    methods: {
-        ...mapActions('cart', ['addToCartById', 'removeFromCartById']),
-
-        addToCart() {
-            this.addToCartById([this.phone.id, this.current_amount])
-            this.close()
-        },
-        close() {
-            this.$emit('close')
-        }
+  props: ["isOpen", "phone"],
+  data() {
+    return {
+      current_amount: 1
+    };
+  },
+  components: {
+    ModalWindow
+  },
+  computed: {
+    total_price() {
+      return this.phone.price * (this.current_amount || 1);
     }
-}
+  },
+  methods: {
+    ...mapActions("cart", ["addToCartById", "removeFromCartById"]),
+    addToCart() {
+      this.addToCartById([this.phone.id, this.current_amount]);
+      this.$notify({
+        message: "Товар был успешно добавлен в корзину.",
+        status: "info"
+      });
+      this.close();
+    },
+    close() {
+      this.$emit("close");
+    }
+  }
+};
 </script>
 <style lang="scss" scoped>
 .table {
-    td {
-        vertical-align: middle !important;
-        &:nth-child(2) {
-            text-align: right;
-        }
+  td {
+    vertical-align: middle !important;
+    &:nth-child(2) {
+      text-align: right;
     }
+  }
 }
 </style>
