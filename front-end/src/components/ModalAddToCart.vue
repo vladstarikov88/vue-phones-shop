@@ -2,40 +2,40 @@
   <modal-window v-on:close="close">
   <h4 class="title is-4">Добавить в корзину</h4>
   <div class="columns">
-      <div class="column is-two-trird">
-          <img>
-          <figure class="image">
-              <img :src="phone.image_url" alt="">
-          </figure>
-      </div>
-      <div class="column content">
-          <p class="title is-6">{{ phone.name }}</p>
-          <table class="table is-fullwidth">
-              <tr>
-                  <td>Кол-во</td>
-                  <td><input 
-                      type="number" 
-                      class="input" 
-                      v-validate="{ required: true, regex: /^([1-9]+)$/ }"
-                      name="regex"
-                      :class="{'is-danger' : errors.has('regex')}"
-                      v-model.number="current_amount"
-                      v-on:keyup.enter="addToCart()">
-                  </td>
-              </tr>
-              <tr>
-                  <td>Цена:</td>
-                  <td> {{ phone.price }} руб.</td>
-              </tr>
-              <tr>
-                  <!-- Исправить, когда кол-во равно 0 -->
-                  <td>Сумма:</td>
-                  <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
-                  <td v-else>-</td>
-              </tr>
-          </table>
-          
-      </div>
+    <div class="column is-two-trird">
+      <figure class="image">
+        <img :src="phone.image_url" alt="">
+      </figure>
+    </div>
+    <div class="column content">
+      <p class="title is-6">{{ phone.name }}</p>
+      <table class="table is-fullwidth">
+        <tr>
+          <td>Кол-во</td>
+          <td>
+            <input 
+              type="number" 
+              class="input" 
+              v-validate="{ required: true, regex: /^([1-9]+)$/ }"
+              name="regex"
+              :class="{'is-danger' : errors.has('regex')}"
+              v-model.number="current_amount"
+              v-on:keyup.enter="addToCart()">
+          </td>
+        </tr>
+        <tr>
+          <td>Цена:</td>
+          <td> {{ phone.price }} руб.</td>
+        </tr>
+        <tr>
+          <!-- Исправить, когда кол-во равно 0 -->
+          <td>Сумма:</td>
+          <td v-if="!errors.has('regex')">{{ total_price }} руб.</td>
+          <td v-else>-</td>
+        </tr>
+      </table>
+        
+    </div>
   </div>
 
     <button 
