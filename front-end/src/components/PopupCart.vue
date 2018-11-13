@@ -30,9 +30,7 @@
       </template>
       </tbody>
     </table>
-    <h1 class="title is-centered" v-else>
-      В корзину пока ни чего не добавленно
-    </h1>
+    <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
   </div>
 </template>
 
@@ -69,6 +67,7 @@
         const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
           //Ищем в полученых телефонах телефон из корзины
           const phone = this.lodash.find(this.phones, {id: phone_id})
+
           if(phone) {
             return {
               price: phone.price,

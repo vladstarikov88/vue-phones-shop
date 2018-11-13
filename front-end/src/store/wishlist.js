@@ -37,6 +37,9 @@ const wishlist = {
 
       state.wishlist.forEach(el => result++);
       return result
+    },
+    getWishlist(state) {
+      return state.wishlist
     }
   }
 }

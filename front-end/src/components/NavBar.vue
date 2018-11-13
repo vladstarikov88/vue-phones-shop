@@ -23,7 +23,12 @@
       </div>
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
-          <popup-cart v-show="popup_cart_is_open"></popup-cart>
+          <popup-cart 
+            v-if="popup_cart_is_open" 
+            v-click-outside="togglePopupCart"></popup-cart>
+          <popup-wishlist
+            v-if="popup_wishlist_is_open"
+            v-click-outside="togglePopupWishlist"></popup-wishlist>
           <div class="buttons">
 
             <a class="button" @click="checkAuth()">
@@ -33,7 +38,7 @@
             <!-- Выйти из системы -->
             <a 
               class="button" 
-              @click="clearAcessTocken()"
+              @click="logOut()"
               v-if="existsAccessTocken()">
               <span class="icon">
                 <i class="fas fa-sign-out-alt"></i>
@@ -50,12 +55,18 @@
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle" @click="togglePopupCart">
+            <a 
+              class="button is-white popup-toggle" 
+              :class="[ popup_cart_is_open ? 'bg--grey' : '' ]"
+              @click="togglePopupCart()">
               <span class="icon">
                 <i class="fas fa-shopping-cart "></i>
               </span>
             </a>
-            <a class="button is-white popup-toggle">
+            <a 
+              class="button is-white popup-toggle" 
+              :class="[ popup_wishlist_is_open ? 'bg--grey' : '' ]"
+              @click="togglePopupWishlist()">
               <span class="icon">
                 <i class="far fa-star"></i>
               </span>
@@ -78,6 +89,7 @@
 </template>
 <script>
 import PopupCart from '@/components/PopupCart';
+import PopupWishlist from '@/components/PopupWishlist';
 import { mapGetters, mapActions } from 'vuex';
 import ModalLoginForm from '@/components/ModalLoginForm'
 
@@ -85,11 +97,13 @@ export default {
   data() {
     return {
       popup_cart_is_open: false,
+      popup_wishlist_is_open: false,
       modal_form_is_open: false
     }
   },
   components: {
     PopupCart,
+    PopupWishlist,
     ModalLoginForm,
   },
   computed: {
@@ -103,9 +117,20 @@ export default {
     togglePopupCart() {
       this.popup_cart_is_open = !this.popup_cart_is_open;
     },
+    togglePopupWishlist() {
+      this.popup_wishlist_is_open = !this.popup_wishlist_is_open
+    },
+    closePopupCart() {
+      this.popup_cart_is_open = false;
+      console.log('close')
+    },
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
       this.modal_form_is_open = !this.modal_form_is_open;
+    },
+    logOut() {
+      this.clearAcessTocken();
+      delete this.axios.defaults.headers.common['Authorization']
     },
     checkAuth() {
       this.axios
@@ -122,5 +147,8 @@ export default {
 <style lang="scss" scoped>
   span.login{
     margin: 1em;
+  }
+  .bg--grey{
+    background-color: #ddd !important;
   }
 </style>
