@@ -69,7 +69,7 @@ export default {
   computed: {
     ...mapState("wishlist", ["wishlist"])
   },
-  methods: {
+  methods: { 
     ...mapActions("cart", ["removeFromCartById", "changeAmountFromCartById"]),
     ...mapActions("wishlist", ["toggleToWishlistById"]),
     hasInWishList(purchase_id) {
