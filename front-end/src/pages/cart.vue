@@ -82,9 +82,3 @@ export default  {
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .input{
-    width: 3em;
-  }
-</style>

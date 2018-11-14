@@ -27,9 +27,7 @@ const cart = {
       state.cart.splice(idx, 1);
     },
     changeAmountFromCartById(state, [phone_id, new_amount]) {
-      const current = lodash.find(state.cart, {
-        phone_id
-      })
+      const current = lodash.find(state.cart, {phone_id})
 
       if (current) {
         current.amount = new_amount
