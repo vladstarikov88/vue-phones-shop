@@ -54,7 +54,6 @@
                         <i class="fa-star" :class="[ hasInWishList(purchase.id) ? 'fas': 'far']"></i>
                     </span>
                 </a>
-                <template v-if="!is_editing">
                 <a 
                     class="button is-warning"
                     @click="editInfoInRow(purchase.id)">
@@ -62,7 +61,6 @@
                         <i class="fa-edit" :class="[ is_editing ? 'fas': 'far']"></i>
                     </span>
                 </a>    
-                </template>
             </div>
         </td>
     </tr>
@@ -87,11 +85,10 @@ export default {
         return !!this.lodash.find(this.wishlist, { purchase_id });
     },
     editInfoInRow(purchase_id) {
-        this.is_editing = true;
+        this.is_editing = !this.is_editing;
     },
     saveChanges(purchase_id, purchase_amount){
         this.is_editing = false;
-        console.log(purchase_id, purchase_amount)
         this.changeAmountFromCartById([purchase_id, purchase_amount])
     },
     resetChanges() {
