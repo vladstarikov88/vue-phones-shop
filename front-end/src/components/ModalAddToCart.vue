@@ -20,8 +20,7 @@
               v-validate="'between:1,9999'" 
               :class="{'is-danger' : errors.has('between_field')}"
               name="between_field"
-              v-model.number="current_amount"
-              v-on:keyup.enter="addToCart()">
+              v-model.number="current_amount">
           </td>
         </tr>
         <tr>
