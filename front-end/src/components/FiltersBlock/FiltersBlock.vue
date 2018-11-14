@@ -24,7 +24,7 @@
         <div class="level-item">
           <div class="control">
             <label class="checkbox">
-              <input type="checkbox">
+              <input type="checkbox" v-model="query.only_available">
                 Только в наличии
             </label>
           </div>
@@ -63,6 +63,7 @@
         query: {
           search_text: '',
           category_name: '',
+          only_available: false,
         }
       }
     },

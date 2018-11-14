@@ -19,6 +19,9 @@ mock.onGet('/phones').reply(function (config) {
           config.query.search_text.toLowerCase(),
           )
     });
+    if(config.query.only_available){
+      result = lodash.filter(result, {is_available: true})
+    }
     return [200, {phones: result}]
   } else {
     return [200, {phones}]
