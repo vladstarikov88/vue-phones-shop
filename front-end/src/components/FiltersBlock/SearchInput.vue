@@ -3,11 +3,9 @@
  <p class="control has-icons-left">
     <input 
       class="input is-normal" 
-      type="text" 
-      placeholder="search" 
+      type="text"
       v-bind="$attrs"
-      :value="value"
-      @input="$emit('input')"
+      v-on="listeners"
       >
     <span class="icon is-normal is-left">
       <i class="fas fa-search" aria-hidden="true"></i>
@@ -19,8 +17,15 @@
 <script lang="js">
   export default  {
     name: 'search-input',
-    props: ['value'],
     inheritAttrs: false,
+    computed: {
+      listeners() {
+        return {
+          ...this.$listeners,
+          input: ({target}) => this.$emit('input', target.value),
+        }
+      }
+    }
 }
 </script>
 
