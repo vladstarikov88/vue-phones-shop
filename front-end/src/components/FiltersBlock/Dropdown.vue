@@ -1,8 +1,8 @@
 <template>
 <div class="control">
-<div class="dropdown" :class="{'is-active': is_active}">
+  <div class="dropdown" :class="{'is-active': is_active}">
     <div class="dropdown-trigger">
-      <button @click="toggleActive" class="button">
+      <button @click="toggleActive" v-click-outside="close" class="button">
         <span>{{header}}</span>
         <span class="icon is-small">
           <i class="fas fa-angle-down" aria-hidden="true"></i>
@@ -11,12 +11,12 @@
     </div>
     <div class="dropdown-menu" role="menu">
       <div class="dropdown-content">
-        <a href="#" class="dropdown-item" v-if="default_option">
+        <a href="#" @click="changeValue(default_option.value)" class="dropdown-item" v-if="default_option">
           {{default_option.title}}
         </a>
         <hr class="dropdown-divider">
         <template v-if="options.length" v-for="option in options_without_default">
-          <a href="#" class="dropdown-item" :key="option.key">
+          <a href="#" class="dropdown-item" :key="option.key" @click="changeValue(option.value)">
             {{option.title}}
           </a>
         </template>
@@ -24,9 +24,6 @@
     </div>
   </div>
 </div>
-  
-
-
 </template>
 
 <script>
@@ -43,8 +40,14 @@ export default {
     };
   },
   methods: {
+    close() {
+      this.is_active = false;
+    },
     toggleActive() {
       this.is_active = !this.is_active;
+    },
+    changeValue(value) {
+      this.$emit('input', value);
     }
   },
   computed: {
