@@ -1,5 +1,7 @@
 <template>
-    <tr :key="purchase.id">
+    <tr :key="purchase.id"
+        :class="{active : is_editing}"
+        v-click-outside="resetChanges">
         <td>
             <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
         </td>
@@ -53,9 +55,13 @@
                     </span>
                 </a>
                 <template v-if="!is_editing">
-                    <button 
-                        class="button"
-                        @click="editInfoInRow(purchase.id)">Редактировать</button>
+                <a 
+                    class="button is-warning"
+                    @click="editInfoInRow(purchase.id)">
+                    <span class="icon is-small">
+                        <i class="fa-edit" :class="[ is_editing ? 'fas': 'far']"></i>
+                    </span>
+                </a>    
                 </template>
             </div>
         </td>
@@ -89,7 +95,6 @@ export default {
         this.changeAmountFromCartById([purchase_id, purchase_amount])
     },
     resetChanges() {
-        this.amount = this.old_value
         this.is_editing = false;
     }
   },
@@ -105,18 +110,20 @@ export default {
 </script>
 <style lang="scss" scoped>
 .amount{
-    width: 12em;
+    max-width: 18em;
+    min-width: 12em;
     .control{
         .input{
-            width: 4em;
+            max-width: 5em;
         }
     }
 }
 tr {
+    transition: all 0.2s;
+    &.active{
+        box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.46);
+    }
     td {
-        .buttons {
-            width: 20em;
-        }
         vertical-align: middle !important;
         img {
             max-height: unset;
