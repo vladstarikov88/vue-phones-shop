@@ -4,15 +4,10 @@
       <div class="level-left">
         <div class="level-item">
           <div class="field has-addons">
-            <p class="control">
-              <span class="select" >
-                <select v-model="query.category_name">
-                  <option value="">Все категории</option>
-                  <option value="IPhone">IPhone</option>
-                  <option value="Норомальный телефон">Нормальные телефоны</option>
-                </select>
-              </span>
-            </p>
+            <dropdown
+              :options="options"
+              v-model="query.category_name">
+            </dropdown>
             <search-input 
               placeholder="Искать по каталогу"
               v-model="query.search_text">
@@ -41,14 +36,30 @@
 
 <script lang="js">
   import SearchInput from './SearchInput.vue'
+  import Dropdown from './Dropdown.vue'
   export default  {
     name: 'filters-block',
     props: [],
     components: {
-      SearchInput
+      SearchInput,
+      Dropdown,
     },
     data() {
       return {
+        options: [
+          {
+            value: '',
+            title: 'Все',
+          },
+          {
+            value: 'IPhone',
+            title: 'IPhone',
+          },
+          {
+            value: 'Нормальный телефон',
+            title: 'Нормальный телефон',
+          }
+        ],
         query: {
           search_text: '',
           category_name: '',
