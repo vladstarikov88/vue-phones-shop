@@ -5,41 +5,19 @@
       <table class="table is-fullwidth">
         <thead>
         <tr>
-          <th>Миниатюра</th>
-          <th>Модель</th>
-          <th>Количество</th>
-          <th>Стоимость</th>
-          <th>Редактировать</th>
+            <th>Миниатюра</th>
+            <th>Модель</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+            <th>Редактировать</th>
         </tr>
         </thead>
         <tbody>
-        <template v-for="purchase in purchases">
-          <tr :key="purchase.id">
-            <td>
-              <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
-            </td>
-            <td>x {{purchase.amount}} шт.</td>
-            <td>{{purchase.amount}}</td>
-            <td>{{purchase.price * purchase.amount}} руб.</td>
-            <td class="is-center">
-              <div class="buttons">
-                <a class="button is-danger" @click="removeFromCartById(purchase.id)">
-                  <span class="icon is-small">
-                    <i class="fas fa-trash"></i>
-                  </span>
-                </a>
-                <a 
-                  class="button is-info"
-                  @click="toggleToWishlistById(purchase.id)">
-                  <span class="icon is-small">
-                    <i class="fa-star" :class="[ hasInWishList(purchase.id) ? 'fas': 'far']"></i>
-                  </span>
-                </a>
-                <button class="button">Редактировать</button>
-              </div>
-            </td>
-          </tr>
-        </template>
+            <table-cart-row 
+            v-for="purchase in purchases" 
+            :key="purchase.id"
+            :purchase="purchase">
+            </table-cart-row> 
         </tbody>
       </table>
       <button 
@@ -53,6 +31,7 @@
 
 <script lang="js">
 import {mapState, mapActions} from 'vuex'
+import TableCartRow from '@/components/TableCartRow'
 export default  {
   name: 'cart',
   data() {
@@ -60,9 +39,10 @@ export default  {
       phones: []
     }
   },
+  components: {
+    TableCartRow
+  },
   methods: {
-    ...mapActions('cart',['removeFromCartById']),
-    ...mapActions('wishlist', ['toggleToWishlistById']),
     fetchPhones() {
       const promises = this.lodash.map(this.cart, ({phone_id}) =>
         this.axios.get('/phone', {id: phone_id})
@@ -71,14 +51,10 @@ export default  {
       Promise.all(promises).then( data => {
         this.phones = data
       })
-    },
-    hasInWishList(phone_id) {
-      return !!this.lodash.find(this.wishlist, {phone_id})
     }
   },
   computed: {
     ...mapState('cart', ['cart']),
-    ...mapState('wishlist', ['wishlist']),
     purchases() {
       const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
         const phone = this.lodash.find(this.phones, {id: phone_id})
