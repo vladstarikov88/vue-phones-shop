@@ -20,7 +20,11 @@
             </table-cart-row> 
         </tbody>
       </table>
-      <button class=button>Перейти к оформлению покупки</button>  
+      <button class="button">
+        <router-link to="/confirm_order">
+          Перейти к оформлению покупки
+        </router-link>
+      </button>
     </div>
     <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
   </section>
