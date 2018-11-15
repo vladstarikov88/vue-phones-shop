@@ -32,11 +32,15 @@ const wishlist = {
     }
   },
   getters: {
+    // 
+    //    \/  Памятник \/ 
+    // getTotalAmountFromWishlist(state) {
+    //   let result = 0;
+    //   state.wishlist.forEach(el => result++);
+    //   return result
+    // },
     getTotalAmountFromWishlist(state) {
-      let result = 0;
-
-      state.wishlist.forEach(el => result++);
-      return result
+      return state.wishlist.length
     },
     getWishlist(state) {
       return state.wishlist
