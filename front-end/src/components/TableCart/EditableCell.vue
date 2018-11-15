@@ -7,7 +7,7 @@
               <input  
                 type="number"
                 class="input"
-                v-model="model"
+                v-model.number="model"
                 v-validate="'between:1,9999'" 
                 :class="{'is-danger' : errors.has('between_field')}"
                 name="between_field">

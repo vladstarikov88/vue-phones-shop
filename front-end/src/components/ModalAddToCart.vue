@@ -78,17 +78,6 @@ export default {
   }
 };
 
-
-let ex = /^[1-9]+[0-9]*/g;
-let elements = ['3124', '0', '0123', '359']
-
-elements.forEach( el => {
-  if (el === null) {
-    console.log('null')
-  }
-})
-
-
 </script>
 <style lang="scss" scoped>
 .table {
