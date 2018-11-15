@@ -34,7 +34,10 @@
                     </p>
                 </div>
             </span>
-            <span v-else>x {{purchase.amount}} шт.</span>
+            <span
+                class="btn-behavior" 
+                @click="editInfoInRow(purchase.id)"
+                v-else>x {{purchase.amount}} шт.</span>
         </td>
         <td v-if="!errors.has('between_field')">{{purchase.price * purchase.amount}} руб.</td>
         <td v-else>-</td>
@@ -49,7 +52,7 @@
                 </a>
                 <a 
                     class="button is-info"
-                    @click="toggleToWishlistById(purchase.id)">
+                    @click="toggleToWishList(purchase.id)">
                     <span class="icon is-small">
                         <i class="fa-star" :class="[ hasInWishList(purchase.id) ? 'fas': 'far']"></i>
                     </span>
@@ -68,41 +71,45 @@
 <script>
 import { mapState, mapActions } from "vuex";
 export default {
-  props: ["purchase"],
-  data() {
-    return {
-      is_editing: false,
-      amount: 1
-    };
-  },
-  computed: {
-    ...mapState("wishlist", ["wishlist"]),
-  },
-  methods: { 
-    ...mapActions("cart", ["removeFromCartById", "changeAmountFromCartById"]),
-    ...mapActions("wishlist", ["toggleToWishlistById"]),
-    hasInWishList(purchase_id) {
-        return !!this.lodash.find(this.wishlist, { purchase_id });
+    props: ["purchase"],
+    data() {
+        return {
+            is_editing: false,
+            amount: 1,
+        };
     },
-    editInfoInRow(purchase_id) {
-        this.is_editing = !this.is_editing;
+    computed: {
+        ...mapState("wishlist", ["wishlist"]),
     },
-    saveChanges(purchase_id, purchase_amount){
-        this.is_editing = false;
-        this.changeAmountFromCartById([purchase_id, purchase_amount])
+    methods: { 
+        ...mapActions("cart", ["removeFromCartById", "changeAmountFromCartById"]),
+        ...mapActions("wishlist", ["toggleToWishlistById"]),
+        toggleToWishList(purchaseId) {
+            this.toggleToWishlistById(purchaseId)
+            this.purchase_id = purchaseId
+        },
+        editInfoInRow(purchase_id) {
+            this.is_editing = !this.is_editing;
+        },
+        saveChanges(purchase_id, purchase_amount){
+            this.is_editing = false;
+            this.changeAmountFromCartById([purchase_id, purchase_amount])
+        },
+        resetChanges() {
+            this.is_editing = false;
+        },
+        hasInWishList(purchase_id) {
+            return !!this.lodash.find(this.wishlist, {phone_id: purchase_id})
+        }   
     },
-    resetChanges() {
-        this.is_editing = false;
-    }
-  },
-  created() {
-      this.amount = this.purchase.amount
-  },
-  watch: {
+    created() {
+        this.amount = this.purchase.amount
+    },
+    watch: {
         amount() {
             this.purchase.amount = parseInt(this.amount)
         },
-  }
+    }
 };
 </script>
 <style lang="scss" scoped>
@@ -125,6 +132,12 @@ tr {
         img {
             max-height: unset;
         }
+    }
+}
+.btn-behavior{
+    padding: 5px;
+    &:hover{
+        cursor: pointer;
     }
 }
 </style>
