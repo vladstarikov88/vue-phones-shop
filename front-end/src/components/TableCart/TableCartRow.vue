@@ -1,5 +1,8 @@
 <template>
-  <tr :key="purchase.id">
+  <tr 
+    :key="purchase.id"
+    :class="{active : is_editing}"
+    v-click-outside="resetChanges">
     <td>
       <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
     </td>
@@ -8,33 +11,31 @@
       :amount='purchase.amount'
       :is-editing="is_editing" 
       @cancel="deactiveEditing"
-      @edit="saveChanges">
-
+      @edit="saveChanges"
+      @edit-info="editInfoInRow">
     </editable-cell>
        
-<td>{{total_price}}</td>
-<td class="is-center">
-    <div class="buttons">
-      <a 
-        class="button is-danger" 
-        @click="removeFromCartById(purchase.id)">
-        <span class="icon is-small">
-          <i class="fas fa-trash"></i>
-        </span>
-      </a>
-      <a 
-        class="button is-info"
-        @click="toggleToWishlistById(purchase.id)">
-        <span class="icon is-small">
-          <i class="fa-star far"></i>
-        </span>
-      </a>
-      <template v-if="!is_editing">
-        <button 
-          class="button"
-          @click="editInfoInRow"
-          >Редактировать</button>
-      </template>
+    <td>{{total_price}} руб.</td>
+    <td class="is-center">
+      <div class="buttons">
+        <a class="button is-warning"
+           @click="editInfoInRow(purchase.id)">
+          <span class="icon is-small">
+              <i class="fa-edit" :class="[ is_editing ? 'fas': 'far']"></i>
+          </span>
+        </a>
+        <a class="button is-info"
+           @click="toggleToWishlistById(purchase.id)">
+          <span class="icon is-small">
+            <i class="fa-star far"></i>
+          </span>
+        </a>
+        <a class="button is-danger" 
+           @click="removeFromCartById(purchase.id)">
+          <span class="icon is-small">
+              <i class="fas fa-trash"></i>
+          </span>
+        </a>    
       </div>
     </td>
   </tr>
@@ -69,6 +70,9 @@ export default {
     },
     deactiveEditing() {
       this.is_editing = false;
+    },
+    resetChanges() {
+      this.is_editing = false;
     }
   },
   created() {
@@ -77,22 +81,12 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.amount {
-  width: 12em;
-  .control {
-    .input {
-      width: 4em;
-    }
-  }
-}
-tr {
-  td {
-    .buttons {
-      width: 20em;
-    }
-    vertical-align: middle !important;
-    img {
-      max-height: unset;
+.amount{
+  max-width: 18em;
+  min-width: 12em;
+  .control{
+    .input{
+      max-width: 5em;
     }
   }
 }

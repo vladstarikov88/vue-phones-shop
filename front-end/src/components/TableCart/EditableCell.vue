@@ -29,7 +29,10 @@
             </p>
         </div>
     </span>
-    <span v-else>x {{amount}} шт.</span>
+    <span
+      class="btn-behavior" 
+      @click="$emit('edit-info', model)"
+      v-else>x {{amount}} шт.</span>
 </td>
 
 </template>

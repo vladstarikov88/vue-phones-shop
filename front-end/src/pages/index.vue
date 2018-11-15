@@ -21,19 +21,19 @@
       </div>
       <loader v-show="loading"></loader>
     </div>
-    <modal-add-to-cart
-      v-if="modal_is_open"
-      v-on:close="closeModal()"
-      :key="current_phone.id"
-      :phone="current_phone">
-    </modal-add-to-cart>
+      <modal-add-to-cart
+        v-if="modal_is_open"
+        v-on:close="closeModal()"
+        :key="current_phone.id"
+        :phone="current_phone">
+      </modal-add-to-cart>
   </section>
 </main>
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard';
-import ModalAddToCart from '@/components/ModalAddToCart';
+import ModalAddToCart from '@/components/modal/ModalAddToCart';
 import FiltersBlock from '@/components/FiltersBlock';
 import Loader from '@/components/Loader';
 

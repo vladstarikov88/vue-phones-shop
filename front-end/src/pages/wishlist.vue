@@ -1,0 +1,99 @@
+<template>
+    
+    <section class="section">
+        <div v-if="wishes && wishes.length">
+            <table class="table is-fullwidth">
+                <thead>
+                <tr>
+                    <th>Миниатюра</th>
+                    <th>Модель</th>
+                    <th>Цена</th>
+                    <th>Дата добавления</th>
+                    <th>Редактировать</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <table-wishlist-row
+                        v-for="wish in wishes" 
+                        :key="wish.id"
+                        :wish="wish"
+                        v-on:open-modal="openModal(wish)">
+                    </table-wishlist-row>
+                </tbody>
+            </table>
+        </div>
+        <p class="title is-5" v-else>Список желаний пуст</p>
+        <modal-add-to-cart
+            v-if="modal_is_open"
+            v-on:close="closeModal()"
+            :key="current_wish.id"
+            :phone="current_wish">
+        </modal-add-to-cart>
+    </section>
+ 
+</template>
+<script>
+import moment from 'moment'
+import {mapState} from 'vuex'
+import TableWishlistRow from '@/components/TableWishlistRow'
+import ModalAddToCart from '@/components/modal/ModalAddToCart'
+export default {
+    name: 'wishlist',
+    data() {
+        return {
+            phones: [],
+            modal_is_open: false,
+            current_wish: {}
+        }
+    },
+    components: {
+        TableWishlistRow,
+        ModalAddToCart
+    },
+    computed: {
+        ...mapState('wishlist', ['wishlist']),
+        wishes() {
+            const raw_wishes = this.lodash.map(this.wishlist, ({phone_id, date}) => {
+                const phone = this.lodash.find(this.phones, {id: phone_id})
+
+                if(phone) {
+                    return {
+                        price: phone.price,
+                        name: phone.name,
+                        image_url: phone.image_url,
+                        id: phone_id,
+                        date: moment(date*1000).fromNow()
+                    }
+                }
+                return null
+            })
+        return this.lodash.filter(raw_wishes)
+        }
+    },
+    methods: {
+        fetchPhones() {
+            const promises = this.lodash.map(this.wishlist, ({phone_id}) =>
+                this.axios.get('/phone', {id: phone_id})
+                .then(({data}) => data)
+            );
+            Promise.all(promises).then( data => {
+                this.phones = data
+            })
+        },
+        openModal(wish) {
+            this.modal_is_open = true;
+            this.current_wish = wish
+        },
+        closeModal() {
+            this.modal_is_open = false
+        }
+    },
+    watch: {
+        wishlist: {
+            deep: true,
+            handler: 'fetchPhones',
+            immediate: true,
+        }
+    }
+}
+</script>

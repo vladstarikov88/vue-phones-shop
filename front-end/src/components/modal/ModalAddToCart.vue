@@ -45,7 +45,7 @@
   </modal-window>
 </template>
 <script>
-import ModalWindow from "@/components/ModalWindow";
+import ModalWindow from "./ModalWindow";
 import { mapActions } from "vuex";
 export default {
   props: ["isOpen", "phone"],

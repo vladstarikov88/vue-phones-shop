@@ -1,17 +1,18 @@
-<template lang="html">
+<template>
 
   <section class="section">
+    <div class="container">
     <div v-if="purchases && purchases.length" >
       <table-cart :purchases="purchases"></table-cart>
-      <button 
-        @click="">Перейти к оформлению покупки</button>  
+      <button class="button">Перейти к оформлению покупки</button>  
     </div>
     <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
+    </div>
   </section>
 
 </template>
 
-<script lang="js">
+<script>
 import {mapState, mapActions} from 'vuex'
 import TableCart from '@/components/TableCart'
 export default  {
