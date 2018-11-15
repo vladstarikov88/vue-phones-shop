@@ -4,9 +4,9 @@
             <thead>
             <tr>
                 <th>Миниатюра</th>
-                <th>Модель</th>
-                <th>Цена</th>
-                <th>Дата добавления</th>
+                <th class="pre">Модель</th>
+                <th class="pre">Цена</th>
+                <th class="pre">Дата добавления</th>
                 <th>Убрать</th>
             </tr>
             </thead>
@@ -16,8 +16,8 @@
                 <td>
                     <figure class="image is-64x64"><img :src="product.image_url" alt=""></figure>
                 </td>
-                <td class="pre">{{product.name}}</td>
-                <td class="pre">{{product.price}} руб.</td>
+                <td>{{product.name}}</td>
+                <td>{{product.price}} руб.</td>
                 <td>{{product.date}}</td>
                 <td class="is-center">
                     <a class="button is-danger" @click="removeFromWishlistById(product.id)">
@@ -85,18 +85,18 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.table { 
-  th, td{
-    text-align: center;
-  }
-  tr td {
-    vertical-align: middle!important;
-    img {
-      max-height: unset;
-    }
-  }
-  .pre {
-      white-space: pre;
-  }
-}
+// .table { 
+//     th, td{
+//         text-align: center;
+//     }
+//     tr td {
+//         vertical-align: middle!important;
+//         img {
+//             max-height: unset;
+//         }
+//     }
+//     .pre {
+//         white-space: pre;
+//     }
+// }
 </style>

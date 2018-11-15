@@ -44,24 +44,24 @@
         <td class="is-center">
             <div class="buttons">
                 <a 
-                    class="button is-danger" 
-                    @click="removeFromCartById(purchase.id)">
+                    class="button is-warning"
+                    @click="editInfoInRow(purchase.id)">
                     <span class="icon is-small">
-                        <i class="fas fa-trash"></i>
+                        <i class="fa-edit" :class="[ is_editing ? 'fas': 'far']"></i>
                     </span>
                 </a>
                 <a 
                     class="button is-info"
-                    @click="toggleToWishList(purchase.id)">
+                    @click="toggleToWishlistById(purchase.id)">
                     <span class="icon is-small">
                         <i class="fa-star" :class="[ hasInWishList(purchase.id) ? 'fas': 'far']"></i>
                     </span>
                 </a>
                 <a 
-                    class="button is-warning"
-                    @click="editInfoInRow(purchase.id)">
+                    class="button is-danger" 
+                    @click="removeFromCartById(purchase.id)">
                     <span class="icon is-small">
-                        <i class="fa-edit" :class="[ is_editing ? 'fas': 'far']"></i>
+                        <i class="fas fa-trash"></i>
                     </span>
                 </a>    
             </div>
@@ -84,10 +84,6 @@ export default {
     methods: { 
         ...mapActions("cart", ["removeFromCartById", "changeAmountFromCartById"]),
         ...mapActions("wishlist", ["toggleToWishlistById"]),
-        toggleToWishList(purchaseId) {
-            this.toggleToWishlistById(purchaseId)
-            this.purchase_id = purchaseId
-        },
         editInfoInRow(purchase_id) {
             this.is_editing = !this.is_editing;
         },
@@ -119,18 +115,6 @@ export default {
     .control{
         .input{
             max-width: 5em;
-        }
-    }
-}
-tr {
-    transition: all 0.2s;
-    &.active{
-        box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.46);
-    }
-    td {
-        vertical-align: middle !important;
-        img {
-            max-height: unset;
         }
     }
 }

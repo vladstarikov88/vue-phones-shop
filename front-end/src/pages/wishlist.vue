@@ -9,18 +9,26 @@
                     <th>Модель</th>
                     <th>Цена</th>
                     <th>Дата добавления</th>
+                    <th>Редактировать</th>
                 </tr>
                 </thead>
                 <tbody>
                     <table-wishlist-row
                         v-for="wish in wishes" 
                         :key="wish.id"
-                        :wish="wish">
+                        :wish="wish"
+                        v-on:open-modal="openModal(wish)">
                     </table-wishlist-row>
                 </tbody>
             </table>
         </div>
         <p class="title is-5" v-else>Список желаний пуст</p>
+        <modal-add-to-cart
+            v-if="modal_is_open"
+            v-on:close="closeModal()"
+            :key="current_wish.id"
+            :phone="current_wish">
+        </modal-add-to-cart>
     </section>
 
 </template>
@@ -28,15 +36,19 @@
 import moment from 'moment'
 import {mapState} from 'vuex'
 import TableWishlistRow from '@/components/TableWishlistRow'
+import ModalAddToCart from '@/components/ModalAddToCart'
 export default {
     name: 'wishlist',
     data() {
         return {
-            phones: []
+            phones: [],
+            modal_is_open: false,
+            current_wish: {}
         }
     },
     components: {
-        TableWishlistRow
+        TableWishlistRow,
+        ModalAddToCart
     },
     computed: {
         ...mapState('wishlist', ['wishlist']),
@@ -67,6 +79,13 @@ export default {
             Promise.all(promises).then( data => {
                 this.phones = data
             })
+        },
+        openModal(wish) {
+            this.modal_is_open = true;
+            this.current_wish = wish
+        },
+        closeModal() {
+            this.modal_is_open = false
         }
     },
     watch: {
