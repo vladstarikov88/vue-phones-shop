@@ -1,4 +1,4 @@
-<template lang="html">
+<template>
 
   <section class="section">
     <div v-if="purchases && purchases.length" >
@@ -14,22 +14,20 @@
         </thead>
         <tbody>
             <table-cart-row 
-            v-for="purchase in purchases" 
-            :key="purchase.id"
-            :purchase="purchase">
+              v-for="purchase in purchases" 
+              :key="purchase.id"
+              :purchase="purchase">
             </table-cart-row> 
         </tbody>
       </table>
-      <button 
-        class=button
-        @click="">Перейти к оформлению покупки</button>  
+      <button class=button>Перейти к оформлению покупки</button>  
     </div>
     <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
   </section>
 
 </template>
 
-<script lang="js">
+<script>
 import {mapState, mapActions} from 'vuex'
 import TableCartRow from '@/components/TableCartRow'
 export default  {

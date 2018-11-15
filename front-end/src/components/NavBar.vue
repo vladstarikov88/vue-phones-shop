@@ -20,6 +20,9 @@
         <router-link to="/cart" class="navbar-item">
           Корзина
         </router-link>
+        <router-link to="/wishlist" class="navbar-item">
+          Список желаний
+        </router-link>
       </div>
       <div class="navbar-end">
         <div class="navbar-item" style="position: relative">
@@ -30,11 +33,6 @@
             v-if="popup_wishlist_is_open"
             v-click-outside="togglePopupWishlist"></popup-wishlist>
           <div class="buttons">
-
-            <a class="button" @click="checkAuth()">
-              Проверка на авторизацию
-            </a>
-
             <!-- Выйти из системы -->
             <a 
               class="button" 
