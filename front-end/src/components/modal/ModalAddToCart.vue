@@ -1,6 +1,6 @@
 <template>
   <modal-window v-on:close="close">
-  <h4 class="title is-4">Добавить в корзину</h4>
+  <h4 class="title is-4 has-text-centered">Добавить в корзину</h4>
   <div class="columns">
     <div class="column is-two-trird">
       <figure class="image">
@@ -34,14 +34,12 @@
           <td v-else>-</td>
         </tr>
       </table>
-        
-    </div>
-  </div>
-
-    <button 
-        class="button" 
+      <button 
+        class="button is-success" 
         @click="addToCart()"
         :disabled="errors.has('between_field')">Добавить</button>  
+    </div>
+  </div>
   </modal-window>
 </template>
 <script>
