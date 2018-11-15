@@ -1,10 +1,6 @@
 <template>
     <section class="section">
         <div class="container flex">
-            <h1 class="title">Ваш заказ</h1>
-            <p>Тут будет выводиться таблица из корзины</p>
-        </div>
-        <div class="container flex">
             <form class="form">
                 <h1 class="title">Оформить заказ</h1>
                 <div class="field">
