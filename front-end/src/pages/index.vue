@@ -12,12 +12,12 @@
         </div>
       </template>
     </div>
-    <modal-add-to-cart
-      v-if="modal_is_open"
-      v-on:close="closeModal()"
-      :key="current_phone.id"
-      :phone="current_phone">
-    </modal-add-to-cart>
+      <modal-add-to-cart
+        v-if="modal_is_open"
+        v-on:close="closeModal()"
+        :key="current_phone.id"
+        :phone="current_phone">
+      </modal-add-to-cart>
   </section>
 
 </template>
