@@ -1,4 +1,5 @@
 <template>
+  <transition name="fade">
   <div class="popup box">
     <table v-if="purchases && purchases.length" class="table is-fullwidth">
       <thead>
@@ -32,6 +33,7 @@
     </table>
     <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
   </div>
+  </transition>
 </template>
 
 <script>

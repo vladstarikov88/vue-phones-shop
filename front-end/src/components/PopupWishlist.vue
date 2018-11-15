@@ -1,4 +1,5 @@
 <template>
+    <transition name="fade">
     <div class="popup box">
         <table v-if="products && products.length" class="table is-fullwidth">
             <thead>
@@ -32,6 +33,7 @@
         </table>
         <p class="title is-5" v-else>Список желаний пуст</p>
     </div>
+    </transition>
 </template>
 <script>
 import moment from 'moment'
