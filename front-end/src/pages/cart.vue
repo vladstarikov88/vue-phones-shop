@@ -29,7 +29,7 @@
 
 <script>
 import {mapState, mapActions} from 'vuex'
-import TableCartRow from '@/components/TableCartRow'
+import TableCartRow from '@/components/table/TableCartRow'
 export default  {
   name: 'cart',
   data() {

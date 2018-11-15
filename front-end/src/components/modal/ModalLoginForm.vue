@@ -35,7 +35,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import ModalWindow from '@/components/ModalWindow'
+import ModalWindow from './ModalWindow'
 
 export default {
     props: ["isOpen"],

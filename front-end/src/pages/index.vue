@@ -24,7 +24,7 @@
 <script>
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard'
-import ModalAddToCart from '@/components/ModalAddToCart'
+import ModalAddToCart from '@/components/modal/ModalAddToCart'
 export default {
   data() {
     return {

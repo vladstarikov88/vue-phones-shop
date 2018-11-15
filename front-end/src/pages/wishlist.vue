@@ -35,8 +35,8 @@
 <script>
 import moment from 'moment'
 import {mapState} from 'vuex'
-import TableWishlistRow from '@/components/TableWishlistRow'
-import ModalAddToCart from '@/components/ModalAddToCart'
+import TableWishlistRow from '@/components/table/TableWishlistRow'
+import ModalAddToCart from '@/components/modal/ModalAddToCart'
 export default {
     name: 'wishlist',
     data() {

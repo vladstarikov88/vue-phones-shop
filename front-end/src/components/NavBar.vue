@@ -86,10 +86,10 @@
   </nav>
 </template>
 <script>
-import PopupCart from '@/components/PopupCart';
-import PopupWishlist from '@/components/PopupWishlist';
+import PopupCart from '@/components/popup/PopupCart';
+import PopupWishlist from '@/components/popup/PopupWishlist';
 import { mapGetters, mapActions } from 'vuex';
-import ModalLoginForm from '@/components/ModalLoginForm'
+import ModalLoginForm from '@/components/modal/ModalLoginForm'
 
 export default {
   data() {
