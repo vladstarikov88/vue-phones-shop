@@ -43,6 +43,7 @@
     transform: translateY(30px);
   }
   .notifications {
+    z-index: 100;
     position: fixed;
     top: 3vh;
     right: 3vw;

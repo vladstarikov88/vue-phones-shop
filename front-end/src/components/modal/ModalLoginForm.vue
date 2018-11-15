@@ -66,7 +66,7 @@ export default {
                   this.setAccessToken(current_tocken)
                   this.close()
               })
-              .catch(e => {
+              .catch( () => {
                   this.error_in_form = true;
               })
         }

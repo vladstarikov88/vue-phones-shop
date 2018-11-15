@@ -30,12 +30,12 @@
             :phone="current_wish">
         </modal-add-to-cart>
     </section>
-
+ 
 </template>
 <script>
 import moment from 'moment'
 import {mapState} from 'vuex'
-import TableWishlistRow from '@/components/table/TableWishlistRow'
+import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'
 export default {
     name: 'wishlist',

@@ -55,7 +55,7 @@
             </a>
             <a 
               class="button is-white popup-toggle" 
-              :class="[ popup_cart_is_open ? 'bg--grey' : '' ]"
+              :class="{'has-background-grey-lighter' : popup_cart_is_open }"
               @click="togglePopupCart()">
               <span class="icon">
                 <i class="fas fa-shopping-cart "></i>
@@ -63,7 +63,7 @@
             </a>
             <a 
               class="button is-white popup-toggle" 
-              :class="[ popup_wishlist_is_open ? 'bg--grey' : '' ]"
+              :class="{ 'has-background-grey-lighter' : popup_wishlist_is_open }"
               @click="togglePopupWishlist()">
               <span class="icon">
                 <i class="far fa-star"></i>
@@ -120,7 +120,6 @@ export default {
     },
     closePopupCart() {
       this.popup_cart_is_open = false;
-      console.log('close')
     },
     ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
@@ -145,8 +144,5 @@ export default {
 <style lang="scss" scoped>
   span.login{
     margin: 1em;
-  }
-  .bg--grey{
-    background-color: #ddd !important;
   }
 </style>

@@ -6,11 +6,28 @@ const mock = new MockAdapter(axios);
 
 // Mock GET request to /users when param `searchText` is 'John' 
 // arguments for reply are (status, data, headers)
-mock.onGet('/phones').reply(200, {
-  phones
+mock.onGet('/phones').reply(function (config) {
+  
+  if(config.query) {
+    let result = lodash.filter(phones,
+      (phone) => {
+        if(config.query.category_name && phone.category_name !== config.query.category_name) {
+          return false;
+        }
+        return lodash.includes(
+          phone.name.toLowerCase(), 
+          config.query.search_text.toLowerCase(),
+          )
+    });
+    if(config.query.only_available){
+      result = lodash.filter(result, {is_available: true})
+    }
+    return [200, {phones: result}]
+  } else {
+    return [200, {phones}]
+  }
 });
 mock.onPost('/check').reply(function (config) {
-  console.log(config.headers)
   return [200, {}]
 })
 mock.onPost('/login').reply(function (config) {
