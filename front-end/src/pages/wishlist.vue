@@ -1,41 +1,43 @@
 <template>
     
     <section class="section">
-        <div v-if="wishes && wishes.length">
-            <table class="table is-fullwidth">
-                <thead>
-                <tr>
-                    <th>Миниатюра</th>
-                    <th>Модель</th>
-                    <th>Цена</th>
-                    <th>Дата добавления</th>
-                    <th>Редактировать</th>
-                </tr>
-                </thead>
-                <tbody>
-                    <table-wishlist-row
-                        v-for="wish in wishes" 
-                        :key="wish.id"
-                        :wish="wish"
-                        v-on:open-modal="openModal(wish)">
-                    </table-wishlist-row>
-                </tbody>
-            </table>
+        <div class="container">
+            <div v-if="wishes && wishes.length">
+                <table class="table is-fullwidth">
+                    <thead>
+                    <tr>
+                        <th>Миниатюра</th>
+                        <th>Модель</th>
+                        <th>Цена</th>
+                        <th>Дата добавления</th>
+                        <th>Редактировать</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <table-wishlist-row
+                            v-for="wish in wishes" 
+                            :key="wish.id"
+                            :wish="wish"
+                            v-on:open-modal="openModal(wish)">
+                        </table-wishlist-row>
+                    </tbody>
+                </table>
+            </div>
+            <p class="title is-5" v-else>Список желаний пуст</p>
+            <modal-add-to-cart
+                v-if="modal_is_open"
+                v-on:close="closeModal()"
+                :key="current_wish.id"
+                :phone="current_wish">
+            </modal-add-to-cart>
         </div>
-        <p class="title is-5" v-else>Список желаний пуст</p>
-        <modal-add-to-cart
-            v-if="modal_is_open"
-            v-on:close="closeModal()"
-            :key="current_wish.id"
-            :phone="current_wish">
-        </modal-add-to-cart>
     </section>
-
+ 
 </template>
 <script>
 import moment from 'moment'
 import {mapState} from 'vuex'
-import TableWishlistRow from '@/components/table/TableWishlistRow'
+import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'
 export default {
     name: 'wishlist',
