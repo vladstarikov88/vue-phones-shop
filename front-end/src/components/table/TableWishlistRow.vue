@@ -9,7 +9,7 @@
         <td class="is-center">
             <div class="buttons">
                 <a 
-                    class="button is-info" 
+                    class="button is-success" 
                     @click="$emit('open-modal', wish)">
                     Добавить в корзину
                 </a>
