@@ -1,74 +1,74 @@
 <template>
   <modal-window v-on:close="close">
-  <h4 class="title is-4 has-text-centered">Добавить в корзину</h4>
-  <div class="columns">
-    <div class="column is-two-trird">
-      <figure class="image">
-        <img :src="phone.image_url" alt="">
-      </figure>
+    <h4 class="title is-4 has-text-centered">Добавить в корзину</h4>
+    <div class="columns">
+      <div class="column is-two-trird">
+        <figure class="image">
+          <img :src="phone.image_url" alt="">
+        </figure>
+      </div>
+      <div class="column content">
+        <p class="title is-6">{{ phone.name }}</p>
+        <table class="table is-fullwidth">
+          <tr>
+            <td>Кол-во</td>
+            <td>
+              <!-- Добавить ограничение на кол-во товаров со склада. В dummy указать оставшееся вол-во товара -->
+              <input 
+                type="number" 
+                class="input" 
+                v-validate="'between:1,9999'" 
+                :class="{'is-danger' : errors.has('between_field')}"
+                name="between_field"
+                v-model.number="current_amount">
+            </td>
+          </tr>
+          <tr>
+            <td>Цена:</td>
+            <td> {{ phone.price }} руб.</td>
+          </tr>
+          <tr>
+            <!-- Исправить, когда кол-во равно 0 -->
+            <td>Сумма:</td>
+            <td v-if="!errors.has('between_field')">{{ total_price }} руб.</td>
+            <td v-else>-</td>
+          </tr>
+        </table>
+        <button 
+          class="button is-success" 
+          @click="addToCart()"
+          :disabled="errors.has('between_field')">Добавить</button>  
+      </div>
     </div>
-    <div class="column content">
-      <p class="title is-6">{{ phone.name }}</p>
-      <table class="table is-fullwidth">
-        <tr>
-          <td>Кол-во</td>
-          <td>
-            <!-- Добавить ограничение на кол-во товаров со склада. В dummy указать оставшееся вол-во товара -->
-            <input 
-              type="number" 
-              class="input" 
-              v-validate="'between:1,9999'" 
-              :class="{'is-danger' : errors.has('between_field')}"
-              name="between_field"
-              v-model.number="current_amount">
-          </td>
-        </tr>
-        <tr>
-          <td>Цена:</td>
-          <td> {{ phone.price }} руб.</td>
-        </tr>
-        <tr>
-          <!-- Исправить, когда кол-во равно 0 -->
-          <td>Сумма:</td>
-          <td v-if="!errors.has('between_field')">{{ total_price }} руб.</td>
-          <td v-else>-</td>
-        </tr>
-      </table>
-      <button 
-        class="button is-success" 
-        @click="addToCart()"
-        :disabled="errors.has('between_field')">Добавить</button>  
-    </div>
-  </div>
   </modal-window>
+
 </template>
 <script>
 import ModalWindow from "./ModalWindow";
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
 export default {
   props: ["isOpen", "phone"],
   data() {
     return {
-      current_amount: 1
+      current_amount: 1,
     };
   },
   components: {
     ModalWindow
   },
   computed: {
+    ...mapState('wishlist', ['wishlist']),
     total_price() {
       return this.phone.price * (this.current_amount || 1);
     }
   },
   methods: {
-    ...mapActions("cart", ["addToCartById", "removeFromCartById"]),
     addToCart() {
-      this.addToCartById([this.phone.id, this.current_amount]);
-      this.$notify({
-        message: "Товар был успешно добавлен в корзину.",
-        status: "info"
-      });
+      this.$emit('add-to-cart', this.phone.id, this.current_amount);
       this.close();
+
+      // если есть в списке желаний, то открывать модалку подтверждения
+      
     },
     close() {
       this.$emit("close");

@@ -26,12 +26,18 @@
       </transition>
       <loader v-show="loading"></loader>
     </div>
-      <modal-add-to-cart
-        v-if="modal_is_open"
-        v-on:close="closeModal()"
-        :key="current_phone.id"
-        :phone="current_phone">
-      </modal-add-to-cart>
+    <modal-add-to-cart
+      v-if="modal_is_open"
+      v-on:close="closeModal()"
+      :key="current_phone.id"
+      :phone="current_phone"
+      :has-in-wish-list="hasInWishList(current_phone.id)"
+      @add-to-cart="addToCart">
+    </modal-add-to-cart>
+    <modal-confirm
+      v-if="modal_confirm_is_open">
+
+    </modal-confirm>
   </section>
 </main>
 </template>
@@ -39,6 +45,7 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard';
 import ModalAddToCart from '@/components/modal/ModalAddToCart';
+import ModalConfirm from '@/components/modal/ModalConfirm';
 import FiltersBlock from '@/components/FiltersBlock';
 import Loader from '@/components/Loader';
 
@@ -50,6 +57,7 @@ export default {
       phones: [],
       current_phone: {},
       modal_is_open: false,
+      modal_confirm_is_open: false
     }
   },
   created() {
@@ -65,6 +73,7 @@ export default {
     FiltersBlock,
     PhoneCard,
     ModalAddToCart, 
+    ModalConfirm
   },
   computed: {
     ...mapState('wishlist', ['wishlist'])
@@ -75,6 +84,7 @@ export default {
   },
   methods: {
     ...mapActions('wishlist', ['toggleToWishlistById']),
+    ...mapActions("cart", ["addToCartById"]),
     fetchData(query) {
       this.loading = true;
       this.axios
@@ -93,8 +103,16 @@ export default {
     closeModal() {
       this.modal_is_open = !this.modal_is_open
     },
+
     hasInWishList(phone_id) {
       return !!this.lodash.find(this.wishlist, {phone_id})
+    },
+    addToCart(id, current_amount) {
+      this.addToCartById([id, current_amount]);
+      this.$notify({
+        message: "Товар был успешно добавлен в корзину.",
+        status: "info"
+      });
     }
   },
 };
