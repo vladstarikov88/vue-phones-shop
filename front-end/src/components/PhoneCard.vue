@@ -2,8 +2,10 @@
   <div class="card">
     <div class="card-image">
       <figure class="image is-4by3">
-        <img v-if="phone.image_url" :src="phone.image_url" alt="Изображение телефона">
-        <img v-else src="https://via.placeholder.com/150" alt="Placeholder">
+        <img :src="src" alt="" v-zoomable-image="{
+          src,
+          alt: phone.name,
+        }">
       </figure>
     </div>
     <div class="card-content">
@@ -30,16 +32,22 @@
 </template>
 
 <script>
-  import {mapActions} from 'vuex'
-  export default {
-    name: "PhoneCard",
-    props: ['phone', 'hasInWishList'],
-    methods: {
-      ...mapActions('wishlist', ['addToWishlistById', 'toggleToWishlistById']),
+import { mapActions } from "vuex";
+export default {
+  name: "PhoneCard",
+  props: ["phone", "hasInWishList"],
+  methods: {
+    ...mapActions("wishlist", ["addToWishlistById", "toggleToWishlistById"])
+  },
+  computed: {
+    src() {
+      return this.phone.image_url
+        ? this.phone.image_url
+        : "https://via.placeholder.com/150";
     }
   }
+};
 </script>
 
 <style scoped lang="scss">
-
 </style>

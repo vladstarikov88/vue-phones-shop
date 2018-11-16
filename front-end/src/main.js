@@ -9,7 +9,9 @@ import vClickOutside from 'v-click-outside'
 import VeeValidate from 'vee-validate';
 import AxiosPlugin from './plugins/AxiosPlugin'
 import Notifications from './plugins/Notifications'
- 
+import ZoomableImage from  './plugins/ZoomableImage'
+
+Vue.use(ZoomableImage)
 Vue.use(Notifications)
 Vue.use(vClickOutside)
 Vue.use(AsyncComputed)

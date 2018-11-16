@@ -5,6 +5,7 @@
       <router-view></router-view>
     <!-- </transition> -->
     <notifications></notifications>
+    <zoom-image></zoom-image>
   </div>
 </template>
 
