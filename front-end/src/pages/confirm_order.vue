@@ -1,7 +1,7 @@
 <template>
     <section class="section">
         <div class="container flex">
-            <form class="form">
+            <div class="form">
                 <h1 class="title">Оформить заказ</h1>
                 <div class="field">
                     <div class="control">
@@ -24,14 +24,19 @@
                         <button class="button is-text">Cancel</button>
                     </div>
                 </div>
-            </form>
+            </div>
         </div>
+        <div v-if="getAccessTocken">Вход выполнен</div>
+        <div v-else>Не выполнен</div>
     </section>
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default {
-
+    computed: {
+        ...mapGetters('user', ['getAccessTocken']),
+    }
 }
 </script>
 
