@@ -19,16 +19,17 @@ const wishlist = {
     }
   },
   actions: {
-    addToWishlistById({commit}, phone_id) {
-      commit('addToWishlistById', phone_id)
+    addToWishlistById({commit, dispatch}, phone_id) {
+      commit('addToWishlistById', phone_id);
+      dispatch('cart/removeFromCartById', phone_id, {root: true})
     },
-    removeFromWishlistById({commit}, phone_id) {
+    removeFromWishlistById({commit, dispatch}, phone_id) {
       commit('removeFromWishlistById', phone_id)
     },
-    toggleToWishlistById({commit, state}, phone_id) {
+    toggleToWishlistById({commit, state, dispatch}, phone_id) {
       lodash.find(state.wishlist, {phone_id}) ?
-        commit('removeFromWishlistById', phone_id) :
-        commit('addToWishlistById', phone_id)
+        dispatch('removeFromWishlistById', phone_id) :
+        dispatch('addToWishlistById', phone_id)
     }
   },
   getters: {
