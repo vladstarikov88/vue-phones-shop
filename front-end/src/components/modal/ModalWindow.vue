@@ -12,18 +12,9 @@
 </template>
 
 <script>
-import store from '@/store'
-import { mapActions, mapGetters } from 'vuex';
-
 export default {
   name: "ModalWindow",
-  store,
-  computed: {
-    ...mapGetters('cart', ['getTotalAmountPhones'])
-  },
   methods: {
-    ...mapActions('cart', ['addToCartById']),
-
     close() {
       this.$emit('close')
     }
