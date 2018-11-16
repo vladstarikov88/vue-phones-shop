@@ -41,11 +41,15 @@ const wishlist = {
     //   return result
     // },
     getTotalAmountFromWishlist(state) {
-      return state.wishlist.length
+      return state.wishlist.lenght
     },
-    getWishlist(state) {
-      return state.wishlist
-    }
+    getLastFiveFavorites(state){
+      return lodash.slice(lodash.orderBy(state.wishlist, 'date', 'desc'), 0, 5) 
+    },
+    // \/ second pamyatnik \/
+    // getWishlist(state) {
+    //   return state.wishlist
+    // }
   }
 }
 

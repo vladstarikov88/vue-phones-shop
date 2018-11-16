@@ -36,9 +36,11 @@ const cart = {
   },
   actions: {
     addToCartById({
-      commit
+      commit,
+      dispatch
     }, [phone_id, amount]) {
-      commit('addToCartById', [phone_id, amount])
+      commit('addToCartById', [phone_id, amount]);
+      dispatch('wishlist/removeFromWishlistById', phone_id, { root: true })
     },
     removeFromCartById({
       commit

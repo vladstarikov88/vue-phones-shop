@@ -36,58 +36,59 @@
     </transition>
 </template>
 <script>
-import moment from 'moment'
-import {mapState, mapGetters, mapActions} from 'vuex';
+import moment from "moment";
+import { mapState, mapGetters, mapActions } from "vuex";
 export default {
-    name: "popup-wishlist",
-    data() {
-        return {
-            phones: []
+  name: "popup-wishlist",
+  data() {
+    return {
+      phones: []
+    };
+  },
+  computed: {
+    ...mapGetters("wishlist", { wishlist: "getLastFiveFavorites" }),
+    products() {
+      const raw_products = this.lodash.map(
+        this.wishlist,
+        ({ phone_id, date }) => {
+          const phone = this.lodash.find(this.phones, { id: phone_id });
+          if (phone) {
+            return {
+              price: phone.price,
+              name: phone.name,
+              image_url: phone.image_url,
+              id: phone_id,
+              date: moment(date * 1000).fromNow()
+            };
+          }
+          return null;
         }
-    },
-    computed: {
-        ...mapState('wishlist', ['wishlist']),
-        ...mapGetters('wishlist', ['getWishlist']),
-        products() {
-            const raw_products = this.lodash.map(this.wishlist, ({phone_id, date}) => {
-                const phone = this.lodash.find(this.phones, {id: phone_id})
-                if (phone) {
-                    return {
-                        price: phone.price,
-                        name: phone.name,
-                        image_url: phone.image_url,
-                        id: phone_id,
-                        date: moment(date*1000).fromNow()
-                    }
-                }
-                return null
-            })
-            return this.lodash.filter(raw_products)
-        }
-    },
-    methods: {
-        ...mapActions('wishlist', ['removeFromWishlistById']),
-        fetchPhones() {
-            const promises = this.lodash.map(this.wishlist, ({phone_id})=>
-                this.axios.get('/phone', {id: phone_id}).then(({data})=> data)
-            );
-            Promise.all(promises).then( data => {
-                this.phones = data
-            })
-        }
-    },
-    watch: {
-        wishlist: {
-            deep: true,
-            handler: 'fetchPhones',
-            immediate: true
-        }
+      );
+      return this.lodash.filter(raw_products);
     }
-    
-}
+  },
+  methods: {
+    ...mapActions("wishlist", ["removeFromWishlistById"]),
+    fetchPhones() {
+      const promises = this.lodash.map(this.wishlist, ({ phone_id }) =>
+        this.axios.get("/phone", { id: phone_id }).then(({ data }) => data)
+      );
+      Promise.all(promises).then(data => {
+        this.phones = data;
+      });
+    }
+  },
+  watch: {
+    wishlist: {
+      deep: true,
+      handler: "fetchPhones",
+      immediate: true
+    }
+  }
+};
 </script>
 <style scoped lang="scss">
-// .table { 
+// .table {
 //     th, td{
 //         text-align: center;
 //     }
