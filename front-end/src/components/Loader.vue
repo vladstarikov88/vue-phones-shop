@@ -1,5 +1,5 @@
 <template lang="html">
-
+  <transition name="fade">
   <section class="loader-block">
     
     <div class="paper_man_wrapper">
@@ -37,7 +37,9 @@
         </div>
       </div>
     </div>
-  </section>
+    
+  </section>    
+  </transition>
 
 </template>
 

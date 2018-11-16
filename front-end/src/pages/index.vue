@@ -7,18 +7,23 @@
     </section>
    <section class="section is-small">
      <div class="container">
-      <div v-show="!loading" class="columns is-multiline">
-        <template v-if="phones && phones.length" v-for="phone in phones">
-          <div class="column is-4-tablet" :key="phone.id">
-            <phone-card 
-              :phone="phone"
-              :has-in-wish-list="hasInWishList(phone.id)"
-              v-on:open-modal="openModal(phone)"
-              v-on:toggle-favorite="toggleToWishlistById(phone.id)">
-            </phone-card>
-          </div>
-        </template>
-      </div>
+      <transition name="fade">
+        <div v-show="!loading" class="columns is-multiline">
+          <template v-if="phones && phones.length" v-for="phone in phones">
+            <div class="column is-4-tablet" :key="phone.id">
+              <phone-card 
+                :phone="phone"
+                :has-in-wish-list="hasInWishList(phone.id)"
+                v-on:open-modal="openModal(phone)"
+                v-on:toggle-favorite="toggleToWishlistById(phone.id)">
+              </phone-card>
+            </div>
+          </template>
+          <template v-if="!phones.length">
+            <h1 class="title">По вашему запросу ничего не найдено</h1>
+          </template>
+        </div>
+      </transition>
       <loader v-show="loading"></loader>
     </div>
       <modal-add-to-cart

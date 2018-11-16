@@ -5,7 +5,7 @@
         "category_name": "IPhone",
         "price": 4700,
         "is_available": true,
-        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/24d/494_340_17f5c944b3b71591cc9304fac25365de2/24d79892bc0a55bfdedad6613ded418c.jpg"
     },
     {
         "id": 2,
@@ -61,6 +61,6 @@
         "price": 27000,
         "category_name": "Нормальный телефон",
         "is_available": true,
-        "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
+        "image_url": "https://cdnmedia.huawei.ru/ru/media/catalog/product/h/1/h10-blue-1.jpg"
     }
 ]

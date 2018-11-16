@@ -1,9 +1,9 @@
 <template>
   <div>
     <nav-bar></nav-bar>
-    <!-- <transition name="slide-fade" mode="out-in"> -->
+    <transition name="slide-fade" mode="out-in">
       <router-view></router-view>
-    <!-- </transition> -->
+    </transition>
     <notifications></notifications>
   </div>
 </template>

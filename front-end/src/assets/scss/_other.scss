@@ -1,6 +1,9 @@
-.btn-behavior{
+.btn-behavior {
     padding: 5px;
     &:hover{
         cursor: pointer;
     }
+}
+img {
+    object-fit: contain;
 }

@@ -8,10 +8,13 @@
         <td>{{wish.date}}</td>
         <td class="is-center">
             <div class="buttons">
-                <a 
-                    class="button is-success" 
+                <a  
+                    class="button is-info" 
                     @click="$emit('open-modal', wish)">
-                    Добавить в корзину
+                    <span class="icon">
+                        <i class="fas fa-cart-arrow-down"></i>
+                    </span>
+                    <span>Добавить в корзину</span>
                 </a>
                 <a 
                     class="button is-danger"
