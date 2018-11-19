@@ -11,7 +11,10 @@ import AxiosPlugin from './plugins/AxiosPlugin'
 import Notifications from './plugins/Notifications'
 import ZoomableImage from  './plugins/ZoomableImage'
 import DynamicFromNow from './plugins/DynamicFromNow'
+import DialogPromise from './plugins/DialogPromise'
 
+
+Vue.use(DialogPromise)
 Vue.use(ZoomableImage)
 Vue.use(Notifications)
 Vue.use(vClickOutside)

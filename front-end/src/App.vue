@@ -6,6 +6,7 @@
     <!-- </transition> -->
     <notifications></notifications>
     <zoom-image></zoom-image>
+    <promise-dialog></promise-dialog>
   </div>
 </template>
 

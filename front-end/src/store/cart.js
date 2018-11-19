@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import axios from '@/plugins/AxiosPlugin'
+import axios from 'axios'
 import phones from '@/assets/dummy/phones'
 import co from 'co'
 
