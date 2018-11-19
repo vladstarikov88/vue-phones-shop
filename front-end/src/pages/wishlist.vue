@@ -35,7 +35,7 @@
  
 </template>
 <script>
-import moment from 'moment'
+import moment from '@/plugins/moment'
 import {mapState} from 'vuex'
 import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'

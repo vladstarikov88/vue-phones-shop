@@ -19,7 +19,7 @@
                 </td>
                 <td>{{product.name}}</td>
                 <td>{{product.price}} руб.</td>
-                <td>{{product.date}}</td>
+                <td><dynamic-from-now :date="product.date"></dynamic-from-now></td>
                 <td class="is-center">
                     <a class="button is-danger" @click="removeFromWishlistById(product.id)">
                     <span class="icon is-small">
@@ -36,7 +36,7 @@
     </transition>
 </template>
 <script>
-import moment from "moment";
+import moment from "@/plugins/moment";
 import { mapGetters, mapActions } from "vuex";
 export default {
   name: "popup-wishlist",
@@ -58,7 +58,7 @@ export default {
               name: phone.name,
               image_url: phone.image_url,
               id: phone_id,
-              date: moment(date * 1000).fromNow()
+              date: date * 1000
             };
           }
           return null;
