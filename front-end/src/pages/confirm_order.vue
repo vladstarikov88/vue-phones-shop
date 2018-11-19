@@ -32,8 +32,8 @@
                                 placeholder="Имя"
                                 v-model="username"
                                 v-validate="'required|min:8'" 
-                                data-vv-as="field" 
-                                name="min_field">
+                                name="min_field"
+                                :class="{'is-danger' : errors.has('min_field')}">
                             <span class="icon is-small is-right">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </span>
@@ -51,10 +51,15 @@
                                 placeholder="Адрес доставки"
                                 v-model="address"
                                 v-validate="'required'"
-                                data-vv-as="field" >
+                                name="address"
+                                :class="{'is-danger' : errors.has('address')}">
                             <span class="icon is-small is-right">
                                 <i class="fas fa-exclamation-triangle"></i>
                             </span>
+                            <p
+                                class="help is-danger"
+                                v-if="errors.has('address')">
+                                Поле является обязательным</p>
                         </div>
                     </div>
                     <div class="field">
@@ -65,7 +70,6 @@
                                 placeholder="Email"
                                 v-model="email"
                                 v-validate="'required|email'" 
-                                data-vv-as="email" 
                                 name="email_field"
                                 :class="{'is-danger' : errors.has('email_field')}">
                             <span class="icon is-small is-right">
@@ -137,17 +141,18 @@ export default {
             this.addresses.push(new_address)
         },
         sendForm(obj){
-            let user_data = {
-                username: this.username,
-                address: this.address, 
-                email: this.email,
-                products: this.cart 
-            };
-            user_data = JSON.parse(JSON.stringify(user_data));
-            console.log(user_data)
+            const user_data = JSON.parse(
+                JSON.stringify({
+                    username: this.username,
+                    address: this.address, 
+                    email: this.email,
+                    products: this.cart 
+                })
+            );
 
             this.$validator.validateAll().then((result) => {
                 if (result) {
+                    console.log(user_data)
                     this.$notify({
                         message: "Заявка успешно отправлена",
                         status: "info"
