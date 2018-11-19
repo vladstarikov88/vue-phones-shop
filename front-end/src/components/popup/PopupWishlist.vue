@@ -37,7 +37,7 @@
 </template>
 <script>
 import moment from "moment";
-import { mapState, mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "popup-wishlist",
   data() {
@@ -88,18 +88,5 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-// .table {
-//     th, td{
-//         text-align: center;
-//     }
-//     tr td {
-//         vertical-align: middle!important;
-//         img {
-//             max-height: unset;
-//         }
-//     }
-//     .pre {
-//         white-space: pre;
-//     }
-// }
+
 </style>

@@ -7,6 +7,8 @@
     </section>
    <section class="section is-small">
      <div class="container">
+      <dynamic-from-now></dynamic-from-now>
+
       <div v-show="!loading" class="columns is-multiline">
         <template v-if="phones && phones.length" v-for="phone in phones">
           <div class="column is-4-tablet" :key="phone.id">

@@ -4,7 +4,7 @@
             <figure class="image is-64x64"><img :src="wish.image_url" alt=""></figure>
         </td>
         <td>{{wish.name}}</td>
-        <td>{{wish.price}}</td>
+        <td>{{wish.price}} руб.</td>
         <td>{{wish.date}}</td>
         <td class="is-center">
             <div class="buttons">
@@ -26,28 +26,25 @@
 </template>
 
 <script>
-import {mapState, mapActions} from 'vuex'
+import { mapState, mapActions } from "vuex";
 
 export default {
-    props: ["wish"],
-    data() {
-        return {
-            
-        }
-    },
-    computed: {
-        ...mapState('wishlist', ['wishlist'])
-    },
-    methods: {
-        ...mapActions("wishlist", ["toggleToWishlistById"]),
-        ...mapActions('cart', ['addToCartById']),
-        hasInWishList(purchase_id) {
-            return !!this.lodash.find(this.wishlist, {phone_id: purchase_id})
-        }  
+  props: ["wish"],
+  data() {
+    return {};
+  },
+  computed: {
+    ...mapState("wishlist", ["wishlist"])
+  },
+  methods: {
+    ...mapActions("wishlist", ["toggleToWishlistById"]),
+    ...mapActions("cart", ["addToCartById"]),
+    hasInWishList(purchase_id) {
+      return !!this.lodash.find(this.wishlist, { phone_id: purchase_id });
     }
-}
+  }
+};
 </script>
 
 <style>
-
 </style>
