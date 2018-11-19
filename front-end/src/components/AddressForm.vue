@@ -57,6 +57,7 @@
                     Неверный формат</p>
             </div>
         </div>
+        <!-- Добавить слоты -->
         <div class="field is-grouped">
             <div class="control">
                 <button 

@@ -28,18 +28,13 @@
                 @send-form="sendForm"></address-form>
         </div>
         <!-- </div> -->
-        <modal-add-address
-            v-if="modal_address_is_open"
-            @close="closeModal"
-            @add-address="addNewAddress"></modal-add-address>
     </section>
 </template>
 
 <script>
 import AddressInfo from '@/components/AddressInfo'
 import AddressForm from '@/components/AddressForm'
-import ModalAddAddress from '@/components/modal/ModalAddAddress'
-import {mapGetters, mapState} from 'vuex'
+import {mapGetters, mapState, mapActions} from 'vuex'
 export default {
     data() {
         return {
@@ -53,14 +48,14 @@ export default {
     },
     components: {
         AddressInfo,
-        AddressForm,
-        ModalAddAddress
+        AddressForm
     },
     computed: {
         ...mapGetters('user', ['getAccessTocken']),
         ...mapState('cart', ['cart'])
     },
     methods: {
+        ...mapActions('cart', ['clearCart']),
         openModal() {
             this.modal_address_is_open = true;
         },
@@ -81,6 +76,15 @@ export default {
                 })
             );
             console.log(user_data)
+        
+
+            const wait = new Promise( (resolve, reject) => {
+                setTimeout( () => resolve({}), 2000)
+            })
+            wait.then(() => {
+                this.clearCart()
+                this.$router.push('/')
+            })
         }
     }
 }

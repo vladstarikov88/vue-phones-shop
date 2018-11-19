@@ -32,6 +32,9 @@ const cart = {
       if (current) {
         current.amount = new_amount
       }
+    },
+    clearCart(state) {
+      state.cart = [];
     }
   },
   actions: {
@@ -49,6 +52,9 @@ const cart = {
       commit
     }, [phone_id, new_amount]) {
       commit('changeAmountFromCartById', [phone_id, new_amount])
+    },
+    clearCart({commit}) {
+      commit('clearCart')
     }
   },
 
