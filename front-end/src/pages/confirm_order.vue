@@ -23,74 +23,10 @@
                 </div>
             </div>
             <div v-else> -->
-                <div class="form">
-                    <div class="field">
-                        <div class="control has-icons-right">
-                            <input 
-                                class="input" 
-                                type="text" 
-                                placeholder="Имя"
-                                v-model="username"
-                                v-validate="'required|min:8'" 
-                                name="min_field"
-                                :class="{'is-danger' : errors.has('min_field')}">
-                            <span class="icon is-small is-right">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
-                            <p
-                                class="help is-danger"
-                                v-if="errors.has('min_field')">
-                                Длина имени должна быть не менее 8 символов</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control has-icons-right">
-                            <input 
-                                class="input" 
-                                type="text" 
-                                placeholder="Адрес доставки"
-                                v-model="address"
-                                v-validate="'required'"
-                                name="address"
-                                :class="{'is-danger' : errors.has('address')}">
-                            <span class="icon is-small is-right">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
-                            <p
-                                class="help is-danger"
-                                v-if="errors.has('address')">
-                                Поле является обязательным</p>
-                        </div>
-                    </div>
-                    <div class="field">
-                        <div class="control has-icons-right">
-                            <input 
-                                class="input" 
-                                type="email" 
-                                placeholder="Email"
-                                v-model="email"
-                                v-validate="'required|email'" 
-                                name="email_field"
-                                :class="{'is-danger' : errors.has('email_field')}">
-                            <span class="icon is-small is-right">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </span>
-                            <p 
-                                class="help is-danger" 
-                                v-if="errors.has('email_field')">
-                                Неверный формат</p>
-                        </div>
-                    </div>
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button 
-                                class="button is-link"
-                                :disabled="errors.items.length > 0"
-                                @click="sendForm">Подтвердить и оплатить</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <address-form 
+                :form="form"
+                @send-form="sendForm"></address-form>
+        </div>
         <!-- </div> -->
         <modal-add-address
             v-if="modal_address_is_open"
@@ -101,28 +37,23 @@
 
 <script>
 import AddressInfo from '@/components/AddressInfo'
+import AddressForm from '@/components/AddressForm'
 import ModalAddAddress from '@/components/modal/ModalAddAddress'
 import {mapGetters, mapState} from 'vuex'
 export default {
     data() {
         return {
             modal_address_is_open: false, 
-            username: null, 
-            address: null,
-            email: null
-            // addresses: [
-            //     {
-            //         id: 0,
-            //         address: "Ростов-на-Дону, ул. Красноармейская 210",
-            //         username: "John Smith",
-            //         email: "john@example.com"
-            //     }
-            // ]
-
+            form: {
+                username: null, 
+                address: null,
+                email: null,
+            }
         }
     },
     components: {
         AddressInfo,
+        AddressForm,
         ModalAddAddress
     },
     computed: {
@@ -143,23 +74,13 @@ export default {
         sendForm(obj){
             const user_data = JSON.parse(
                 JSON.stringify({
-                    username: this.username,
-                    address: this.address, 
-                    email: this.email,
+                    username: this.form.username,
+                    address: this.form.address, 
+                    email: this.form.email,
                     products: this.cart 
                 })
             );
-
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    console.log(user_data)
-                    this.$notify({
-                        message: "Заявка успешно отправлена",
-                        status: "info"
-                    });
-                return;
-                }
-            });
+            console.log(user_data)
         }
     }
 }
