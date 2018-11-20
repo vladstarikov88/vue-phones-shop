@@ -8,7 +8,8 @@
                         <address-info 
                             v-for="address in addresses"
                             :key="address.id"
-                            :address="address"></address-info>
+                            :address="address"
+                            @edit="toggleModal()"></address-info>
                     </div>
                 </div>
             </div> 
@@ -17,7 +18,7 @@
                     :form="form"
                     @send-form="sendForm">
                     <template
-                        scope="{ checkForm }"
+                        slot-scope="{ checkForm }"
                         slot="submit">
                         <button 
                             class="button is-link"
@@ -29,15 +30,29 @@
                 </address-form>
             </div>
         </div>
-        <template v-if="modal_edit_dorm">
-            <modal-window>
-                <address-form></address-form>
+        <template v-if="modal_edit_form">
+            <modal-window
+                @close="toggleModal()">
+                <address-form
+                    :form="addresses[0]">
+                    <template
+                        slot-scope="{ checkForm }"
+                        slot="submit">
+                        <button 
+                            class="button is-link"
+                            :disabled="errors.items.length > 0"
+                            @click="checkForm()">
+                                Сохранить
+                        </button>
+                    </template>
+                </address-form>
             </modal-window>
         </template>
     </section>
 </template>
 
 <script>
+import ModalWindow from '@/components/modal/ModalWindow'
 import AddressInfo from '@/components/AddressInfo'
 import AddressForm from '@/components/AddressForm'
 import {mapGetters, mapState, mapActions} from 'vuex'
@@ -45,7 +60,7 @@ export default {
     data() {
         return {
             modal_address_is_open: false, 
-            modal_edit_dorm: false,
+            modal_edit_form: false,
             form: {
                 username: null, 
                 address: null,
@@ -63,7 +78,8 @@ export default {
     },
     components: {
         AddressInfo,
-        AddressForm
+        AddressForm,
+        ModalWindow
     },
     computed: {
         ...mapGetters('user', ['getAccessTocken']),
@@ -100,6 +116,10 @@ export default {
                 this.clearCart()
                 this.$router.push('/')
             })
+        },
+
+        toggleModal() {
+            this.modal_edit_form = !this.modal_edit_form
         }
     }
 }

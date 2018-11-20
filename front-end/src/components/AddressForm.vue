@@ -75,6 +75,7 @@ export default {
     props: ['form'],
     methods: {
         checkForm() {
+            console.log(this.form)
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     this.$emit('send-form', this.form)
