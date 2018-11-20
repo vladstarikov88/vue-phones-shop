@@ -10,7 +10,9 @@
                     </ul>
                     <div class="field is-grouped">
                         <div class="control">
-                            <button class="button is-text">Редактировать</button>
+                            <button 
+                                class="button is-text"
+                                @click="edit">Редактировать</button>
                         </div>
                     </div>
                 </div>
@@ -21,7 +23,12 @@
 
 <script>
 export default {
-    props: ['address']
+    props: ['address'],
+    methods: {
+        edit() {
+            this.$emit('edit')
+        }
+    }
 }
 </script>
 

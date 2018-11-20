@@ -57,13 +57,14 @@
                     Неверный формат</p>
             </div>
         </div>
-        <!-- Добавить слоты -->
+        
+        
         <div class="field is-grouped">
             <div class="control">
-                <button 
-                    class="button is-link"
-                    :disabled="errors.items.length > 0"
-                    @click="checkForm()">Подтвердить и оплатить</button>
+                <slot 
+                    name="submit" 
+                    :check-form="checkForm">
+                </slot>
             </div>
         </div>
     </div>

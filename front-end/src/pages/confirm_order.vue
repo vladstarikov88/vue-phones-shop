@@ -2,7 +2,7 @@
     <section class="section">
         <div class="container">
             <h1 class="title">Оформить заказ</h1>
-            <!-- <div v-if="getAccessTocken">
+            <div v-if="getAccessTocken">
                 <div class="content">
                     <div class="box-container">
                         <address-info 
@@ -10,24 +10,30 @@
                             :key="address.id"
                             :address="address"></address-info>
                     </div>
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button class="button is-link">Подтвердить и оплатить</button>
-                        </div>
-                        <div class="control">
-                            <button 
-                                class="button is-text"
-                                @click="openModal">Добавить новый адрес</button>
-                        </div>
-                    </div>
                 </div>
+            </div> 
+            <div v-else>
+                <address-form 
+                    :form="form"
+                    @send-form="sendForm">
+                    <template
+                        scope="{ checkForm }"
+                        slot="submit">
+                        <button 
+                            class="button is-link"
+                            :disabled="errors.items.length > 0"
+                            @click="checkForm()">
+                                Подтвердить и оплатить
+                        </button>
+                    </template>
+                </address-form>
             </div>
-            <div v-else> -->
-            <address-form 
-                :form="form"
-                @send-form="sendForm"></address-form>
         </div>
-        <!-- </div> -->
+        <template v-if="modal_edit_dorm">
+            <modal-window>
+                <address-form></address-form>
+            </modal-window>
+        </template>
     </section>
 </template>
 
@@ -39,11 +45,20 @@ export default {
     data() {
         return {
             modal_address_is_open: false, 
+            modal_edit_dorm: false,
             form: {
                 username: null, 
                 address: null,
                 email: null,
-            }
+            },
+            addresses: [
+                {
+                    id: 0,
+                    username: 'Vlad Starikov',
+                    address: 'Gorky st., 23',
+                    email: 'starikov@example.com'
+                }
+            ]
         }
     },
     components: {
