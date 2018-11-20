@@ -60,6 +60,9 @@ export default {
       return this.phone.price * (this.current_amount || 1);
     }
   },
+  needConfirmationMethods: {
+    
+  },
   methods: {
     ...mapActions("cart", ["addToCartById", "removeFromCartById"]),
     addToCart() {

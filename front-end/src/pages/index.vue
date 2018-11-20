@@ -55,12 +55,6 @@ export default {
       this.loading = true;
       func(query);
     })
-    setTimeout(()=>{
-       this.$confirmPromise()
-        .then(()=>{
-          console.log('Confirm')
-        })
-    }, 2000)
   },
   components: {
     Loader,
@@ -68,6 +62,7 @@ export default {
     PhoneCard,
     ModalAddToCart, 
   },
+
   computed: {
     ...mapState('wishlist', ['wishlist'])
   },

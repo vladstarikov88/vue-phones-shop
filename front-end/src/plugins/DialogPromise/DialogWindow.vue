@@ -1,31 +1,38 @@
 <template>
-  <modal-window v-if="is_open" @close="reject">
-    <div class="buttons">
-        <button class="button" @click="resolve">Да</button>
-        <button class="button" @click="reject">Нет</button>
+  <div class="modal" :class="{'is-active': is_open}">
+    <div class="modal-background" @click.self="wrappedReject"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Подтверждение</p>
+        <button class="delete" aria-label="close" @click="wrappedReject"></button>
+      </header>
+      <section class="modal-card-body">
+        <div class="content">
+          <p class="title is-3">{{message}}</p>
+        </div>
+      </section>
+      <footer class="modal-card-foot">
+        <button class="button is-success" @click="wrappedResolve">{{accept_label}}</button>
+        <button class="button" @click="wrappedReject">{{cancel_label}}</button>
+      </footer>
     </div>
-  </modal-window>
+  </div>
 </template>
 <script>
-import ModalWindow from "@/components/modal/ModalWindow";
 import bus from "./bus";
 
 export default {
   name: "promise-dialog",
-  components: {
-    ModalWindow
-  },
   created() {
-    bus.$on('call-confirm-window', (resolve, reject)=>{
-      this.resolve = this.closeWrapper(resolve);
-      this.reject = this.closeWrapper(reject);
-      this.openDialog();
-    });
+    bus.$on('call-confirm-window', this.confirm);
   },
   data() {
     return {
       resolve: null,
       reject: null,
+      message: '',
+      accept_label: '',
+      cancel_label: '',
       is_open: false
     };
   },
@@ -33,11 +40,21 @@ export default {
     bus.$off('call-confirm-window', this.openDialog);
   },
   methods: {
-    closeWrapper(func) {
-      return () => {
-        func();
-        this.close();
-      }
+    confirm(resolve, reject, message, accept_label, cancel_label) {
+      this.resolve = resolve;
+      this.reject = reject;
+      this.message = message;
+      this.accept_label = accept_label;
+      this.cancel_label = cancel_label;
+      this.openDialog();
+    },
+    wrappedReject(){
+      this.reject();
+      this.close();
+    },
+    wrappedResolve(){
+      this.resolve();
+      this.close();
     },
     close() {
       this.is_open = false;
