@@ -58,8 +58,8 @@
 
 <script>
 import ModalWindow from '@/components/modal/ModalWindow'
-import AddressInfo from '@/components/AddressInfo'
-import AddressForm from '@/components/AddressForm'
+import AddressInfo from '@/components/address/AddressInfo'
+import AddressForm from '@/components/address/AddressForm'
 import {mapGetters, mapState, mapActions} from 'vuex'
 export default {
     data() {
@@ -78,6 +78,12 @@ export default {
                     username: 'Vlad Starikov',
                     address: 'Gorky st., 23',
                     email: 'starikov@example.com'
+                },
+                {
+                    id: 1,
+                    username: 'testtestets',
+                    address: 'testtesttetstdfs',
+                    email: 'test@example.com'
                 }
             ]
         }
@@ -93,10 +99,10 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['clearCart']),
-        addNewAddress(new_address) {
-            new_address.id = this.addresses.length;
-            this.addresses.push(new_address)
-        },
+        // addNewAddress(new_address) {
+        //     new_address.id = this.addresses.length;
+        //     this.addresses.push(new_address)
+        // },
         sendForm(obj){
             const user_data = JSON.parse(
                 JSON.stringify({
@@ -118,7 +124,6 @@ export default {
             })
         },
         saveForm(address) {
-            console.log(address);
             this.addresses.splice(address.id, 1, address);
             this.modal_edit_form = false;
         },

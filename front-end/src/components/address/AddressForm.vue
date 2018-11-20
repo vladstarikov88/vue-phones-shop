@@ -79,6 +79,12 @@
 <script>
 export default {
     props: ['address'],
+    computed: {
+        new_address() {
+            //return Object.assign({}, this.address)
+            return this.address
+        }
+    },
     methods: {
         checkForm() {
             console.log(this.form)
@@ -93,7 +99,8 @@ export default {
             });
         },
         changeForm() {
-            this.$emit('save-form', this.address)
+            console.log(this.new_address)
+            this.$emit('save-form', this.new_address)
         }
     }
 }
