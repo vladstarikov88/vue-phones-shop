@@ -9,13 +9,14 @@
                             v-for="address in addresses"
                             :key="address.id"
                             :address="address"
-                            @edit="toggleModal()"></address-info>
+                            @edit="openModal">
+                        </address-info>
                     </div>
                 </div>
             </div> 
             <div v-else>
                 <address-form 
-                    :form="form"
+                    :address="address"
                     @send-form="sendForm">
                     <template
                         slot-scope="{ checkForm }"
@@ -30,24 +31,28 @@
                 </address-form>
             </div>
         </div>
-        <template v-if="modal_edit_form">
-            <modal-window
-                @close="toggleModal()">
-                <address-form
-                    :form="addresses[0]">
-                    <template
-                        slot-scope="{ checkForm }"
-                        slot="submit">
-                        <button 
-                            class="button is-link"
-                            :disabled="errors.items.length > 0"
-                            @click="checkForm()">
-                                Сохранить
-                        </button>
-                    </template>
-                </address-form>
-            </modal-window>
-        </template>
+        <modal-window
+            @close="closeModal"
+            v-if="modal_edit_form"
+            slot="modal">
+            <address-form 
+                :address="addresses[current_id]"
+                @save-form="saveForm">
+                <template slot="title">
+                    <h4 class="title is-4">Редактирование адреса</h4>
+                </template>
+                <template 
+                    slot-scope="{ changeForm }"
+                    slot="changeform">
+                    <button 
+                        class="button is-link"
+                        :disabled="errors.items.length > 0"
+                        @click="changeForm()">
+                            Сохранить
+                    </button>
+                </template>
+            </address-form>
+        </modal-window>
     </section>
 </template>
 
@@ -59,9 +64,10 @@ import {mapGetters, mapState, mapActions} from 'vuex'
 export default {
     data() {
         return {
-            modal_address_is_open: false, 
+            //modal_address_is_open: false, 
             modal_edit_form: false,
-            form: {
+            current_id: null,
+            address: {
                 username: null, 
                 address: null,
                 email: null,
@@ -87,12 +93,6 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['clearCart']),
-        openModal() {
-            this.modal_address_is_open = true;
-        },
-        closeModal() {
-            this.modal_address_is_open = false;
-        },
         addNewAddress(new_address) {
             new_address.id = this.addresses.length;
             this.addresses.push(new_address)
@@ -117,24 +117,29 @@ export default {
                 this.$router.push('/')
             })
         },
-
-        toggleModal() {
-            this.modal_edit_form = !this.modal_edit_form
+        saveForm(address) {
+            console.log(address);
+            this.addresses.splice(address.id, 1, address);
+            this.modal_edit_form = false;
+        },
+        openModal(id) {
+            this.modal_edit_form = true;
+            this.current_id = id;
+        },
+        closeModal() {
+            this.modal_edit_form = false;
         }
     }
 }
 </script>
 
 <style lang="scss" scoped>
-    .title {
-        text-align: center;
-    }
-    .form {
-        margin: 0 25vw;
-    }
-    .box-container{
-        display: flex;
-        align-items: start;
-        margin-bottom: 1em;
-    }
+.title {
+    text-align: center;
+}
+.box-container{
+    display: flex;
+    align-items: start;
+    margin-bottom: 1em;
+}
 </style>

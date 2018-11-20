@@ -1,12 +1,14 @@
 <template>
+<!-- добавить слот для заголовка -->
     <div class="form">
+        <slot name="title"></slot>
         <div class="field">
             <div class="control has-icons-right">
                 <input 
                     class="input" 
                     type="text" 
                     placeholder="Имя адресата"
-                    v-model="form.username"
+                    v-model="address.username"
                     v-validate="'required|min:8'" 
                     name="min_field"
                     :class="{'is-danger' : errors.has('min_field')}">
@@ -25,7 +27,7 @@
                     class="input" 
                     type="text" 
                     placeholder="Адрес доставки"
-                    v-model="form.address"
+                    v-model="address.address"
                     v-validate="'required'"
                     name="address"
                     :class="{'is-danger' : errors.has('address')}">
@@ -44,7 +46,7 @@
                     class="input" 
                     type="email" 
                     placeholder="Email"
-                    v-model="form.email"
+                    v-model="address.email"
                     v-validate="'required|email'" 
                     name="email_field"
                     :class="{'is-danger' : errors.has('email_field')}">
@@ -65,6 +67,10 @@
                     name="submit" 
                     :check-form="checkForm">
                 </slot>
+                <slot
+                    name="changeform"
+                    :change-form="changeForm">                
+                </slot>
             </div>
         </div>
     </div>
@@ -72,7 +78,7 @@
 
 <script>
 export default {
-    props: ['form'],
+    props: ['address'],
     methods: {
         checkForm() {
             console.log(this.form)
@@ -85,11 +91,17 @@ export default {
                     });
                 }
             });
+        },
+        changeForm() {
+            this.$emit('save-form', this.address)
         }
     }
 }
 </script>
 
-<style>
-
+<style lang="scss" scoped>
+.form{
+    max-width: 25em;
+    margin: 0 auto;
+}
 </style>

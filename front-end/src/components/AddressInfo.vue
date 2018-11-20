@@ -26,7 +26,7 @@ export default {
     props: ['address'],
     methods: {
         edit() {
-            this.$emit('edit')
+            this.$emit('edit', this.address.id)
         }
     }
 }
