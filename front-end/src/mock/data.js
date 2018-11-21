@@ -2,12 +2,14 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import phones from '@/assets/dummy/phones'
 import lodash from 'lodash'
+import addresses from '@/assets/dummy/addresses'
 const mock = new MockAdapter(axios);
 
 // Mock GET request to /users when param `searchText` is 'John' 
 // arguments for reply are (status, data, headers)
+
+mock.onGet('/addresses').reply(200, {addresses});
 mock.onGet('/phones').reply(function (config) {
-  
   if(config.query) {
     let result = lodash.filter(phones,
       (phone) => {
@@ -27,7 +29,6 @@ mock.onGet('/phones').reply(function (config) {
     return [200, {phones}]
   }
 });
-
 mock.onPost('/login').reply(function (config) {
   const {username, password} = JSON.parse(config.data);
   if (username === 'root' && password === 'toor') {
@@ -42,6 +43,14 @@ mock.onGet('/phone').reply(function (config) {
     return [200, phone]
   } else {
     return [400, {message: 'phone not found'}]
+  }
+});
+mock.onGet('/address').reply(function (config) {
+  const address = lodash.find(addresses, { id: config.id });
+  if(address){
+    return [200, address]
+  } else {
+    return [400, {message: 'address not found'}]
   }
 });
 export default mock

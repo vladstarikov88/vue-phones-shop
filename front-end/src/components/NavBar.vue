@@ -1,18 +1,17 @@
 <template>
-  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+  <nav class="navbar is-primary" v-click-outside="closeMobileMenu" role="navigation" aria-label="main navigation">
     <div class="navbar-brand">
-      <router-link to="/" class="navbar-item">
-        <strong>МАГАЗИН</strong>
-      </router-link>
-      <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
-         data-target="navbarBasicExample">
+      <a class="navbar-item" href="/">
+        <router-link tag="strong" to="/"> МАГАЗИН </router-link >
+      </a>
+      <a role="button" class="navbar-burger burger" @click="toggleMobileMenu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div class="navbar-menu">
+    <div class="navbar-menu" :class="{ 'is-active': mobile_menu_is_open}">
       <div class="navbar-start">
         <router-link to="/" class="navbar-item">
           Витрина
@@ -28,33 +27,29 @@
         <div class="navbar-item" style="position: relative">
           <popup-cart 
             v-if="popup_cart_is_open" 
-            v-click-outside="togglePopupCart"></popup-cart>
+            v-click-outside="closePopupCart"></popup-cart>
           <popup-wishlist
             v-if="popup_wishlist_is_open"
-            v-click-outside="togglePopupWishlist"></popup-wishlist>
+            v-click-outside="closePopupWishlist"></popup-wishlist>
           <div class="buttons">
-            <!-- Выйти из системы -->
             <a 
               class="button" 
-              @click="logOut()"
-              v-if="existsAccessTocken()">
+              @click="logOut"
+              v-if="getAccessTocken">
               <span class="icon">
                 <i class="fas fa-sign-out-alt"></i>
               </span>
             </a>  
-            <!--  -->
-
-            <!-- Войти в систему -->
             <a 
               class="button" 
               @click="toggleModal()"
-              v-if="!existsAccessTocken()">
+              v-else>
               <span class="icon">
                 <i class="fas fa-sign-in-alt"></i>
               </span>
             </a>
             <a 
-              class="button is-white popup-toggle" 
+              class="button is-white popup-toggle is-mobile-hidden" 
               :class="{'has-background-grey-lighter' : popup_cart_is_open }"
               @click="togglePopupCart()">
               <span class="icon">
@@ -62,9 +57,9 @@
               </span>
             </a>
             <a 
-              class="button is-white popup-toggle" 
+              class="button is-white popup-toggle is-mobile-hidden" 
               :class="{ 'has-background-grey-lighter' : popup_wishlist_is_open }"
-              @click="togglePopupWishlist()">
+              @click="togglePopupWishlist">
               <span class="icon">
                 <i class="far fa-star"></i>
               </span>
@@ -96,7 +91,8 @@ export default {
     return {
       popup_cart_is_open: false,
       popup_wishlist_is_open: false,
-      modal_form_is_open: false
+      modal_form_is_open: false,
+      mobile_menu_is_open: false,
     }
   },
   components: {
@@ -112,11 +108,20 @@ export default {
     ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
+    closeMobileMenu() {
+      this.mobile_menu_is_open = false;
+    },
+    toggleMobileMenu() {
+      this.mobile_menu_is_open = !this.mobile_menu_is_open;
+    },
     togglePopupCart() {
       this.popup_cart_is_open = !this.popup_cart_is_open;
     },
     togglePopupWishlist() {
-      this.popup_wishlist_is_open = !this.popup_wishlist_is_open
+      this.popup_wishlist_is_open = !this.popup_wishlist_is_open;
+    },
+    closePopupWishlist() {
+      this.popup_wishlist_is_open = false;
     },
     closePopupCart() {
       this.popup_cart_is_open = false;
@@ -129,13 +134,8 @@ export default {
       this.clearAcessTocken();
       delete this.axios.defaults.headers.common['Authorization']
     },
-    existsAccessTocken() {
-      return this.getAccessTocken ? 
-        true :
-        false
-    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
   span.login{

@@ -17,6 +17,9 @@
     mounted() {
       bus.$on('zoom-image', this.zoomImage)
     },
+    beforeDestroy(){
+       this.bus.$off('zoom-image', this.zoomImage)
+    },
     data() {
       return {
         src: '',

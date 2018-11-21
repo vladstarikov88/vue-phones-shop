@@ -62,6 +62,9 @@ export default {
       return this.phone.price * (this.current_amount || 1);
     }
   },
+  needConfirmationMethods: {
+    
+  },
   methods: {
     addToCart() {
       this.$emit('add-to-cart', this.phone.id, this.current_amount);

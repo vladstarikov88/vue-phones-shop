@@ -31,7 +31,7 @@
           </span>
         </a>
         <a class="button is-danger" 
-           @click="removeFromCartById(purchase.id)">
+           @click="confirmRemove(purchase.id)">
           <span class="icon is-small">
               <i class="fas fa-trash"></i>
           </span>
@@ -56,6 +56,18 @@ export default {
   computed: {
     total_price() {
       return this.errors.has('between_field') ? '-' : this.purchase.price * this.purchase.amount
+    }
+  },
+  needConfirmationMethods: {
+    confirmRemove: {
+      accept_label: 'Удалить',
+      cancel_label: 'Отмена',
+      message() {
+        return `Удалить товар ${this.purchase.name} из корзины`
+      },
+      handler(id) {
+        this.removeFromCartById(id)
+      }
     }
   },
   methods: {

@@ -30,6 +30,7 @@ const routes = [
   }
 ]
 export default new VueRouter({
+  linkExactActiveClass: 'is-active',
   routes,
   mode: 'history',
 })

@@ -1,4 +1,4 @@
-import moment from 'moment'
+import moment from '@/plugins/moment'
 import lodash from 'lodash'
 
 const wishlist = {
@@ -15,20 +15,23 @@ const wishlist = {
     },
     removeFromWishlistById(state, phone_id) {
       const idx = lodash.findIndex(state.wishlist, {phone_id});
-      state.wishlist.splice(idx, 1);
+      if(~idx) {
+        state.wishlist.splice(idx, 1);
+      }
     }
   },
   actions: {
-    addToWishlistById({commit}, phone_id) {
-      commit('addToWishlistById', phone_id)
+    addToWishlistById({commit, dispatch}, phone_id) {
+      commit('addToWishlistById', phone_id);
+      dispatch('cart/removeFromCartById', phone_id, {root: true})
     },
     removeFromWishlistById({commit}, phone_id) {
       commit('removeFromWishlistById', phone_id)
     },
-    toggleToWishlistById({commit, state}, phone_id) {
+    toggleToWishlistById({state, dispatch}, phone_id) {
       lodash.find(state.wishlist, {phone_id}) ?
-        commit('removeFromWishlistById', phone_id) :
-        commit('addToWishlistById', phone_id)
+        dispatch('removeFromWishlistById', phone_id) :
+        dispatch('addToWishlistById', phone_id)
     }
   },
   getters: {
@@ -40,11 +43,15 @@ const wishlist = {
     //   return result
     // },
     getTotalAmountFromWishlist(state) {
-      return state.wishlist.length
+      return state.wishlist.lenght
     },
-    getWishlist(state) {
-      return state.wishlist
-    }
+    getLastFiveFavorites(state){
+      return lodash.slice(lodash.orderBy(state.wishlist, 'date', 'desc'), 0, 5) 
+    },
+    // \/ second pamyatnik \/
+    // getWishlist(state) {
+    //   return state.wishlist
+    // }
   }
 }
 

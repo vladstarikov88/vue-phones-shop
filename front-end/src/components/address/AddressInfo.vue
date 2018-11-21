@@ -12,7 +12,7 @@
             <div class="control">
               <button
                 class="button is-text"
-                @click="edit">Редактировать
+                @click="$emit('edit')">Редактировать
               </button>
             </div>
           </div>
@@ -25,11 +25,6 @@
 <script>
   export default {
     props: ['address'],
-    methods: {
-      edit() {
-        this.$emit('edit', this.address.id)
-      }
-    }
   }
 </script>
 
