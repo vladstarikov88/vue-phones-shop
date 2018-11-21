@@ -7,9 +7,9 @@ export default {
             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
 
-        const current_tocken = options.store.state.user.access_token;
-        if (current_tocken !== null) {
-            axios.defaults.headers.common['Authorization'] = current_tocken;
+        const current_token = options.store.state.user.access_token;
+        if (current_token !== null) {
+            axios.defaults.headers.common['Authorization'] = current_token;
         }
         Vue.set(Vue.prototype, 'axios', axios)
     }

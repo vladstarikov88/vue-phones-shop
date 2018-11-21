@@ -2,15 +2,15 @@
   <section class="section">
     <div class="container">
       <h1 class="title">Оформить заказ</h1>
-      <div v-if="getAccessTocken">
+      <div v-if="getAccessToken">
         <div class="content">
           <div class="box-container">
             <template v-if="addresses && addresses.length">
               <address-info
-                v-for="address in addresses"
-                :key="address.id"
                 :address="address"
-                @edit="openEditorAddress(address.id)">
+                :key="address.id"
+                @edit="openEditorAddress(address.id)"
+                v-for="address in addresses">
               </address-info>
             </template>
           </div>
@@ -19,14 +19,14 @@
       <div v-else>
         <address-form
           :address="address"
-          >
+        >
           <template
-            slot-scope="{ checkForm }"
-            slot="submit">
+            slot="submit"
+            slot-scope="{ checkForm }">
             <button
-              class="button is-link"
               :disabled="errors.items.length > 0"
-              @click="checkForm()">
+              @click="checkForm()"
+              class="button is-link">
               Подтвердить и оплатить
             </button>
           </template>
@@ -36,6 +36,7 @@
     <modal-edit-address
       :id="current_id"
       @close="closeModal"
+      @save-form="saveForm"
       v-if="modal_edit_form">
 
     </modal-edit-address>
@@ -66,7 +67,7 @@
       AddressForm,
     },
     computed: {
-      ...mapGetters("user", ["getAccessTocken"]),
+      ...mapGetters("user", ["getAccessToken"]),
       ...mapState("cart", ["cart"])
     },
     methods: {
@@ -78,7 +79,11 @@
           });
       },
       saveForm(address) {
-        this.addresses.splice(address.id, 1, address);
+        this.axios
+          .post('address', address)
+          .then(res => {
+            this.addresses = res.data.addresses
+          });
         this.modal_edit_form = false;
       },
       openEditorAddress(id) {

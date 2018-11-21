@@ -2,8 +2,18 @@ import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
 import phones from '@/assets/dummy/phones'
 import lodash from 'lodash'
-import addresses from '@/assets/dummy/addresses'
+import addresses_resource from '@/assets/dummy/addresses'
 const mock = new MockAdapter(axios);
+const locale_address = localStorage.getItem('addresses');
+let addresses = [];
+try {
+  const arr = JSON.parse(locale_address);
+  if (typeof arr === 'object') {
+    addresses = arr
+  }
+} catch (e) {
+  addresses = addresses_resource;
+}
 
 // Mock GET request to /users when param `searchText` is 'John' 
 // arguments for reply are (status, data, headers)
@@ -35,6 +45,17 @@ mock.onPost('/login').reply(function (config) {
     return [200, {access_token: 'test_access_token' }]
   } else {
     return [401, {msg: 'incorrect login or password'}]
+  }
+});
+mock.onPost('/address').reply(function (config) {
+  const address = JSON.parse(config.data);
+  const index = lodash.findIndex(addresses, {id: address.id});
+  if (index) {
+    addresses.splice(index, 1, address);
+    localStorage.setItem('addresses', JSON.stringify(addresses));
+    return [200, {addresses}]
+  } else {
+    return [400, {msg: 'incorrect data'}]
   }
 });
 mock.onGet('/phone').reply(function (config) {

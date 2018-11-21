@@ -35,7 +35,7 @@
             <a 
               class="button" 
               @click="logOut"
-              v-if="getAccessTocken">
+              v-if="getAccessToken">
               <span class="icon">
                 <i class="fas fa-sign-out-alt"></i>
               </span>
@@ -102,12 +102,13 @@ export default {
   },
   computed: {
     ...mapGetters('cart', ['getTotalAmountPhones']),
-    ...mapGetters('user', ['getAccessTocken']),
+    ...mapGetters('user', ['getAccessToken']),
   },
   asyncComputed: {
     ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
+    ...mapActions('user', ['clearAccessToken']),
     closeMobileMenu() {
       this.mobile_menu_is_open = false;
     },
@@ -126,12 +127,11 @@ export default {
     closePopupCart() {
       this.popup_cart_is_open = false;
     },
-    ...mapActions('user', ['clearAcessTocken']),
     toggleModal() {
       this.modal_form_is_open = !this.modal_form_is_open;
     },
     logOut() {
-      this.clearAcessTocken();
+      this.clearAccessToken();
       delete this.axios.defaults.headers.common['Authorization']
     },
   }

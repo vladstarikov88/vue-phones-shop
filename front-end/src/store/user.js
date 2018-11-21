@@ -12,15 +12,15 @@ const user = {
     setAccessToken({commit}, access_token) {
       commit('setAccessToken', access_token)
     },
-    clearAcessTocken({commit}) {
+    clearAccessToken({commit}) {
       commit('setAccessToken', null)
     }
   },
   getters: {
-    getAccessTocken(state) {
+    getAccessToken(state) {
       return state.access_token
     }
   }
-}
+};
 
 export default user

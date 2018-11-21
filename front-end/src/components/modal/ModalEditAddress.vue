@@ -4,7 +4,8 @@
     <address-form
       :id="id"
       title="Редактирование адреса"
-      @save-form="saveAddress">
+      @cancel="$emit('close')"
+      @save-form="$emit('save-form', $event)">
     </address-form>
   </modal-window>
 </template>
@@ -19,9 +20,7 @@
       ModalWindow,
     },
     methods: {
-      saveAddress() {
 
-      }
     },
     name: "ModalEditAddress"
   }

@@ -12,7 +12,7 @@ const cart = {
     addToCartById(state, [phone_id, amount]) {
       const record = lodash.find(state.cart, {
         phone_id
-      })
+      });
       if (record) {
         record.amount += amount;
       } else {
@@ -78,11 +78,11 @@ const cart = {
       return await co(function * (){
           const prices = yield lodash.map(state.cart, ({phone_id, amount}) => {
           return axios.get('phone',{id: phone_id}).then(res=>res.data.price * amount)
-        })
+        });
           return lodash.sum(prices)
       })
     }
   }
-}
+};
 
 export default cart
