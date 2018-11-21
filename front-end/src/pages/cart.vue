@@ -43,7 +43,7 @@ export default  {
   computed: {
     ...mapState('cart', ['cart']),
     purchases() {
-      const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount}) => {
+      const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
         const phone = this.lodash.find(this.phones, {id: phone_id})
 
         if(phone) {
@@ -52,7 +52,8 @@ export default  {
             name: phone.name,
             image_url: phone.image_url,
             id: phone_id,
-            amount
+            amount,
+            selected
           }
         }
         return null

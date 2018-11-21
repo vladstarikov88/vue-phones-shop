@@ -35,6 +35,10 @@ const cart = {
     },
     clearCart(state) {
       state.cart = [];
+    },
+    markPurchaseById(state, phone_id) {
+      const current = lodash.find(state.cart, {phone_id})
+      current.selected = !current.selected
     }
   },
   actions: {
@@ -55,6 +59,9 @@ const cart = {
     },
     clearCart({commit}) {
       commit('clearCart')
+    },
+    markPurchaseById({commit}, phone_id) {
+      commit('markPurchaseById', phone_id)
     }
   },
 

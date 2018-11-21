@@ -35,8 +35,16 @@
           <span class="icon is-small">
               <i class="fas fa-trash"></i>
           </span>
-        </a>    
+        </a>
       </div>
+    </td>
+    <td>
+      <a class="button is-warning"
+        @click="markPurchaseById(purchase.id)">
+        <span class="icon">
+          <i class="fa-check-square" :class="[purchase.selected ? 'fas' : 'far']"></i>
+        </span>
+      </a>  
     </td>
   </tr>
 </template>
@@ -59,7 +67,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions("cart", ["removeFromCartById", "changeAmountFromCartById"]),
+    ...mapActions("cart", [
+      "removeFromCartById", 
+      "changeAmountFromCartById",
+      "markPurchaseById"
+    ]),
     ...mapActions("wishlist", ["toggleToWishlistById"]),
     editInfoInRow() {
       this.is_editing = true;

@@ -106,9 +106,9 @@ export default {
         sendForm(obj){
             const user_data = JSON.parse(
                 JSON.stringify({
-                    username: this.form.username,
-                    address: this.form.address, 
-                    email: this.form.email,
+                    username: this.address.username,
+                    address: this.address.address, 
+                    email: this.address.email,
                     products: this.cart 
                 })
             );
