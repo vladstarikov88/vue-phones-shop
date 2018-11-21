@@ -2,10 +2,11 @@
     <section class="section">
         <div class="container check_purchases" v-if="selected_purchases.length">
             <h1 class="title">Проверьте выбранные для покупки товары</h1>
-            <selected-purchases
-                :purchases="selected_purchases">
-
+            <selected-purchases 
+                :purchases="selected_purchases"
+                :total_price="total_price">
             </selected-purchases>
+            <p class="title is-6">Итог: {{total_price}} руб.</p>
         </div>
         <div class="container">
             <h1 class="title">Оформить заказ</h1>
@@ -76,9 +77,9 @@ export default {
             modal_edit_form: false,
             current_id: null,
             address: {
-                username: null, 
-                address: null,
-                email: null,
+                username: null || 'twrewtetrtewrewt', 
+                address: null || 'dsfsd fsd fsd s',
+                email: null || 'fdsfsd@fd.sf',
             },
             addresses: [
                 {
@@ -111,7 +112,6 @@ export default {
                 const phone = this.lodash.find(this.phones, {id: phone_id})
 
                 if(phone && selected) {
-                    console.log(phone)
                     return {
                         price: phone.price,
                         name: phone.name,
@@ -124,6 +124,9 @@ export default {
                 return null
             })
             return this.lodash.filter(raw_purchases)
+        },
+        total_price(){
+            return this.selected_purchases.reduce((sum, item) => sum+item.price*item.amount, 0);
         }
     },
     methods: {
@@ -133,12 +136,14 @@ export default {
         //     this.addresses.push(new_address)
         // },
         sendForm(obj){
+            let selected_items = this.cart.filter(item => item.selected === true)
+
             const user_data = JSON.parse(
                 JSON.stringify({
                     username: this.address.username,
                     address: this.address.address, 
                     email: this.address.email,
-                    products: this.cart 
+                    products: selected_items
                 })
             );
             console.log(user_data)
@@ -148,7 +153,7 @@ export default {
                 setTimeout( () => resolve({}), 2000)
             })
             wait.then(() => {
-                this.clearCart()
+                //this.clearCart()
                 this.$router.push('/')
             })
         },
@@ -193,6 +198,6 @@ export default {
     margin-bottom: 1em;
 }
 .check_purchases{
-    margin-bottom: 2rem;
+    margin-bottom: 3rem;
 }
 </style>

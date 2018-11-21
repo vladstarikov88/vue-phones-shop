@@ -87,7 +87,6 @@ export default {
     },
     methods: {
         checkForm() {
-            console.log(this.form)
             this.$validator.validateAll().then((result) => {
                 if (result) {
                     this.$emit('send-form', this.form)
@@ -97,6 +96,7 @@ export default {
                     });
                 }
             });
+            this.$emit('send-form', this.form)
         },
         changeForm() {
             console.log(this.new_address)
