@@ -129,10 +129,6 @@ export default {
       this.clearAcessTocken();
       delete this.axios.defaults.headers.common['Authorization']
     },
-    checkAuth() {
-      this.axios
-        .post("/check");
-    },
     existsAccessTocken() {
       return this.getAccessTocken ? 
         true :
