@@ -130,7 +130,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions('cart', ['clearCart']),
+        ...mapActions('cart', ['clearCart', 'removeSelectedFromCart']),
         // addNewAddress(new_address) {
         //     new_address.id = this.addresses.length;
         //     this.addresses.push(new_address)
@@ -147,13 +147,12 @@ export default {
                 })
             );
             console.log(user_data)
-        
 
             const wait = new Promise( (resolve, reject) => {
                 setTimeout( () => resolve({}), 2000)
             })
             wait.then(() => {
-                //this.clearCart()
+                this.removeSelectedFromCart()
                 this.$router.push('/')
             })
         },
