@@ -9,7 +9,7 @@ const cart = {
     cart: []
   },
   mutations: {
-    addToCartById(state, [phone_id, amount, selected]) {
+    addToCartById(state, [phone_id, amount]) {
       const record = lodash.find(state.cart, {
         phone_id
       })
@@ -19,7 +19,7 @@ const cart = {
         state.cart.push({
           phone_id,
           amount,
-          selected
+          selected: false
         })
       }
     },
