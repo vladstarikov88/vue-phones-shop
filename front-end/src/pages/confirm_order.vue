@@ -1,5 +1,12 @@
 <template>
     <section class="section">
+        <div class="container check_purchases" v-if="selected_purchases.length">
+            <h1 class="title">Проверьте выбранные для покупки товары</h1>
+            <selected-purchases
+                :purchases="selected_purchases">
+
+            </selected-purchases>
+        </div>
         <div class="container">
             <h1 class="title">Оформить заказ</h1>
             <div v-if="getAccessTocken">
@@ -60,6 +67,7 @@
 import ModalWindow from '@/components/modal/ModalWindow'
 import AddressInfo from '@/components/address/AddressInfo'
 import AddressForm from '@/components/address/AddressForm'
+import SelectedPurchases from '@/components/TableCart/SelectedPurchases'
 import {mapGetters, mapState, mapActions} from 'vuex'
 export default {
     data() {
@@ -85,17 +93,38 @@ export default {
                     address: 'testtesttetstdfs',
                     email: 'test@example.com'
                 }
-            ]
+            ],
+            phones: []
         }
     },
     components: {
         AddressInfo,
         AddressForm,
-        ModalWindow
+        ModalWindow,
+        SelectedPurchases
     },
     computed: {
         ...mapGetters('user', ['getAccessTocken']),
-        ...mapState('cart', ['cart'])
+        ...mapState('cart', ['cart']),
+        selected_purchases() {
+            const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
+                const phone = this.lodash.find(this.phones, {id: phone_id})
+
+                if(phone && selected) {
+                    console.log(phone)
+                    return {
+                        price: phone.price,
+                        name: phone.name,
+                        image_url: phone.image_url,
+                        id: phone_id,
+                        amount,
+                        selected
+                    }
+                }
+                return null
+            })
+            return this.lodash.filter(raw_purchases)
+        }
     },
     methods: {
         ...mapActions('cart', ['clearCart']),
@@ -133,6 +162,22 @@ export default {
         },
         closeModal() {
             this.modal_edit_form = false;
+        },
+        fetchPhones() {
+            const promises = this.lodash.map(this.cart, ({phone_id}) =>
+                this.axios.get('/phone', {id: phone_id})
+                .then(({data}) => data)
+            );
+            Promise.all(promises).then( data => {
+                this.phones = data
+            })
+        }
+    },
+    watch: {
+        cart: {
+            deep: true,
+            handler: 'fetchPhones',
+            immediate: true,
         }
     }
 }
@@ -146,5 +191,8 @@ export default {
     display: flex;
     align-items: start;
     margin-bottom: 1em;
+}
+.check_purchases{
+    margin-bottom: 2rem;
 }
 </style>
