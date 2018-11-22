@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <input type="radio" name="answer2">
+    <input type="radio" :checked="isSelected" @change="$emit('select')">
     <div class="content">
       <p><strong>{{address.username}}</strong></p>
       <ul>
@@ -21,7 +21,7 @@
 
 <script>
   export default {
-    props: ['address'],
+    props: ['address', 'is-selected'],
   }
 </script>
 

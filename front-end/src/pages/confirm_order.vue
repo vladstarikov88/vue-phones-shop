@@ -7,6 +7,8 @@
           <div class="box-container">
             <template v-if="addresses && addresses.length">
               <address-info
+                @select="selectAddress(address.id)"
+                :is-selected="selected_address_id === address.id"
                 :address="address"
                 :key="address.id"
                 @edit="openEditorAddress(address.id)"
@@ -43,9 +45,9 @@
     data() {
       return {
         modal_edit_form: false,
-        current_id: null,
         addresses: [],
         current_address: {},
+        selected_address_id: null,
       };
     },
     mounted() {
@@ -64,6 +66,9 @@
       ...mapActions("cart", ["clearCart"]),
       submit(address) {
         console.log(address)
+      },
+      selectAddress(id) {
+        this.selected_address_id = id
       },
       fetchAddress(id) {
         this.axios.get('address', {id})
