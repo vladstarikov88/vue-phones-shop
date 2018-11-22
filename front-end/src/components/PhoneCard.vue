@@ -12,7 +12,8 @@
       <p class="title is-4 is-center">{{phone.name}}</p>
       <p class="title is-4 is-center">{{phone.price}} руб.</p>
       <p class="title is-6" v-if="phone.is_available">
-        есть в наличии
+        <span>есть в наличии</span>
+        <span>({{phone.quantity}})</span>
       </p>
       <p class="title is-6" v-else>
         нет в наличии
