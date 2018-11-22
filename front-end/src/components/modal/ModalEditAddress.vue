@@ -2,10 +2,10 @@
   <modal-window
     @close="$emit('close')">
     <address-form
-      :id="id"
-      title="Редактирование адреса"
+      :address="address"
       @cancel="$emit('close')"
-      @save-form="$emit('save-form', $event)">
+      @save-form="$emit('save-form', $event)"
+      title="Редактирование адреса">
     </address-form>
   </modal-window>
 </template>
@@ -13,15 +13,14 @@
 <script>
   import ModalWindow from '@/components/modal/ModalWindow'
   import AddressForm from '@/components/address/AddressForm'
+
   export default {
-    props:['id'],
+    props:['address'],
     components: {
       AddressForm,
       ModalWindow,
     },
-    methods: {
-
-    },
+    methods: {},
     name: "ModalEditAddress"
   }
 </script>

@@ -8,8 +8,10 @@ const locale_address = localStorage.getItem('addresses');
 let addresses = [];
 try {
   const arr = JSON.parse(locale_address);
-  if (typeof arr === 'object') {
+  if ((typeof arr === 'object') && arr && arr.length) {
     addresses = arr
+  } else {
+    throw "addresses is not valid"
   }
 } catch (e) {
   addresses = addresses_resource;

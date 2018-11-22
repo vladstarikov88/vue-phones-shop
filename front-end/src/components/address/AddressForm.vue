@@ -65,7 +65,7 @@
       </div>
       <div class="field is-grouped">
         <div class="control">
-          <input type="submit" class="button is-link" >
+          <input type="submit" class="button is-link" :disabled="errors.any()">
         </div>
         <div class="control">
           <button class="button is-text" @click="$emit('cancel')">Cancel</button>
@@ -77,19 +77,23 @@
 
 <script>
   export default {
-    props: ["id", "title"],
-    data() {
-      return {
-        address: {}
+    props: {
+      address: {
+        type: Object,
+        default() {
+          return {
+            name: '',
+            address: '',
+            email: '',
+          }
+        }
+      },
+      title: {
+        type: String,
+        default: ''
       }
     },
     methods: {
-      fetchAddress() {
-        this.axios.get('address', {id: this.id})
-          .then(res => {
-            this.address = res.data
-          })
-      },
       saveAddress() {
         this.$validator.validateAll()
           .then((is_valid)=> {
@@ -105,13 +109,6 @@
           })
       },
     },
-    watch: {
-      id: {
-        immediate: true,
-        deep: true,
-        handler: 'fetchAddress'
-      }
-    }
   };
 </script>
 

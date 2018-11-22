@@ -18,25 +18,15 @@
       </div>
       <div v-else>
         <address-form
-          :address="address"
-        >
-          <template
-            slot="submit"
-            slot-scope="{ checkForm }">
-            <button
-              :disabled="errors.items.length > 0"
-              @click="checkForm()"
-              class="button is-link">
-              Подтвердить и оплатить
-            </button>
-          </template>
+          @save-form="submit"
+          @cancel="$router.push('cart')">
         </address-form>
       </div>
     </div>
     <modal-edit-address
-      :id="current_id"
+      :address="current_address"
       @close="closeModal"
-      @save-form="saveForm"
+      @save-form="saveAddress"
       v-if="modal_edit_form">
 
     </modal-edit-address>
@@ -55,7 +45,8 @@
       return {
         modal_edit_form: false,
         current_id: null,
-        addresses: []
+        addresses: [],
+        current_address: {},
       };
     },
     mounted() {
@@ -72,13 +63,22 @@
     },
     methods: {
       ...mapActions("cart", ["clearCart"]),
+      submit(address) {
+        console.log(address)
+      },
+      fetchAddress(id) {
+        this.axios.get('address', {id})
+          .then(res => {
+            this.current_address = res.data
+          })
+      },
       fetchAddresses() {
         this.axios.get('/addresses')
           .then((res) => {
             this.addresses = res.data.addresses
           });
       },
-      saveForm(address) {
+      saveAddress(address) {
         this.axios
           .post('address', address)
           .then(res => {
@@ -87,7 +87,7 @@
         this.modal_edit_form = false;
       },
       openEditorAddress(id) {
-        this.current_id = id;
+        this.fetchAddress(id);
         this.modal_edit_form = true;
       },
       closeModal() {
