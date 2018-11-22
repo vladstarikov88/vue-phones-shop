@@ -4,7 +4,7 @@
     <div class="container">
       <div v-if="purchases && purchases.length" >
         <table-cart :purchases="purchases"></table-cart>
-        <button class="button">
+        <button class="button" v-if="selected_purchases.length">
           <router-link to="/confirm_order">
             Перейти к оформлению покупки
           </router-link>
@@ -59,7 +59,10 @@ export default  {
         return null
       })
       return this.lodash.filter(raw_purchases)
-    }
+    },
+    selected_purchases() {
+      return this.purchases.filter(item => item.selected == true)
+    },
   },
   watch: {
     cart: {

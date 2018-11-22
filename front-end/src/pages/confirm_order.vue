@@ -32,7 +32,8 @@
                         <button 
                             class="button is-link"
                             :disabled="errors.items.length > 0"
-                            @click="checkForm()">
+                            @click="checkForm()"
+                            v-if="!selected_purchases.lenght">
                                 Подтвердить и оплатить
                         </button>
                     </template>

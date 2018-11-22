@@ -19,7 +19,7 @@ const cart = {
         state.cart.push({
           phone_id,
           amount,
-          selected: false
+          selected: true
         })
       }
     },
