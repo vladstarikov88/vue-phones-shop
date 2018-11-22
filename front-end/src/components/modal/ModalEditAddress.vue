@@ -20,7 +20,6 @@
       AddressForm,
       ModalWindow,
     },
-    methods: {},
     name: "ModalEditAddress"
   }
 </script>

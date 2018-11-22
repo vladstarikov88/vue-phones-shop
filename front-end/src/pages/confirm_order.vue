@@ -28,7 +28,6 @@
       @close="closeModal"
       @save-form="saveAddress"
       v-if="modal_edit_form">
-
     </modal-edit-address>
   </section>
 </template>

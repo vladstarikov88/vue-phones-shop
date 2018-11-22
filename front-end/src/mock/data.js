@@ -52,7 +52,7 @@ mock.onPost('/login').reply(function (config) {
 mock.onPost('/address').reply(function (config) {
   const address = JSON.parse(config.data);
   const index = lodash.findIndex(addresses, {id: address.id});
-  if (index) {
+  if (~index) {
     addresses.splice(index, 1, address);
     localStorage.setItem('addresses', JSON.stringify(addresses));
     return [200, {addresses}]
