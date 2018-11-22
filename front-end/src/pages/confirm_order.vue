@@ -36,7 +36,6 @@
       @close="closeModal"
       @save-form="saveAddress"
       v-if="modal_edit_form">
-
     </modal-edit-address>
   </section>
 </template>
@@ -93,8 +92,21 @@
     },
     methods: {
       ...mapActions("cart", ["clearCart", "removeSelectedFromCart"]),
-      submit(address) {
-        console.log(address)
+      submit(address){
+        const selected_items = this.cart.filter(item => item.selected === true)
+        const user_data = JSON.parse(
+          JSON.stringify({
+            address,
+            products: selected_items
+          })
+        );
+        console.log(user_data)
+
+        const wait = new Promise( resolve =>  setTimeout( () => resolve({}), 2000) )
+        wait.then(() => {
+          this.removeSelectedFromCart()
+          this.$router.push('/')
+        })
       },
       fetchAddress(id) {
         this.axios.get('address', {id})
