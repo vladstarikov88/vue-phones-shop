@@ -1,24 +1,21 @@
 <template>
   <div class="box">
-    <article class="media">
-      <div class="media-content">
-        <div class="content">
-          <p><strong>{{address.username}}</strong></p>
-          <ul>
-            <li>{{address.address}}</li>
-            <li>{{address.email}}</li>
-          </ul>
-          <div class="field is-grouped">
-            <div class="control">
-              <button
-                class="button is-text"
-                @click="$emit('edit')">Редактировать
-              </button>
-            </div>
-          </div>
+    <input type="radio" name="answer2">
+    <div class="content">
+      <p><strong>{{address.username}}</strong></p>
+      <ul>
+        <li>{{address.address}}</li>
+        <li>{{address.email}}</li>
+      </ul>
+      <div class="field is-grouped">
+        <div class="control">
+          <button
+            @click="$emit('edit')"
+            class="button is-text">Редактировать
+          </button>
         </div>
       </div>
-    </article>
+    </div>
   </div>
 </template>
 
