@@ -74,13 +74,12 @@ import {mapGetters, mapState, mapActions} from 'vuex'
 export default {
     data() {
         return {
-            //modal_address_is_open: false, 
             modal_edit_form: false,
             current_id: null,
             address: {
-                username: null || 'twrewtetrtewrewt', 
-                address: null || 'dsfsd fsd fsd s',
-                email: null || 'fdsfsd@fd.sf',
+                username: null, 
+                address: null,
+                email: null,
             },
             addresses: [
                 {
@@ -132,10 +131,6 @@ export default {
     },
     methods: {
         ...mapActions('cart', ['clearCart', 'removeSelectedFromCart']),
-        // addNewAddress(new_address) {
-        //     new_address.id = this.addresses.length;
-        //     this.addresses.push(new_address)
-        // },
         sendForm(obj){
             let selected_items = this.cart.filter(item => item.selected === true)
 
