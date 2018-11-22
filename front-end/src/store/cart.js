@@ -1,5 +1,5 @@
 import lodash from 'lodash'
-import axios from '@/plugins/axios'
+import axios from 'axios'
 import phones from '@/assets/dummy/phones'
 import co from 'co'
 
@@ -12,7 +12,7 @@ const cart = {
     addToCartById(state, [phone_id, amount]) {
       const record = lodash.find(state.cart, {
         phone_id
-      })
+      });
       if (record) {
         record.amount += amount;
       } else {
@@ -25,7 +25,9 @@ const cart = {
     },
     removeFromCartById(state, phone_id) {
       const idx = lodash.findIndex(state.cart, {phone_id});
-      state.cart.splice(idx, 1);
+      if(~idx){
+        state.cart.splice(idx, 1);
+      }
     },
     changeAmountFromCartById(state, [phone_id, new_amount]) {
       const current = lodash.find(state.cart, {phone_id})
@@ -47,9 +49,11 @@ const cart = {
   },
   actions: {
     addToCartById({
-      commit
+      commit,
+      dispatch
     }, [phone_id, amount]) {
-      commit('addToCartById', [phone_id, amount])
+      commit('addToCartById', [phone_id, amount]);
+      dispatch('wishlist/removeFromWishlistById', phone_id, { root: true })
     },
     removeFromCartById({
       commit
@@ -88,11 +92,11 @@ const cart = {
       return await co(function * (){
           const prices = yield lodash.map(state.cart, ({phone_id, amount}) => {
           return axios.get('phone',{id: phone_id}).then(res=>res.data.price * amount)
-        })
+        });
           return lodash.sum(prices)
       })
     }
   }
-}
+};
 
 export default cart

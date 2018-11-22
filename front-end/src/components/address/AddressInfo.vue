@@ -1,39 +1,35 @@
 <template>
-    <div class="box">
-        <article class="media">
-            <div class="media-content">
-                <div class="content">
-                    <p><strong>{{address.username}}</strong></p>
-                    <ul>
-                        <li>{{address.address}}</li>
-                        <li>{{address.email}}</li>
-                    </ul>
-                    <div class="field is-grouped">
-                        <div class="control">
-                            <button 
-                                class="button is-text"
-                                @click="edit">Редактировать</button>
-                        </div>
-                    </div>
-                </div>
+  <div class="box">
+    <article class="media">
+      <div class="media-content">
+        <div class="content">
+          <p><strong>{{address.username}}</strong></p>
+          <ul>
+            <li>{{address.address}}</li>
+            <li>{{address.email}}</li>
+          </ul>
+          <div class="field is-grouped">
+            <div class="control">
+              <button
+                class="button is-text"
+                @click="$emit('edit')">Редактировать
+              </button>
             </div>
-        </article>
-    </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
 </template>
 
 <script>
-export default {
+  export default {
     props: ['address'],
-    methods: {
-        edit() {
-            this.$emit('edit', this.address.id)
-        }
-    }
-}
+  }
 </script>
 
 <style lang="scss" scoped>
-    .box{
-        margin-right: 1em
-    }
+  .box {
+    margin-right: 1em
+  }
 </style>

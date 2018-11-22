@@ -1,114 +1,120 @@
 <template>
-<!-- добавить слот для заголовка -->
-    <div class="form">
-        <slot name="title"></slot>
-        <div class="field">
-            <div class="control has-icons-right">
-                <input 
-                    class="input" 
-                    type="text" 
-                    placeholder="Имя адресата"
-                    v-model="address.username"
-                    v-validate="'required|min:8'" 
-                    name="min_field"
-                    :class="{'is-danger' : errors.has('min_field')}">
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-                <p
-                    class="help is-danger"
-                    v-if="errors.has('min_field')">
-                    Длина имени должна быть не менее 8 символов</p>
-            </div>
+  <div class="form">
+    <h4 class="title is-4" v-if="title">{{title}}</h4>
+    <form action="" v-if="address" @submit.prevent="saveAddress">
+      <div class="field">
+        <label class="label">Имя адресата:</label>
+        <div class="control has-icons-right">
+          <input
+            :class="{'is-danger' : errors.has('min_field')}"
+            class="input"
+            name="min_field"
+            placeholder="Имя адресата"
+            type="text"
+            v-model="address.username"
+            v-validate="'required|min:8'">
+          <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+          <p
+            class="help is-danger"
+            v-if="errors.has('min_field')">
+            Длина имени должна быть не менее 8 символов
+          </p>
         </div>
-        <div class="field">
-            <div class="control has-icons-right">
-                <input 
-                    class="input" 
-                    type="text" 
-                    placeholder="Адрес доставки"
-                    v-model="address.address"
-                    v-validate="'required'"
-                    name="address"
-                    :class="{'is-danger' : errors.has('address')}">
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-                <p
-                    class="help is-danger"
-                    v-if="errors.has('address')">
-                    Поле является обязательным</p>
-            </div>
+      </div>
+      <div class="field">
+        <label class="label">Адрес доставки:</label>
+        <div class="control has-icons-right">
+          <input
+            :class="{'is-danger' : errors.has('address')}"
+            class="input"
+            name="address"
+            placeholder="Адрес доставки"
+            type="text"
+            v-model="address.address"
+            v-validate="'required'">
+          <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+          <p
+            class="help is-danger"
+            v-if="errors.has('address')">
+            Поле является обязательным</p>
         </div>
-        <div class="field">
-            <div class="control has-icons-right">
-                <input 
-                    class="input" 
-                    type="email" 
-                    placeholder="Email"
-                    v-model="address.email"
-                    v-validate="'required|email'" 
-                    name="email_field"
-                    :class="{'is-danger' : errors.has('email_field')}">
-                <span class="icon is-small is-right">
-                    <i class="fas fa-exclamation-triangle"></i>
-                </span>
-                <p 
-                    class="help is-danger" 
-                    v-if="errors.has('email_field')">
-                    Неверный формат</p>
-            </div>
+      </div>
+      <div class="field">
+        <label class="label">Электронная почта:</label>
+        <div class="control has-icons-right">
+          <input
+            :class="{'is-danger' : errors.has('email_field')}"
+            class="input"
+            name="email_field"
+            placeholder="Email"
+            type="email"
+            v-model="address.email"
+            v-validate="'required|email'">
+          <span class="icon is-small is-right">
+          <i class="fas fa-exclamation-triangle"></i>
+        </span>
+          <p
+            class="help is-danger"
+            v-if="errors.has('email_field')">
+            Неверный формат</p>
         </div>
-        
-        
-        <div class="field is-grouped">
-            <div class="control">
-                <slot 
-                    name="submit" 
-                    :check-form="checkForm">
-                </slot>
-                <slot
-                    name="changeform"
-                    :change-form="changeForm">                
-                </slot>
-            </div>
+      </div>
+      <div class="field is-grouped">
+        <div class="control">
+          <input type="submit" class="button is-link" :disabled="errors.any()">
         </div>
-    </div>
+        <div class="control">
+          <button class="button is-text" @click="$emit('cancel')">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
-export default {
-    props: ['address'],
-    computed: {
-        new_address() {
-            //return Object.assign({}, this.address)
-            return this.address
+  export default {
+    props: {
+      address: {
+        type: Object,
+        default() {
+          return {
+            name: '',
+            address: '',
+            email: '',
+          }
         }
+      },
+      title: {
+        type: String,
+        default: ''
+      }
     },
     methods: {
-        checkForm() {
-            this.$validator.validateAll().then((result) => {
-                if (result) {
-                    this.$emit('send-form', this.form)
-                    this.$notify({
-                        message: "Заявка успешно отправлена",
-                        status: "info"
-                    });
-                }
-            });
-            this.$emit('send-form', this.form)
-        },
-        changeForm() {
-            console.log(this.new_address)
-            this.$emit('save-form', this.new_address)
-        }
-    }
-}
+      saveAddress() {
+        this.$validator.validateAll()
+          .then((is_valid)=> {
+            if(is_valid) {
+              this.$emit('save-form', this.address)
+            }
+          })
+          .catch((error)=> {
+            this.$notify({
+              message: error,
+              status: 'danger',
+            })
+          })
+      },
+    },
+  };
 </script>
 
 <style lang="scss" scoped>
-.form{
+  .form {
     max-width: 25em;
     margin: 0 auto;
-}
+  }
 </style>

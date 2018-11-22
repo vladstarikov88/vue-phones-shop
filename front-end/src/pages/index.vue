@@ -34,10 +34,6 @@
       :has-in-wish-list="hasInWishList(current_phone.id)"
       @add-to-cart="addToCart">
     </modal-add-to-cart>
-    <modal-confirm
-      v-if="modal_confirm_is_open">
-
-    </modal-confirm>
   </section>
 </main>
 </template>
@@ -45,7 +41,6 @@
 import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard';
 import ModalAddToCart from '@/components/modal/ModalAddToCart';
-import ModalConfirm from '@/components/modal/ModalConfirm';
 import FiltersBlock from '@/components/FiltersBlock';
 import Loader from '@/components/Loader';
 
@@ -57,7 +52,6 @@ export default {
       phones: [],
       current_phone: {},
       modal_is_open: false,
-      modal_confirm_is_open: false
     }
   },
   created() {
@@ -73,8 +67,8 @@ export default {
     FiltersBlock,
     PhoneCard,
     ModalAddToCart, 
-    ModalConfirm
   },
+
   computed: {
     ...mapState('wishlist', ['wishlist'])
   },

@@ -1,13 +1,13 @@
 <template>
   <transition name="fade">
-  <div class="modal is-active">
-    <div class="modal-background" @click.self="close"></div>
-    <div class="modal-content">
-      <div class="box">
-        <slot></slot>
+    <div class="modal is-active">
+      <div class="modal-background" @click.self="close"></div>
+      <div class="modal-content">
+        <div class="box">
+          <slot></slot>
+        </div>
       </div>
     </div>
-  </div>
   </transition>
 </template>
 
