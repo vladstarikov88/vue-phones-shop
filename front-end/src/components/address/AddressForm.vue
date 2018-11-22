@@ -68,7 +68,7 @@
           <input type="submit" class="button is-link" :disabled="errors.any()">
         </div>
         <div class="control">
-          <button class="button is-text" @click="$emit('cancel')">Cancel</button>
+          <button type="button" class="button is-text" @click="$emit('cancel')">Cancel</button>
         </div>
       </div>
     </form>
