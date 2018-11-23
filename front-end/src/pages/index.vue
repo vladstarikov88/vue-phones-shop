@@ -1,6 +1,7 @@
 <template>
 <main>
     <section class="section is-small">
+      {{phones_store}}
       <div class="container">
         <filters-block @set-filters="wrappedFetchData"></filters-block>
       </div>
@@ -43,6 +44,7 @@ import PhoneCard from '@/components/PhoneCard';
 import ModalAddToCart from '@/components/modal/ModalAddToCart';
 import FiltersBlock from '@/components/FiltersBlock';
 import Loader from '@/components/Loader';
+import {db} from '@/plugins/FirebasePlugin.js'
 
 
 export default {
@@ -55,15 +57,16 @@ export default {
     }
   },
   created() {
-    console.log(this.$db)
-
-
+    console.log(db)
     this.fetchData(); 
     this.debounceFetchData = this.lodash.debounce(this.fetchData, 1000);
     this.wrappedFetchData = this.lodash.wrap(this.debounceFetchData, (func, query) => {
       this.loading = true;
       func(query);
     })
+  },
+  firestore: {
+    phones_store: db.collection('phones-shop-3f3f7'),
   },
   components: {
     Loader,
@@ -116,3 +119,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 </style>
+
+
