@@ -55,6 +55,9 @@ export default {
     }
   },
   created() {
+    console.log(this.$db)
+
+
     this.fetchData(); 
     this.debounceFetchData = this.lodash.debounce(this.fetchData, 1000);
     this.wrappedFetchData = this.lodash.wrap(this.debounceFetchData, (func, query) => {
