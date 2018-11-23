@@ -1,7 +1,6 @@
 <template>
 <main>
     <section class="section is-small">
-      {{phones_store}}
       <div class="container">
         <filters-block @set-filters="wrappedFetchData"></filters-block>
       </div>
@@ -57,8 +56,7 @@ export default {
     }
   },
   created() {
-    console.log(db)
-    this.fetchData(); 
+    this.fetchData();
     this.debounceFetchData = this.lodash.debounce(this.fetchData, 1000);
     this.wrappedFetchData = this.lodash.wrap(this.debounceFetchData, (func, query) => {
       this.loading = true;
@@ -66,7 +64,7 @@ export default {
     })
   },
   firestore: {
-    phones_store: db.collection('phones-shop-3f3f7'),
+    phones: db.collection('phones'),
   },
   components: {
     Loader,
@@ -86,15 +84,15 @@ export default {
     ...mapActions('wishlist', ['toggleToWishlistById']),
     ...mapActions("cart", ["addToCartById"]),
     fetchData(query) {
-      this.loading = true;
-      this.axios
-        .get("/phones", {query})
-        .then((response) => {
-          this.phones = response.data.phones
-        })
-        .finally(()=>{
-          this.loading = false;
-        });
+      // this.loading = true;
+      // this.axios
+      //   .get("/phones", {query})
+      //   .then((response) => {
+      //     this.phones = response.data.phones
+      //   })
+      //   .finally(()=>{
+      //     this.loading = false;
+      //   });
     },
     openModal(phone) {
       this.modal_is_open = !this.modal_is_open

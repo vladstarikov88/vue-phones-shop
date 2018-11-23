@@ -8,7 +8,7 @@ import AsyncComputed from 'vue-async-computed'
 import vClickOutside from 'v-click-outside'
 import VeeValidate from 'vee-validate';
 import AxiosPlugin from './plugins/AxiosPlugin'
-import FirebasePlugin from './plugins/FirebasePlugin'
+import VueFire from 'vuefire'
 import Notifications from './plugins/Notifications'
 import ZoomableImage from  './plugins/ZoomableImage'
 import DynamicFromNow from './plugins/DynamicFromNow'
@@ -25,7 +25,7 @@ Vue.use(VeeValidate)
 Vue.use(AxiosPlugin, { 
   store
 })
-Vue.use(FirebasePlugin)
+Vue.use(VueFire)
 
 Vue.set(Vue.prototype, 'lodash', lodash)
 Vue.config.productionTip = false
