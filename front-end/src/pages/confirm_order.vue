@@ -1,6 +1,6 @@
 <template>
   <section class="section">
-    <div class="container check_purchases" v-if="selected_purchases.length">
+    <div class="container check_purchases" v-if="selected_purchases && selected_purchases.length">
       <h1 class="title">Проверьте выбранные для покупки товары</h1>
       <selected-purchases 
         :purchases="selected_purchases"
@@ -10,26 +10,29 @@
     </div>
     <div class="container">
       <h1 class="title">Оформить заказ</h1>
-      <div v-if="getAccessToken">
+      <template v-if="getAccessToken">
         <div class="content">
           <div class="box-container">
             <template v-if="addresses && addresses.length">
               <address-info
                 :address="address"
+                :is-selected="selected_address_id === address.id"
                 :key="address.id"
                 @edit="openEditorAddress(address.id)"
+                @select="selectAddress(address.id)"
                 v-for="address in addresses">
               </address-info>
             </template>
           </div>
         </div>
-      </div>
-      <div v-else>
+        <button @click="submitActiveAddress" class="button is-info" :disabled="!selected_address_id && selected_address_id!==0">Оформить заказ</button>
+      </template>
+      <template v-else>
         <address-form
-          @save-form="submit"
-          @cancel="$router.push('cart')">
+          @cancel="$router.push('cart')"
+          @save-form="submit">
         </address-form>
-      </div>
+      </template>
     </div>
     <modal-edit-address
       :address="current_address"
@@ -45,16 +48,17 @@
   import AddressInfo from "@/components/address/AddressInfo";
   import AddressForm from "@/components/address/AddressForm";
   import ModalEditAddress from "@/components/modal/ModalEditAddress.vue";
-  import {mapGetters, mapState, mapActions} from "vuex";
+  import {mapGetters, mapActions} from "vuex";
 
   export default {
     data() {
       return {
         modal_edit_form: false,
-        current_id: null,
         addresses: [],
         current_address: {},
-        phones: []
+        phones: [],
+        selected_address_id: null,
+
       };
     },
     mounted() {
@@ -68,45 +72,47 @@
     },
     computed: {
       ...mapGetters("user", ["getAccessToken"]),
-      ...mapState("cart", ["cart"]),
+      ...mapGetters("cart", ["getSelectedPhones"]),
+      total_price(){
+        return this.selected_purchases.reduce((sum, item) => sum+item.price*item.amount, 0);
+      }
+    },
+    asyncComputed: {
       selected_purchases() {
-        const raw_purchases = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
-          const phone = this.lodash.find(this.phones, {id: phone_id})
-          if(phone && selected) {
-            return {
+        return this.lodash.reduce(this.getSelectedPhones, (acc, {phone_id, amount}) => {
+          this.axios('/phone', {id: phone_id}).then(res => {
+            const phone = res.data;
+            acc.push({
               price: phone.price,
               name: phone.name,
               image_url: phone.image_url,
               id: phone_id,
               amount,
-              selected
-            }
-          }
-          return null
-        })
-        return this.lodash.filter(raw_purchases)
+            });
+          });
+
+          return acc
+        }, [])
       },
-      total_price(){
-        return this.selected_purchases.reduce((sum, item) => sum+item.price*item.amount, 0);
-      }
     },
     methods: {
       ...mapActions("cart", ["clearCart", "removeSelectedFromCart"]),
       submit(address){
-        const selected_items = this.cart.filter(item => item.selected === true)
-        const user_data = JSON.parse(
-          JSON.stringify({
-            address,
-            products: selected_items
+        const products = this.lodash.map(this.selected_purchases, 'id');
+        const data = {
+          products,
+          address
+        }
+        console.log(data)
+      },
+      submitActiveAddress() {
+        this.axios.get('address', {id: this.selected_address_id})
+          .then(res => {
+            this.submit(res.data)
           })
-        );
-        console.log(user_data)
-
-        const wait = new Promise( resolve =>  setTimeout( () => resolve({}), 2000) )
-        wait.then(() => {
-          this.removeSelectedFromCart()
-          this.$router.push('/')
-        })
+      },
+      selectAddress(id) {
+        this.selected_address_id = id
       },
       fetchAddress(id) {
         this.axios.get('address', {id})

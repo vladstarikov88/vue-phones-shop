@@ -12,7 +12,7 @@
             </td>
             <td>{{purchase.name}}</td>
             <td>{{purchase.amount}}</td>
-            <td>{{purchase.amount*purchase.price}}</td>
+            <td>{{purchase.amount * purchase.price}}</td>
         </tr>
     </table>
 </template>
