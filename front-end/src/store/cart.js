@@ -82,6 +82,9 @@ const cart = {
         amount
       }) => total_amount + amount, 0);
     },
+    getSelectedPhones(state) {
+      return lodash.filter(state.cart, {selected: true});
+    },
     getTotalPrice(state) {
         return lodash.reduce(state.cart, (sum, {amount, phone_id}) => { 
           const phone_price = lodash.find(phones, {id: phone_id}).price
