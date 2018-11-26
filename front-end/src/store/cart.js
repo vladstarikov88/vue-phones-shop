@@ -29,18 +29,22 @@ const cart = {
         state.cart.splice(idx, 1);
       }
     },
+    removeFromCartByIds(state, phone_ids) {
+      lodash.forEach(phone_ids, (phone_id) => {
+        const idx = lodash.findIndex(state.cart, {phone_id});
+        console.log(idx, phone_id, state.cart);
+        if(~idx){
+          state.cart.splice(idx, 1);
+        }
+      })
+
+    },
     changeAmountFromCartById(state, [phone_id, new_amount]) {
       const current = lodash.find(state.cart, {phone_id})
 
       if (current) {
         current.amount = new_amount
       }
-    },
-    clearCart(state) {
-      state.cart = [];
-    },
-    removeSelectedFromCart(state) {
-      state.cart = state.cart.filter(item => item.selected === false)
     },
     markPurchaseById(state, phone_id) {
       const current = lodash.find(state.cart, {phone_id})
@@ -68,8 +72,9 @@ const cart = {
     clearCart({commit}) {
       commit('clearCart')
     },
-    removeSelectedFromCart({commit}) {
-      commit('removeSelectedFromCart')
+    removeSelectedFromCart({commit, getters}) {
+      const indexes = lodash.map(getters.getSelectedPhones,'phone_id');
+      commit('removeFromCartByIds', indexes)
     },
     markPurchaseById({commit}, phone_id) {
       commit('markPurchaseById', phone_id)
@@ -84,12 +89,6 @@ const cart = {
     },
     getSelectedPhones(state) {
       return lodash.filter(state.cart, {selected: true});
-    },
-    getTotalPrice(state) {
-        return lodash.reduce(state.cart, (sum, {amount, phone_id}) => { 
-          const phone_price = lodash.find(phones, {id: phone_id}).price
-          return  sum + (phone_price * amount)
-        }, 0)
     },
     async promiseTotalPrice(state) {
       return await co(function * (){

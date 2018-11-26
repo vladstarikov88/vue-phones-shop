@@ -13,14 +13,14 @@
           <tr>
             <td>Кол-во</td>
             <td>
-              
-              <input 
-                type="number" 
-                class="input" 
-                v-validate="`between:1,${phone.quantity}`" 
+
+              <input
                 :class="{'is-danger' : errors.has('between_field')}"
+                class="input"
                 name="between_field"
-                v-model.number="current_amount">
+                type="number"
+                v-model.number="current_amount"
+                v-validate="`between:1,${phone.quantity}`">
             </td>
           </tr>
           <tr>
@@ -35,59 +35,67 @@
           </tr>
         </table>
         <p class="has-text-right">На складе: {{phone.quantity}} шт.</p>
-        <button 
-          class="button is-success" 
+        <button
+          :disabled="errors.has('between_field')"
           @click="addToCart()"
-          :disabled="errors.has('between_field')">Добавить</button>  
+          class="button is-success">Добавить
+        </button>
       </div>
     </div>
   </modal-window>
 
 </template>
 <script>
-import ModalWindow from "./ModalWindow";
-import { mapState } from "vuex";
-export default {
-  props: ["isOpen", "phone"],
-  data() {
-    return {
-      current_amount: 1,
-    };
-  },
-  components: {
-    ModalWindow
-  },
-  computed: {
-    ...mapState('wishlist', ['wishlist']),
-    total_price() {
-      return this.phone.price * (this.current_amount || 1);
-    }
-  },
-  needConfirmationMethods: {
-    
-  },
-  methods: {
-    addToCart() {
-      this.$emit('add-to-cart', this.phone.id, this.current_amount);
-      this.close();
+  import ModalWindow from "./ModalWindow";
+  import {mapState} from "vuex";
 
-      // если есть в списке желаний, то открывать модалку подтверждения
-      
+  export default {
+    props: ["isOpen", "phone"],
+    data() {
+      return {
+        current_amount: 1,
+      };
     },
-    close() {
-      this.$emit("close");
+    components: {
+      ModalWindow
+    },
+    computed: {
+      ...mapState('wishlist', ['wishlist']),
+      total_price() {
+        return this.phone.price * (this.current_amount || 1);
+      }
+    },
+    needConfirmationMethods: {},
+    methods: {
+      addToCart() {
+        const message = `${this.phone.name} находится в спикске желаний.
+        После добавления он будет удален из списка желаний.
+        Вы уверены что хотите продолжить?`;
+        this.$confirmPromise({
+          message,
+        }).then(() => {
+          this.$emit('add-to-cart', this.phone.id, this.current_amount);
+        }).finally(() => {
+          this.close();
+        })
+        // если есть в списке желаний, то открывать модалку подтверждения
+
+      },
+      close() {
+        this.$emit("close");
+      }
     }
-  }
-};
+  };
 
 </script>
 <style lang="scss" scoped>
-.table {
-  td {
-    vertical-align: middle !important;
-    &:nth-child(2) {
-      text-align: right;
+  .table {
+    td {
+      vertical-align: middle !important;
+
+      &:nth-child(2) {
+        text-align: right;
+      }
     }
   }
-}
 </style>
