@@ -50,7 +50,7 @@
   import {mapState} from "vuex";
 
   export default {
-    props: ["isOpen", "phone"],
+    props: ["isOpen", "phone", 'hasInWishList'],
     data() {
       return {
         current_amount: 1,
@@ -65,19 +65,10 @@
         return this.phone.price * (this.current_amount || 1);
       }
     },
-    needConfirmationMethods: {},
     methods: {
       addToCart() {
-        const message = `${this.phone.name} находится в спикске желаний.
-        После добавления он будет удален из списка желаний.
-        Вы уверены что хотите продолжить?`;
-        this.$confirmPromise({
-          message,
-        }).then(() => {
-          this.$emit('add-to-cart', this.phone.id, this.current_amount);
-        }).finally(() => {
-          this.close();
-        })
+        this.$emit('add-to-cart', this.phone.id, this.current_amount);
+        this.close();
         // если есть в списке желаний, то открывать модалку подтверждения
 
       },

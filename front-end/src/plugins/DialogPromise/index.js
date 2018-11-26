@@ -11,12 +11,11 @@ export default {
 }
 function confirmPromise ({message = 'Продолжить?', accept_label = 'Да', cancel_label = 'Нет'}) {
   return new Promise((resolve, reject) => {
-    console.log(reject)
     bus.$emit(
       'call-confirm-window',
       resolve,
       reject,
-      (typeof message === 'function') ? message.apply(this): message,
+      message,
       accept_label,
       cancel_label)
   })
@@ -25,7 +24,7 @@ function wrapperConfirmPromise ({handler, message, accept_label, cancel_label}) 
   return  async function(...args) {
     const funcWithContext = handler.bind(this);
     return await confirmPromise( {
-      message,
+      message: (typeof message === 'function') ? message.apply(this): message,
       accept_label,
       cancel_label
       })

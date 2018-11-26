@@ -76,6 +76,22 @@ export default {
     ...mapGetters('cart', ['promiseTotalPrice'])
   
   },
+  needConfirmationMethods: {
+    confirmAddToCart: {
+      message() {
+        return `${this.current_phone.name} находится в спикске желаний.
+        После добавления он будет удален из списка желаний.
+        Вы уверены что хотите продолжить?`;
+      },
+      handler(id, current_amount) {
+        this.addToCartById([id, current_amount]);
+        this.$notify({
+          message: "Товар был успешно добавлен в корзину.",
+          status: "info"
+        });
+      }
+    }
+  },
   methods: {
     ...mapActions('wishlist', ['toggleToWishlistById']),
     ...mapActions("cart", ["addToCartById"]),
@@ -102,11 +118,15 @@ export default {
       return !!this.lodash.find(this.wishlist, {phone_id})
     },
     addToCart(id, current_amount) {
-      this.addToCartById([id, current_amount]);
-      this.$notify({
-        message: "Товар был успешно добавлен в корзину.",
-        status: "info"
-      });
+      if(this.hasInWishList(id)) {
+        this.confirmAddToCart(id, current_amount)
+      } else {
+        this.addToCartById([id, current_amount]);
+        this.$notify({
+          message: "Товар был успешно добавлен в корзину.",
+          status: "info"
+        });
+      }
     }
   },
 };
