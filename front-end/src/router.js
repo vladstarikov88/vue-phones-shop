@@ -2,6 +2,7 @@ import VueRouter from 'vue-router'
 import index from '@/pages/index'
 import cart from '@/pages/cart'
 import wishlist from '@/pages/wishlist'
+import admin from '@/pages/admin'
 import confirm_order from '@/pages/confirm_order'
 import Vue from 'vue'
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/confirm_order',
     name: 'confirm_order',
     component: confirm_order, 
+  },
+  { 
+    path: '/admin',
+    name: 'admin',
+    component: admin, 
   }
 ]
 export default new VueRouter({
