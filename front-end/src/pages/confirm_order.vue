@@ -2,28 +2,29 @@
   <section class="section">
     <div class="container">
       <h1 class="title">Оформить заказ</h1>
-      <div v-if="getAccessToken">
+      <template v-if="getAccessToken">
         <div class="content">
           <div class="box-container">
             <template v-if="addresses && addresses.length">
               <address-info
-                @select="selectAddress(address.id)"
-                :is-selected="selected_address_id === address.id"
                 :address="address"
+                :is-selected="selected_address_id === address.id"
                 :key="address.id"
                 @edit="openEditorAddress(address.id)"
+                @select="selectAddress(address.id)"
                 v-for="address in addresses">
               </address-info>
             </template>
           </div>
         </div>
-      </div>
-      <div v-else>
+        <button @click="submitActiveAddress" class="button">Submit</button>
+      </template>
+      <template v-else>
         <address-form
-          @save-form="submit"
-          @cancel="$router.push('cart')">
+          @cancel="$router.push('cart')"
+          @save-form="submit">
         </address-form>
-      </div>
+      </template>
     </div>
     <modal-edit-address
       :address="current_address"
@@ -66,6 +67,12 @@
       ...mapActions("cart", ["clearCart"]),
       submit(address) {
         console.log(address)
+      },
+      submitActiveAddress() {
+        this.axios.get('address', {id: this.selected_address_id})
+          .then(res => {
+            this.submit(res.data)
+          })
       },
       selectAddress(id) {
         this.selected_address_id = id
