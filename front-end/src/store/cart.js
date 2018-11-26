@@ -85,12 +85,12 @@ const cart = {
     getSelectedPhones(state) {
       return lodash.filter(state.cart, {selected: true});
     },
-    getTotalPrice(state) {
-        return lodash.reduce(state.cart, (sum, {amount, phone_id}) => { 
-          const phone_price = lodash.find(phones, {id: phone_id}).price
-          return  sum + (phone_price * amount)
-        }, 0)
-    },
+    // getTotalPrice(state) {
+    //     return lodash.reduce(state.cart, (sum, {amount, phone_id}) => { 
+    //       const phone_price = lodash.find(phones, {id: phone_id}).price
+    //       return  sum + (phone_price * amount)
+    //     }, 0)
+    // },
     async promiseTotalPrice(state) {
       return await co(function * (){
           const prices = yield lodash.map(state.cart, ({phone_id, amount}) => {

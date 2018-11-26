@@ -82,17 +82,15 @@ export default {
   },
   methods: {
     addToFirestore() {
-      if(this.new_phone.name != null) {
-        db.collection('phones').add({
-          id: this.phones.length,
-          name: this.new_phone.name,
-          category_name: this.new_phone.category_name,
-          is_available: this.new_phone.is_available,
-          price: this.new_phone.price,
-          quantity: this.new_phone.quantity,
-        })
-        .then(doc => console.log(doc))
-      }
+      db.collection('phones').add({
+        id: this.phones.length,
+        name: this.new_phone.name,
+        category_name: this.new_phone.category_name,
+        is_available: this.new_phone.is_available,
+        price: this.new_phone.price,
+        quantity: this.new_phone.quantity,
+      })
+      .then(doc => console.log(doc))
     }
   }
 }

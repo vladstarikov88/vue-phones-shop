@@ -76,10 +76,6 @@ export default {
   computed: {
     ...mapState('wishlist', ['wishlist'])
   },
-  asyncComputed: {
-    ...mapGetters('cart', ['promiseTotalPrice'])
-  
-  },
   methods: {
     ...mapActions('wishlist', ['toggleToWishlistById']),
     ...mapActions("cart", ["addToCartById"]),

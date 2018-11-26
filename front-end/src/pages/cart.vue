@@ -17,27 +17,17 @@
 <script>
   import {mapState, mapGetters} from 'vuex'
   import TableCart from '@/components/TableCart'
-
+  import {db} from '@/plugins/FirebasePlugin.js'
   export default {
     name: 'cart',
     data() {
       return {
-        phones: []
+        phones: [],
+        purchases: []
       }
     },
     components: {
       TableCart
-    },
-    methods: {
-      fetchPhones() {
-        const promises = this.lodash.map(this.cart, ({phone_id}) =>
-          this.axios.get('/phone', {id: phone_id})
-            .then(({data}) => data)
-        );
-        Promise.all(promises).then(data => {
-          this.phones = data
-        })
-      }
     },
     computed: {
       ...mapState('cart', ['cart']),
@@ -46,31 +36,26 @@
         return this.getSelectedPhones.length
       },
     },
-    asyncComputed: {
-      purchases() {
-        return this.lodash.reduce(this.cart, (acc, {phone_id, amount, selected}) => {
-          this.axios('/phone', {id: phone_id}).then(res => {
-            const phone = res.data;
-            acc.push({
-              price: phone.price,
-              name: phone.name,
-              image_url: phone.image_url,
-              id: phone_id,
-              amount,
-              selected
-            });
-          });
-
-          return acc
-        }, [])
-      },
+    firestore: {
+      phones: db.collection('phones'),
     },
-    watch: {
-      cart: {
-        deep: true,
-        handler: 'fetchPhones',
-        immediate: true,
-      }
+    created() {
+      const cart_phones = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
+        db.collection("phones").get().then(querySnapshot => {
+          querySnapshot.forEach( doc => {
+            if(phone_id == doc.id) {
+              const phone = doc.data()
+              this.purchases.push( {
+                price: phone.price,
+                name: phone.name,
+                id: phone_id,
+                amount,
+                selected
+              })
+            }
+          });
+        });
+      })
     }
   }
 </script>

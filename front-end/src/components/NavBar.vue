@@ -68,7 +68,7 @@
         </div>
         <div class="navbar-item">
           <div class="counters">
-            <p class="is-marginless">Общая стоимость: {{promiseTotalPrice}} руб.</p>
+            <p class="is-marginless">Общая стоимость:  руб.</p>
             <p class="is-marginless">Общее кол-во телефонов: {{getTotalAmountPhones}} шт.</p>
           </div>
         </div>
@@ -105,7 +105,7 @@ export default {
     ...mapGetters('user', ['getAccessToken']),
   },
   asyncComputed: {
-    ...mapGetters('cart', ['promiseTotalPrice'])
+    // ...mapGetters('cart', ['promiseTotalPrice'])
   },
   methods: {
     ...mapActions('user', ['clearAccessToken']),
