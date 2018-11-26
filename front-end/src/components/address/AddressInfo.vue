@@ -1,5 +1,5 @@
 <template>
-  <div class="box">
+  <div class="box" @click="$emit('select')">
     <input type="radio" :checked="isSelected" @change="$emit('select')">
     <div class="content">
       <p><strong>{{address.username}}</strong></p>
@@ -10,7 +10,7 @@
       <div class="field is-grouped">
         <div class="control">
           <button
-            @click="$emit('edit')"
+            @click.stop="$emit('edit')"
             class="button is-text">Редактировать
           </button>
         </div>

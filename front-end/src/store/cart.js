@@ -19,6 +19,7 @@ const cart = {
         state.cart.push({
           phone_id,
           amount,
+          selected: true
         })
       }
     },
@@ -37,6 +38,13 @@ const cart = {
     },
     clearCart(state) {
       state.cart = [];
+    },
+    removeSelectedFromCart(state) {
+      state.cart = state.cart.filter(item => item.selected === false)
+    },
+    markPurchaseById(state, phone_id) {
+      const current = lodash.find(state.cart, {phone_id})
+      current.selected = !current.selected
     }
   },
   actions: {
@@ -59,6 +67,12 @@ const cart = {
     },
     clearCart({commit}) {
       commit('clearCart')
+    },
+    removeSelectedFromCart({commit}) {
+      commit('removeSelectedFromCart')
+    },
+    markPurchaseById({commit}, phone_id) {
+      commit('markPurchaseById', phone_id)
     }
   },
 

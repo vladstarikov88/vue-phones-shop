@@ -5,6 +5,7 @@
         "category_name": "IPhone",
         "price": 4700,
         "is_available": true,
+        "quantity": 124,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/24d/494_340_17f5c944b3b71591cc9304fac25365de2/24d79892bc0a55bfdedad6613ded418c.jpg"
     },
     {
@@ -13,6 +14,7 @@
         "price": 6000,
         "category_name": "IPhone",
         "is_available": true,
+        "quantity": 256,
         "image_url": "https://www.re-store.ru//upload/resize_cache/iblock/b1e/494_340_17f5c944b3b71591cc9304fac25365de2/b1e48c961e11c2f6665892e731c3b20e.jpg"
     },
     {
@@ -21,6 +23,7 @@
         "price": 9200,
         "category_name": "IPhone",
         "is_available": false,
+        "quantity": 987,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/1f6/494_340_17f5c944b3b71591cc9304fac25365de2/1f67cd1ef92dff77d5c07f93aae7df0a.jpg"
     },
     {
@@ -29,6 +32,7 @@
         "price": 11200,
         "category_name": "IPhone",
         "is_available": true,
+        "quantity": 321,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/b25/494_340_17f5c944b3b71591cc9304fac25365de2/b259cab411ecf1f284cac54334740969.jpg"
     },
     {
@@ -37,6 +41,7 @@
         "price": 15300,
         "category_name": "IPhone",
         "is_available": true,
+        "quantity": 94,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/fd2/494_340_17f5c944b3b71591cc9304fac25365de2/fd2d26cba7be32bada0199e9bac0e70c.jpg"
     },
     {
@@ -45,6 +50,7 @@
         "price": 18640,
         "category_name": "IPhone",
         "is_available": true,
+        "quantity": 267,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/35f/1120_770_17f5c944b3b71591cc9304fac25365de2/35f559b91d544cf6c9437eb4548dd1cc.jpg"
     },
     {
@@ -53,6 +59,7 @@
         "price": 21900,
         "category_name": "IPhone",
         "is_available": false,
+        "quantity": 95,
         "image_url": "https://www.re-store.ru/upload/resize_cache/iblock/80c/1120_770_17f5c944b3b71591cc9304fac25365de2/80c4f7d29cc8b7f128fb17b0fff13c13.jpg"
     },
     {
@@ -61,6 +68,7 @@
         "price": 27000,
         "category_name": "Нормальный телефон",
         "is_available": true,
+        "quantity": 78,
         "image_url": "https://cdnmedia.huawei.ru/ru/media/catalog/product/h/1/h10-blue-1.jpg"
     }
 ]

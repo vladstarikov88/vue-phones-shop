@@ -13,11 +13,11 @@
           <tr>
             <td>Кол-во</td>
             <td>
-              <!-- Добавить ограничение на кол-во товаров со склада. В dummy указать оставшееся вол-во товара -->
+              
               <input 
                 type="number" 
                 class="input" 
-                v-validate="'between:1,9999'" 
+                v-validate="`between:1,${phone.quantity}`" 
                 :class="{'is-danger' : errors.has('between_field')}"
                 name="between_field"
                 v-model.number="current_amount">
@@ -34,6 +34,7 @@
             <td v-else>-</td>
           </tr>
         </table>
+        <p class="has-text-right">На складе: {{phone.quantity}} шт.</p>
         <button 
           class="button is-success" 
           @click="addToCart()"
