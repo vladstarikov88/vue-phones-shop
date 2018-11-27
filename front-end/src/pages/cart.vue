@@ -23,11 +23,35 @@
     data() {
       return {
         phones: [],
-        // purchases: []
       }
     },
     components: {
       TableCart
+    },
+    asyncComputed: {
+      purchases() {
+        const phones_queries = this.lodash.map(this.cart, ({phone_id, amount, selected})=>{
+          return db.collection('phones')
+            .where('id','==', phone_id)
+            .get()
+            .then( snapshot => {
+              return this.lodash.map(snapshot.docs, (doc) => {
+                if(doc.exists) {
+                  const phone  = doc.data();
+                  return {
+                    price: phone.price,
+                    name: phone.name,
+                    image_url: phone.image_url,
+                    id: phone_id,
+                    amount,
+                    selected,
+                  }
+                }
+              });
+            });
+        });
+        return Promise.all(phones_queries).then(this.lodash.flatten);
+      }
     },
     computed: {
       ...mapState('cart', ['cart']),
@@ -35,37 +59,6 @@
       has_selected_purchases() {
         return this.getSelectedPhones.length
       },
-      purchases() {
-        const cart_phones =  this.lodash.reduce(this.cart, (acc, {phone_id, amount, selected}) => {
-          db.collection("phones").get().then(querySnapshot => {
-            querySnapshot.forEach(doc => {
-              if(phone_id == doc.id) {
-                const phone = doc.data()
-                acc.push( {
-                  price: phone.price,
-                  name: phone.name,
-                  id: phone_id,
-                  amount,
-                  selected
-                })
-              }
-            })
-          })
-          return acc
-        }, [])
-        console.log(cart_phones)
-        return cart_phones
-      }
     },
-    firestore: {
-      phones: db.collection('phones'),
-    },
-    watch: {
-      firestore: {
-        deep: true,
-        handler: 'purchases',
-        immediate: true,
-      }
-    }
   }
 </script>

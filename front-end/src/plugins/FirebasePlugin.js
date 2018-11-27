@@ -1,5 +1,6 @@
 
 import firebase from 'firebase'
+import "firebase/firestore"
 firebase.initializeApp({
   apiKey: 'AIzaSyAB_R9ePyK-9CKHLxk4Avhf6tVdQ42Rk5o',
   projectId: 'phones-shop-3f3f7',
