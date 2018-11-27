@@ -39,6 +39,7 @@ import moment from '@/plugins/moment'
 import {mapState} from 'vuex'
 import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'
+import {db} from '@/plugins/FirebasePlugin.js'
 export default {
     name: 'wishlist',
     data() {
@@ -74,13 +75,23 @@ export default {
     },
     methods: {
         fetchPhones() {
-            const promises = this.lodash.map(this.wishlist, ({phone_id}) =>
-                this.axios.get('/phone', {id: phone_id})
-                .then(({data}) => data)
-            );
-            Promise.all(promises).then( data => {
-                this.phones = data
+            const promises = this.lodash.map(this.wishlist, ({phone_id}) => {
+                return db.collection('phones')
+                .doc(phone_id)
+                .get()
+                .then(doc => {
+                    if(doc.exists){
+                        const phone = doc.data()
+                        return {
+                            id: phone_id,
+                            name: phone.name,
+                            price: phone.price,
+                            quantity: phone.quantity
+                        }
+                    }
+                })
             })
+            Promise.all(promises).then(data => this.phones = data)
         },
         openModal(wish) {
             this.modal_is_open = true;
