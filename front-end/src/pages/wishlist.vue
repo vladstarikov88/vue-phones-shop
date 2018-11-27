@@ -1,7 +1,7 @@
 <template>
     
     <section class="section">
-        <div class="container">
+        <div class="container" v-show="!loading">
             <div v-if="wishes && wishes.length">
                 <table class="table is-fullwidth">
                     <thead>
@@ -31,6 +31,7 @@
                 :phone="current_wish">
             </modal-add-to-cart>
         </div>
+        <loader v-show="loading"></loader>
     </section>
  
 </template>
@@ -40,18 +41,21 @@ import {mapState} from 'vuex'
 import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'
 import {db} from '@/plugins/FirebasePlugin.js'
+import Loader from '@/components/Loader';
 export default {
     name: 'wishlist',
     data() {
         return {
             phones: [],
             modal_is_open: false,
-            current_wish: {}
+            current_wish: {},
+            loading: false
         }
     },
     components: {
         TableWishlistRow,
-        ModalAddToCart
+        ModalAddToCart,
+        Loader
     },
     computed: {
         ...mapState('wishlist', ['wishlist']),
@@ -76,6 +80,7 @@ export default {
     methods: {
         fetchPhones() {
             const promises = this.lodash.map(this.wishlist, ({phone_id}) => {
+                this.loading = true
                 return db.collection('phones')
                 .doc(phone_id)
                 .get()
@@ -91,7 +96,9 @@ export default {
                     }
                 })
             })
-            Promise.all(promises).then(data => this.phones = data)
+            Promise.all(promises)
+            .then(data => this.phones = data)
+            .finally(() => this.loading = false)
         },
         openModal(wish) {
             this.modal_is_open = true;
@@ -104,7 +111,11 @@ export default {
     watch: {
         wishlist: {
             deep: true,
-            handler: 'fetchPhones',
+            handler(new_val, old_val) {
+                if (new_val != old_val) {
+                    this.fetchPhones()
+                }
+            },
             immediate: true,
         }
     }
