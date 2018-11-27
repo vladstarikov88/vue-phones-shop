@@ -1,14 +1,15 @@
 <template>
 
   <section class="section">
-    <div class="container">
-      <div v-if="purchases && purchases.length">
+    <div class="container" >
+      <div v-show="!loading" v-if="purchases && purchases.length">
         <table-cart :purchases="purchases"></table-cart>
         <router-link :disabled="!has_selected_purchases" class="button" tag="button" to="/confirm_order">
           Перейти к оформлению покупки
         </router-link>
       </div>
-      <p class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
+      <p v-show="!loading" class="title is-5" v-else>В корзину пока ни чего не добавленно</p>
+      <loader v-show="loading"></loader>
     </div>
   </section>
 
@@ -18,18 +19,23 @@
   import {mapState, mapGetters} from 'vuex'
   import TableCart from '@/components/TableCart'
   import {db} from '@/plugins/FirebasePlugin.js'
+  import Loader from '@/components/Loader';
   export default {
     name: 'cart',
+
     data() {
       return {
         phones: [],
+        loading: false,
       }
     },
     components: {
+      Loader,
       TableCart
     },
     asyncComputed: {
       purchases() {
+        this.loading = true;
         const phones_queries = this.lodash.map(this.cart, ({phone_id, amount, selected})=>{
           return db.collection('phones')
             .where('id','==', phone_id)
@@ -50,7 +56,9 @@
               });
             });
         });
-        return Promise.all(phones_queries).then(this.lodash.flatten);
+        return Promise.all(phones_queries).then(this.lodash.flatten).finally(()=>{
+          this.loading = false;
+        });
       }
     },
     computed: {
