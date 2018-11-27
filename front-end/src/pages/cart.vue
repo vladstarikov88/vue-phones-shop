@@ -23,7 +23,7 @@
     data() {
       return {
         phones: [],
-        purchases: []
+        // purchases: []
       }
     },
     components: {
@@ -35,27 +35,37 @@
       has_selected_purchases() {
         return this.getSelectedPhones.length
       },
+      purchases() {
+        const cart_phones =  this.lodash.reduce(this.cart, (acc, {phone_id, amount, selected}) => {
+          db.collection("phones").get().then(querySnapshot => {
+            querySnapshot.forEach(doc => {
+              if(phone_id == doc.id) {
+                const phone = doc.data()
+                acc.push( {
+                  price: phone.price,
+                  name: phone.name,
+                  id: phone_id,
+                  amount,
+                  selected
+                })
+              }
+            })
+          })
+          return acc
+        }, [])
+        console.log(cart_phones)
+        return cart_phones
+      }
     },
     firestore: {
       phones: db.collection('phones'),
     },
-    created() {
-      const cart_phones = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
-        db.collection("phones").get().then(querySnapshot => {
-          querySnapshot.forEach( doc => {
-            if(phone_id == doc.id) {
-              const phone = doc.data()
-              this.purchases.push( {
-                price: phone.price,
-                name: phone.name,
-                id: phone_id,
-                amount,
-                selected
-              })
-            }
-          });
-        });
-      })
+    watch: {
+      firestore: {
+        deep: true,
+        handler: 'purchases',
+        immediate: true,
+      }
     }
   }
 </script>
