@@ -2,8 +2,8 @@
   <div class="card">
     <div class="card-image">
       <figure class="image is-4by3">
-        <img :src="src" alt="" v-zoomable-image="{
-          src,
+        <img :src="image_url" alt="" v-zoomable-image="{
+          src: image_url,
           alt: phone.name,
         }">
       </figure>
@@ -34,19 +34,45 @@
 
 <script>
 import { mapActions } from "vuex";
+import {storage} from '@/plugins/FirebasePlugin.js'
 export default {
   name: "PhoneCard",
   props: ["phone", "hasInWishList"],
-  methods: {
-    ...mapActions("wishlist", ["addToWishlistById", "toggleToWishlistById"])
-  },
-  computed: {
-    src() {
-      return this.phone.image_url
-        ? this.phone.image_url
-        : "https://via.placeholder.com/150";
+  data() {
+    return {
+      image_url: null
     }
-  }
+  },
+  // computed: {
+  //   src() {
+  //     if(this.phone.img) {
+  //       storage.ref().child(this.phone.img).getDownloadURL()
+  //       .then(url => this.image_url = url)
+  //     } else {
+  //       return "https://via.placeholder.com/150";
+  //     }
+  //   }
+  // },
+  watch: {
+    phone: {
+      deep: true,
+      handler() {
+          this.fetchImg()
+      },
+      immediate: true,
+    }
+  },
+  methods: {
+    ...mapActions("wishlist", ["addToWishlistById", "toggleToWishlistById"]),
+    fetchImg() {
+      if(this.phone.img) {
+        storage.ref().child(this.phone.img).getDownloadURL()
+        .then(url => this.image_url = url)
+      } else {
+        return "https://via.placeholder.com/150";
+      }
+    }
+  },
 };
 </script>
 
