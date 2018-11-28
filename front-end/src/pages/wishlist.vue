@@ -77,6 +77,17 @@ export default {
         return this.lodash.filter(raw_wishes)
         }
     },
+    watch: {
+        wishlist: {
+            deep: true,
+            handler(new_val, old_val) {
+                if (new_val != old_val) {
+                    this.fetchPhones()
+                }
+            },
+            immediate: true,
+        }
+    },
     methods: {
         fetchPhones() {
             const promises = this.lodash.map(this.wishlist, ({phone_id}) => {
@@ -108,16 +119,5 @@ export default {
             this.modal_is_open = false
         }
     },
-    watch: {
-        wishlist: {
-            deep: true,
-            handler(new_val, old_val) {
-                if (new_val != old_val) {
-                    this.fetchPhones()
-                }
-            },
-            immediate: true,
-        }
-    }
 }
 </script>
