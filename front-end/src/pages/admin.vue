@@ -45,6 +45,20 @@
           <input class="input" v-model.number="new_phone.quantity">
         </div>
       </div>
+      
+      <div class="file">
+        <label class="file-label">
+          <input class="file-input" type="file" name="resume" @change="uploadImgToFilestore">
+          <span class="file-cta">
+            <span class="file-icon">
+              <i class="fas fa-upload"></i>
+            </span>
+            <span class="file-label">
+              Выберите файл
+            </span>
+          </span>
+        </label>
+      </div>
 
       <div class="field is-grouped">
         <div class="control">
@@ -53,26 +67,26 @@
         <div class="control">
           <button class="button is-text">Очистить</button>
         </div>
+        <div class="control">
+          <button class="button is-danger" @click="checkImg">Изображение</button>
+        </div>
       </div>
-    </div>
-    <div class="container">
-      {{phones}}
     </div>
   </section>
 </template>
 
 <script>
-import {db} from '@/plugins/FirebasePlugin.js'
+import {db, storage} from '@/plugins/FirebasePlugin.js'
 export default {
   data() {
     return {
       new_phone: {
-        id: null,
         name: null,
         category_name: null,
         is_available: null,
         price: null,
-        quantity: null
+        quantity: null,
+        img: null
       },
       phones: []
     }
@@ -81,16 +95,29 @@ export default {
     phones: db.collection('phones'),
   },
   methods: {
+    uploadImgToFilestore(e) {
+      this.new_phone.img = e.target.files[0];
+      console.log('Изображение добавлено в data')
+    },
+    checkImg(){
+      console.log(this.new_phone.img)
+    },
     addToFirestore() {
-      db.collection('phones').add({
-        id: this.phones.length,
-        name: this.new_phone.name,
-        category_name: this.new_phone.category_name,
-        is_available: this.new_phone.is_available,
-        price: this.new_phone.price,
-        quantity: this.new_phone.quantity,
-      })
-      .then(doc => console.log(doc))
+      const image = this.new_phone.img
+      storage.ref(image.name)
+        .put(image)
+        .then(img => {
+          return db.collection('phones').add({
+            name: this.new_phone.name,
+            category_name: this.new_phone.category_name,
+            is_available: this.new_phone.is_available,
+            price: this.new_phone.price,
+            quantity: this.new_phone.quantity,
+            img: image.name
+          })
+        })
+        .then(doc => console.log(doc))
+        .catch(e => console.log(e))
     }
   }
 }
@@ -99,6 +126,9 @@ export default {
 <style lang="scss" scoped>
   .form {
     max-width: 25em;
-    margin: 0 auto;
+    margin: 0 auto 1em;
+    .file{
+      margin-bottom: 1em;
+    }
   }
 </style>
