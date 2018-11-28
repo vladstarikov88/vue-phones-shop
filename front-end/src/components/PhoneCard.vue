@@ -12,8 +12,7 @@
       <p class="title is-4 is-center">{{phone.name}}</p>
       <p class="title is-4 is-center">{{phone.price}} руб.</p>
       <p class="title is-6" v-if="phone.is_available">
-        <span>есть в наличии</span>
-        <span>({{phone.quantity}})</span>
+        На складе: {{phone.quantity}} шт.
       </p>
       <p class="title is-6" v-else>
         нет в наличии
@@ -40,36 +39,27 @@ export default {
   props: ["phone", "hasInWishList"],
   data() {
     return {
-      image_url: null
+      image_url: "https://via.placeholder.com/150"
     }
   },
-  // computed: {
-  //   src() {
-  //     if(this.phone.img) {
-  //       storage.ref().child(this.phone.img).getDownloadURL()
-  //       .then(url => this.image_url = url)
-  //     } else {
-  //       return "https://via.placeholder.com/150";
-  //     }
-  //   }
-  // },
   watch: {
     phone: {
       deep: true,
-      handler() {
-          this.fetchImg()
-      },
+      handler: 'fetchImg',
       immediate: true,
     }
   },
   methods: {
     ...mapActions("wishlist", ["addToWishlistById", "toggleToWishlistById"]),
     fetchImg() {
+      //вынетси в родитель
+      //вынести получается, но изменения не сохраняются
       if(this.phone.img) {
         storage.ref().child(this.phone.img).getDownloadURL()
-        .then(url => this.image_url = url)
-      } else {
-        return "https://via.placeholder.com/150";
+        .then(url => {
+          this.image_url = url
+          this.phone.image_url = url
+        })
       }
     }
   },

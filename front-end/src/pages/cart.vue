@@ -106,6 +106,7 @@
               const phone = doc.data()
               return {
                 id: phone_id,
+                image_url: phone.image_url,
                 name: phone.name,
                 price: phone.price,
                 quantity: phone.quantity,

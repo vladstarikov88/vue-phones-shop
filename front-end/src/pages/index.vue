@@ -43,7 +43,7 @@ import PhoneCard from '@/components/PhoneCard';
 import ModalAddToCart from '@/components/modal/ModalAddToCart';
 import FiltersBlock from '@/components/FiltersBlock';
 import Loader from '@/components/Loader';
-import {db} from '@/plugins/FirebasePlugin.js'
+import {db, storage} from '@/plugins/FirebasePlugin.js'
 
 
 export default {
@@ -107,7 +107,7 @@ export default {
         message: "Товар был успешно добавлен в корзину.",
         status: "info"
       });
-    }
+    },
   },
 };
 </script>

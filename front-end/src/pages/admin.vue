@@ -87,12 +87,8 @@ export default {
         price: null,
         quantity: null,
         img: null
-      },
-      phones: []
+      }
     }
-  },
-  firestore: {
-    phones: db.collection('phones'),
   },
   methods: {
     uploadImgToFilestore(e) {
