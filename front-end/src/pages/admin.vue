@@ -67,9 +67,6 @@
         <div class="control">
           <button class="button is-text">Очистить</button>
         </div>
-        <div class="control">
-          <button class="button is-danger" @click="checkImg">Изображение</button>
-        </div>
       </div>
     </div>
   </section>
@@ -93,10 +90,8 @@ export default {
   methods: {
     uploadImgToFilestore(e) {
       this.new_phone.img = e.target.files[0];
-      console.log('Изображение добавлено в data')
-    },
-    checkImg(){
       console.log(this.new_phone.img)
+      console.log('Изображение добавлено в data')
     },
     addToFirestore() {
       const image = this.new_phone.img
@@ -113,29 +108,12 @@ export default {
             image_url
           })
         })          // отправляем всю инфу о телефоне вместе со ссылкой на фото
+        .then(doc => {
+          for (let item in this.new_phone) delete this.new_phone[item]
+          return doc
+        })
         .then(doc => console.log(doc))
         .catch(e => console.log(e))
-
-
-
-        // .then(img => {
-        //   return db.collection('phones').add({
-        //     name: this.new_phone.name,
-        //     category_name: this.new_phone.category_name,
-        //     is_available: this.new_phone.is_available,
-        //     price: this.new_phone.price,
-        //     quantity: this.new_phone.quantity,
-        //     img: image.name
-        //   })
-        // })
-        // .then(doc => console.log(doc))
-        // .catch(e => console.log(e))
-
-        // storage.ref().child(this.phone.img).getDownloadURL()
-        // .then(url => {
-        //   this.image_url = url
-        //   this.phone.image_url = url
-        // })
     }
   }
 }

@@ -7,6 +7,7 @@
     </section>
    <section class="section is-small">
      <div class="container">
+       {{loading}}
       <transition name="fade">
         <div v-show="!loading" class="columns is-multiline">
           <template v-if="phones && phones.length" v-for="phone in phones">
@@ -19,9 +20,9 @@
               </phone-card>
             </div>
           </template>
-          <template v-if="!phones.length">
+          <!-- <template v-if="!phones.length">
             <h1 class="title">По вашему запросу ничего не найдено</h1>
-          </template>
+          </template> -->
         </div>
       </transition>
       <loader v-show="loading"></loader>
@@ -55,17 +56,6 @@ export default {
       modal_is_open: false,
     }
   },
-  created() {
-    this.fetchData();
-    this.debounceFetchData = this.lodash.debounce(this.fetchData, 1000);
-    this.wrappedFetchData = this.lodash.wrap(this.debounceFetchData, (func, query) => {
-      this.loading = true;
-      func(query);
-    })
-  },
-  firestore: {
-    phones: db.collection('phones'),
-  },
   components: {
     Loader,
     FiltersBlock,
@@ -76,6 +66,7 @@ export default {
   computed: {
     ...mapState('wishlist', ['wishlist'])
   },
+  
   methods: {
     ...mapActions('wishlist', ['toggleToWishlistById']),
     ...mapActions("cart", ["addToCartById"]),
@@ -108,6 +99,24 @@ export default {
         status: "info"
       });
     },
+  },
+  created() {
+    this.debounceFetchData = this.lodash.debounce(this.fetchData, 1000);
+    this.wrappedFetchData = this.lodash.wrap(this.debounceFetchData, (func, query) => {
+      this.loading = true;
+      func(query);
+    })
+
+    db.collection("phones").get()
+    .then( snapshot => {
+      this.loading = true
+      console.log(this.loading)
+      snapshot.forEach(doc => this.phones.push(doc.data()))
+    })
+    .finally(() => {
+      this.loading = false
+      console.log(this.loading)
+    })
   },
 };
 </script>
