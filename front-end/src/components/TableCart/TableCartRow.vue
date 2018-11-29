@@ -4,7 +4,7 @@
     :class="{active : is_editing}"
     v-click-outside="resetChanges">
     <td>
-      <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
+      <figure class="image is-75x75"><img :src="purchase.image_url" alt=""></figure>
     </td>
     <td>{{purchase.name}}</td>
     <editable-cell 

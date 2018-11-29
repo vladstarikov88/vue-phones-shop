@@ -1,42 +1,42 @@
 <template>
   <transition name="fade">
-  <div class="popup box">
-    <table v-if="products && products.length" class="table is-fullwidth">
-      <thead>
-      <tr>
-        <th>Миниатюра</th>
-        <th class="pre">Модель</th>
-        <th class="pre">Цена</th>
-        <th class="pre">Дата добавления</th>
-        <th>Убрать</th>
-      </tr>
-      </thead>
-      <tbody>
-      <template v-for="product in products">
-        <tr :key="product.id">
-          <td>
-            <figure class="image is-64x64"><img :src="product.image_url" alt=""></figure>
-          </td>
-          <td>{{product.name}}</td>
-          <td>{{product.price}} руб.</td>
-          <td><dynamic-from-now :date="product.date"></dynamic-from-now></td>
-          <td class="is-center">
-            <a class="button is-danger" @click="removeFromWishlistById(product.id)">
-            <span class="icon is-small">
-                <i class="fas fa-trash"></i>
-            </span>
-            </a>
-          </td>
+    <div class="popup box">
+      <table v-if="products && products.length" class="table is-fullwidth">
+        <thead>
+        <tr>
+          <th>Миниатюра</th>
+          <th>Модель</th>
+          <th>Цена</th>
+          <th class="pre">Дата добавления</th>
+          <th>Убрать</th>
         </tr>
-      </template>
-      </tbody>
-    </table>
-    <loader-circle v-if="loading"></loader-circle>
-    <p class="title is-5" 
-      v-if="!products && !loading">
-      Список желаний пуст
-    </p>
-  </div>
+        </thead>
+        <tbody>
+        <template v-for="product in products">
+          <tr :key="product.id">
+            <td>
+              <figure class="image is-75x75"><img :src="product.image_url" alt=""></figure>
+            </td>
+            <td>{{product.name}}</td>
+            <td>{{product.price}} руб.</td>
+            <td><dynamic-from-now :date="product.date"></dynamic-from-now></td>
+            <td class="is-center">
+              <a class="button is-danger" @click="removeFromWishlistById(product.id)">
+              <span class="icon is-small">
+                  <i class="fas fa-trash"></i>
+              </span>
+              </a>
+            </td>
+          </tr>
+        </template>
+        </tbody>
+      </table>
+      <loader-circle v-if="loading"></loader-circle>
+      <p class="title is-5" 
+        v-if="!products && !loading">
+        Список желаний пуст
+      </p>
+    </div>
   </transition>
 </template>
 <script>
@@ -109,6 +109,3 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
-
-</style>

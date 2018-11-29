@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      <figure class="image is-64x64"><img :src="wish.image_url" alt=""></figure>
+      <figure class="image is-75x75"><img :src="wish.image_url" alt=""></figure>
     </td>
     <td>{{wish.name}}</td>
     <td>{{wish.price}} руб.</td>
@@ -48,6 +48,3 @@
     }
   };
 </script>
-
-<style>
-</style>

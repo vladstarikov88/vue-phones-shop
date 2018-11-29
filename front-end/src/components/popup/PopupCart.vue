@@ -15,7 +15,7 @@
         <template v-for="purchase in purchases">
           <tr :key="purchase.id">
             <td>
-              <figure class="image is-64x64"><img :src="purchase.image_url" alt=""></figure>
+              <figure class="image is-75x75"><img :src="purchase.image_url" alt=""></figure>
             </td>
             <td>{{purchase.name}}</td>
             <td>x {{purchase.amount}} шт.</td>
@@ -119,17 +119,3 @@ export default  {
   },
 }
 </script>
-
-<style scoped lang="scss">
-.table { 
-  th, td{
-    text-align: center;
-  }
-  tr td {
-    vertical-align: middle!important;
-    img {
-      max-height: unset;
-    }
-  }
-}
-</style>

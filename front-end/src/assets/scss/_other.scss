@@ -7,8 +7,9 @@
 img {
     object-fit: contain;
 }
-.button{
-    &:hover{
-        //
-    }
+.is-75x75 {
+    width: 75px;
+}
+.pre {
+    white-space: pre;
 }
