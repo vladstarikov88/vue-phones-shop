@@ -83,6 +83,9 @@
     //     return Promise.all(phones_queries)
     //   }
     // },
+
+
+
     watch: {
       cart: {
         deep: true,
@@ -102,7 +105,7 @@
           .doc(phone_id)
           .get()
           .then(doc => {
-            if(doc.exists){
+            if(doc.exists) {
               const phone = doc.data()
               return {
                 id: phone_id,

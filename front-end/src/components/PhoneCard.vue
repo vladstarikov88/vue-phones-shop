@@ -2,8 +2,8 @@
   <div class="card">
     <div class="card-image">
       <figure class="image is-4by3">
-        <img :src="image_url" alt="" v-zoomable-image="{
-          src: image_url,
+        <img :src="phone.image_url" alt="" v-zoomable-image="{
+          src: phone.image_url,
           alt: phone.name,
         }">
       </figure>
@@ -37,32 +37,12 @@ import {storage} from '@/plugins/FirebasePlugin.js'
 export default {
   name: "PhoneCard",
   props: ["phone", "hasInWishList"],
-  data() {
-    return {
-      image_url: "https://via.placeholder.com/150"
-    }
-  },
-  watch: {
-    phone: {
-      deep: true,
-      handler: 'fetchImg',
-      immediate: true,
-    }
-  },
   methods: {
     ...mapActions("wishlist", ["addToWishlistById", "toggleToWishlistById"]),
-    fetchImg() {
-      //вынетси в родитель
-      //вынести получается, но изменения не сохраняются
-      if(this.phone.img) {
-        storage.ref().child(this.phone.img).getDownloadURL()
-        .then(url => {
-          this.image_url = url
-          this.phone.image_url = url
-        })
-      }
-    }
   },
+  created() {
+    if(!this.phone.image_url) return this.phone.image_url = "https://via.placeholder.com/150"
+  }
 };
 </script>
 

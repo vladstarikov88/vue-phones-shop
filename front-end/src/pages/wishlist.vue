@@ -105,7 +105,8 @@ export default {
                 id: phone_id,
                 name: phone.name,
                 price: phone.price,
-                quantity: phone.quantity
+                quantity: phone.quantity,
+                image_url: phone.image_url
               }
             }
           })

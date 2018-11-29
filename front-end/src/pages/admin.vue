@@ -101,19 +101,41 @@ export default {
     addToFirestore() {
       const image = this.new_phone.img
       storage.ref(image.name)
-        .put(image)
-        .then(img => {
+        .put(image)         // отправляем на сервак изображение
+        .then(img =>  storage.ref().child(img.ref.name).getDownloadURL() )        // получаем урл
+        .then(image_url => {
           return db.collection('phones').add({
             name: this.new_phone.name,
             category_name: this.new_phone.category_name,
             is_available: this.new_phone.is_available,
             price: this.new_phone.price,
             quantity: this.new_phone.quantity,
-            img: image.name
+            image_url
           })
-        })
+        })          // отправляем всю инфу о телефоне вместе со ссылкой на фото
         .then(doc => console.log(doc))
         .catch(e => console.log(e))
+
+
+
+        // .then(img => {
+        //   return db.collection('phones').add({
+        //     name: this.new_phone.name,
+        //     category_name: this.new_phone.category_name,
+        //     is_available: this.new_phone.is_available,
+        //     price: this.new_phone.price,
+        //     quantity: this.new_phone.quantity,
+        //     img: image.name
+        //   })
+        // })
+        // .then(doc => console.log(doc))
+        // .catch(e => console.log(e))
+
+        // storage.ref().child(this.phone.img).getDownloadURL()
+        // .then(url => {
+        //   this.image_url = url
+        //   this.phone.image_url = url
+        // })
     }
   }
 }
