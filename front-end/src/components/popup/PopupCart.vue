@@ -32,9 +32,10 @@
         </tbody>
       </table>
       <loader-circle v-if="loading"></loader-circle>
-      <p 
-        v-if="!purchases.length && !loading"
-        class="title is-5">Корзина пуста</p>
+      <p class="title is-5"
+        v-if="!purchases.length && !loading">
+         Корзина пуста
+      </p>
     </div>
   </transition>
 </template>
