@@ -32,7 +32,7 @@
               @add-to-cart="addToCart">
             </modal-add-to-cart>
         </div>
-        <loader v-show="loading"></loader>
+        <loader-man v-show="loading"></loader-man>
     </section>
  
 </template>
@@ -42,7 +42,7 @@ import {mapState, mapActions} from 'vuex'
 import TableWishlistRow from '@/components/TableWishlistRow'
 import ModalAddToCart from '@/components/modal/ModalAddToCart'
 import {db} from '@/plugins/FirebasePlugin.js'
-import Loader from '@/components/Loader';
+import LoaderMan from '@/components/loader/LoaderMan';
 export default {
     name: 'wishlist',
     data() {
@@ -56,7 +56,7 @@ export default {
     components: {
       TableWishlistRow,
       ModalAddToCart,
-      Loader
+      LoaderMan
     },
     computed: {
       ...mapState('wishlist', ['wishlist']),

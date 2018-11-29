@@ -7,7 +7,6 @@
     </section>
    <section class="section is-small">
      <div class="container">
-       {{loading}}
       <transition name="fade">
         <div v-show="!loading" class="columns is-multiline">
           <template v-if="phones && phones.length" v-for="phone in phones">
@@ -25,7 +24,7 @@
           </template> -->
         </div>
       </transition>
-      <loader v-show="loading"></loader>
+      <loader-man v-show="loading"></loader-man>
     </div>
     <modal-add-to-cart
       v-if="modal_is_open"
@@ -43,7 +42,7 @@ import { mapActions, mapState, mapGetters } from 'vuex';
 import PhoneCard from '@/components/PhoneCard';
 import ModalAddToCart from '@/components/modal/ModalAddToCart';
 import FiltersBlock from '@/components/FiltersBlock';
-import Loader from '@/components/Loader';
+import LoaderMan from '@/components/loader/LoaderMan';
 import {db, storage} from '@/plugins/FirebasePlugin.js'
 
 
@@ -57,7 +56,7 @@ export default {
     }
   },
   components: {
-    Loader,
+    LoaderMan,
     FiltersBlock,
     PhoneCard,
     ModalAddToCart, 
@@ -117,7 +116,7 @@ export default {
       this.loading = false
       console.log(this.loading)
     })
-  },
+  }
 };
 </script>
 <style lang="scss" scoped>

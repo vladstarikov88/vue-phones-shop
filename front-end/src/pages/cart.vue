@@ -9,7 +9,7 @@
         </router-link>
       </div>
       <p class="title is-5" v-else v-show="!loading">В корзину пока ни чего не добавленно</p>
-      <loader v-show="loading"></loader>
+      <loader-man v-show="loading"></loader-man>
     </div>
   </section>
 
@@ -19,8 +19,7 @@
   import {mapState, mapGetters} from 'vuex'
   import TableCart from '@/components/TableCart'
   import {db} from '@/plugins/FirebasePlugin.js'
-  import Loader from '@/components/Loader';
-
+  import LoaderMan from '@/components/loader/LoaderMan';
   export default {
     name: 'cart',
 
@@ -31,7 +30,7 @@
       }
     },
     components: {
-      Loader,
+      LoaderMan,
       TableCart
     },
     computed: {
