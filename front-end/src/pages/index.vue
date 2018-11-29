@@ -108,7 +108,7 @@ export default {
     })
 
     db.collection("phones").get()
-    .then( snapshot => {
+    .then(snapshot => {
       this.loading = true
       console.log(this.loading)
       snapshot.forEach(doc => this.phones.push(doc.data()))

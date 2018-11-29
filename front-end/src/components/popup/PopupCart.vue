@@ -38,6 +38,7 @@
 
 <script>
   import {mapState, mapActions} from 'vuex';
+  import {db} from '@/plugins/FirebasePlugin.js'
   export default  {
     name: 'popup-cart',
     props: [],
@@ -52,14 +53,27 @@
     methods: {
       ...mapActions('cart',['removeFromCartById']),
       fetchPhones() {
-        //Создаем массив промисов из запросов на сервер
-        const promises = this.lodash.map(this.cart, ({phone_id})=>
-          this.axios.get('/phone', {id: phone_id}).then(({data})=> data)
-        );
-        // Ждем весь массив промисов и сразу записываем в переменную компонента
-        Promise.all(promises).then( data => {
-          this.phones = data
+        const promises = this.lodash.map(this.cart, ({phone_id, amount, selected}) => {
+          return db.collection('phones')
+          .doc(phone_id)
+          .get()
+          .then(doc => {
+            if(doc.exists) {
+              const phone = doc.data()
+              return {
+                id: phone_id,
+                image_url: phone.image_url,
+                name: phone.name,
+                price: phone.price,
+                quantity: phone.quantity,
+                amount,
+                selected
+              }
+            }
+          })
         })
+        Promise.all(promises)
+        .then(data => this.phones = data)
       }
     },
     computed: {

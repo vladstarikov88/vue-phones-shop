@@ -38,6 +38,7 @@
 <script>
 import moment from "@/plugins/moment";
 import { mapGetters, mapActions } from "vuex";
+import {db} from '@/plugins/FirebasePlugin.js'
 export default {
   name: "popup-wishlist",
   data() {
@@ -48,9 +49,7 @@ export default {
   computed: {
     ...mapGetters("wishlist", { wishlist: "getLastFiveFavorites" }),
     products() {
-      const raw_products = this.lodash.map(
-        this.wishlist,
-        ({ phone_id, date }) => {
+      const raw_products = this.lodash.map( this.wishlist, ({ phone_id, date }) => {
           const phone = this.lodash.find(this.phones, { id: phone_id });
           if (phone) {
             return {
@@ -70,12 +69,24 @@ export default {
   methods: {
     ...mapActions("wishlist", ["removeFromWishlistById"]),
     fetchPhones() {
-      const promises = this.lodash.map(this.wishlist, ({ phone_id }) =>
-        this.axios.get("/phone", { id: phone_id }).then(({ data }) => data)
-      );
-      Promise.all(promises).then(data => {
-        this.phones = data;
-      });
+      const promises = this.lodash.map(this.wishlist, ({phone_id}) => {
+        return db.collection('phones')
+        .doc(phone_id)
+        .get()
+        .then(doc => {
+          if(doc.exists) {
+            const phone = doc.data()
+            return {
+              id: phone_id,
+              image_url: phone.image_url,
+              name: phone.name,
+              price: phone.price,
+            }
+          }
+        })
+      })
+      Promise.all(promises)
+      .then(data => this.phones = data)
     }
   },
   watch: {
