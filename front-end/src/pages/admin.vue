@@ -108,10 +108,12 @@ export default {
             image_url
           })
         })          // отправляем всю инфу о телефоне вместе со ссылкой на фото
-        .then(doc => {
-          for (let item in this.new_phone) delete this.new_phone[item]
-          return doc
-        })
+        .then(previous_data => {
+          db.collection('phones').doc(previous_data.id).update({
+            id: previous_data.id
+          })
+          return previous_data
+        })          // добавляем айдишник
         .then(doc => console.log(doc))
         .catch(e => console.log(e))
     }

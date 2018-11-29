@@ -11,6 +11,7 @@
         <div v-show="!loading" class="columns is-multiline">
           <template v-if="phones && phones.length" v-for="phone in phones">
             <div class="column is-4-tablet" :key="phone.id">
+              {{phone}}
               <phone-card 
                 :phone="phone"
                 :has-in-wish-list="hasInWishList(phone.id)"
@@ -108,15 +109,16 @@ export default {
 
     db.collection("phones").get()
     .then(snapshot => {
-      this.loading = true
-      console.log(this.loading)
-      snapshot.forEach(doc => this.phones.push(doc.data()))
+      // this.loading = true
+      snapshot.forEach(doc => {
+        this.phones.push(doc.data())
+      })
     })
-    .finally(() => {
-      this.loading = false
-      console.log(this.loading)
-    })
-  }
+    // .finally(() => {
+    //   this.loading = false
+    //   console.log(this.loading)
+    // })
+  },
 };
 </script>
 <style lang="scss" scoped>
