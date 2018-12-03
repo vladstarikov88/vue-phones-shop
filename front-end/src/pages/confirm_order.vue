@@ -2,7 +2,7 @@
   <section class="section">
     <div class="container check_purchases" v-if="selected_purchases && selected_purchases.length">
       <h1 class="title">Проверьте выбранные для покупки товары</h1>
-      <selected-purchases 
+      <selected-purchases
         :purchases="selected_purchases"
         :total_price="total_price">
       </selected-purchases>
@@ -25,7 +25,10 @@
             </template>
           </div>
         </div>
-        <button @click="submitActiveAddress" class="button is-info" :disabled="!selected_address_id && selected_address_id!==0">Оформить заказ</button>
+        <button :disabled="!selected_address_id && selected_address_id!==0"
+                @click="submitActiveAddress"
+                class="button is-info">Оформить заказ
+        </button>
       </template>
       <template v-else>
         <address-form
@@ -56,7 +59,6 @@
         modal_edit_form: false,
         addresses: [],
         current_address: {},
-        phones: [],
         selected_address_id: null,
 
       };
@@ -73,8 +75,8 @@
     computed: {
       ...mapGetters("user", ["getAccessToken"]),
       ...mapGetters("cart", ["getSelectedPhones"]),
-      total_price(){
-        return this.selected_purchases.reduce((sum, item) => sum+item.price*item.amount, 0);
+      total_price() {
+        return this.selected_purchases.reduce((sum, item) => sum + item.price * item.amount, 0);
       }
     },
     asyncComputed: {
@@ -97,13 +99,21 @@
     },
     methods: {
       ...mapActions("cart", ["clearCart", "removeSelectedFromCart"]),
-      submit(address){
-        const products = this.lodash.map(this.selected_purchases, 'id');
-        const data = {
-          products,
-          address
+      submit(address) {
+        if(this.selected_purchases && this.selected_purchases.length && address) {
+          const products = this.lodash.map(this.selected_purchases, 'id');
+          const data = {
+            products,
+            address
+          };
+          this.$notify({
+            message: 'Заказ успешно оформлен',
+            status: 'success'
+          });
+          this.removeSelectedFromCart();
+          console.log(data);
+          this.$router.push('/')
         }
-        console.log(data)
       },
       submitActiveAddress() {
         this.axios.get('address', {id: this.selected_address_id})
@@ -141,23 +151,8 @@
       closeModal() {
         this.modal_edit_form = false;
       },
-      fetchPhones() {
-        const promises = this.lodash.map(this.cart, ({phone_id}) =>
-          this.axios.get('/phone', {id: phone_id})
-          .then(({data}) => data)
-        );
-        Promise.all(promises).then( data => {
-          this.phones = data
-        })
-      }
     },
-    watch: {
-      cart: {
-        deep: true,
-        handler: 'fetchPhones',
-        immediate: true,
-      }
-    },
+
   };
 </script>
 
@@ -170,8 +165,9 @@
     display: flex;
     align-items: start;
     margin-bottom: 1em;
-}
-.check_purchases{
+  }
+
+  .check_purchases {
     margin-bottom: 3rem;
-}
+  }
 </style>

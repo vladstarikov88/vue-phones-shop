@@ -9,18 +9,25 @@ export default {
     Vue.mixin(mixinNeedConfirmation)
   }
 }
-function confirmPromise (message = 'Продолжить?', accept_label = 'Да', cancel_label = 'Нет') {
+function confirmPromise ({message = 'Продолжить?', accept_label = 'Да', cancel_label = 'Нет'}) {
   return new Promise((resolve, reject) => {
-    bus.$emit('call-confirm-window', resolve, reject, message, accept_label, cancel_label)
+    bus.$emit(
+      'call-confirm-window',
+      resolve,
+      reject,
+      message,
+      accept_label,
+      cancel_label)
   })
 }
 function wrapperConfirmPromise ({handler, message, accept_label, cancel_label}) {
   return  async function(...args) {
-    const funcWithContext = handler.bind(this)
-    return await confirmPromise(
-      (typeof message === 'function') ? message.apply(this): message, 
-      accept_label, 
-      cancel_label)
+    const funcWithContext = handler.bind(this);
+    return await confirmPromise( {
+      message: (typeof message === 'function') ? message.apply(this): message,
+      accept_label,
+      cancel_label
+      })
       .then(()=>funcWithContext(...args))
       .catch(() => { })
   }
