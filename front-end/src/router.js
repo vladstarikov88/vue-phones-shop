@@ -33,6 +33,9 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: admin, 
+    meta: {
+      title: 'Admin page'
+    }
   }
 ]
 export default new VueRouter({

@@ -93,6 +93,11 @@ export default {
       console.log(this.new_phone.img)
       console.log('Изображение добавлено в data')
     },
+    clearEnterData() {
+      for (let key in this.new_phone) {
+        this.new_phone[key] = null
+      }
+    },
     addToFirestore() {
       const image = this.new_phone.img
       storage.ref(image.name)
@@ -115,6 +120,15 @@ export default {
           return previous_data
         })          // добавляем айдишник
         .then(doc => console.log(doc))
+        .then(() => {
+          this.$notify({
+            message: "Товар был успешно загружен на сервер.",
+            status: "info"
+          });
+        })
+        .then(() => {
+          this.clearEnterData()
+        })
         .catch(e => console.log(e))
     }
   }

@@ -32,8 +32,8 @@
         </tbody>
       </table>
       <loader-circle v-if="loading"></loader-circle>
-      <p class="title is-5" 
-        v-if="!products && !loading">
+      <p class="title is-5"
+        v-if="!products.length && !loading">
         Список желаний пуст
       </p>
     </div>

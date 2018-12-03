@@ -23,7 +23,7 @@
                     </tbody>
                 </table>
             </div>
-            <p class="title is-5" v-else>Список желаний пуст</p>
+            <p class="title is-5" v-else v-show="!loading">Список желаний пуст</p>
             <modal-add-to-cart
               v-if="modal_is_open"
               v-on:close="closeModal()"
