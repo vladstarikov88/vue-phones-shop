@@ -1,24 +1,13 @@
 <template>
   <section class="section">
     <div class="container form">
-      <div class="field">
-        <label class="label">Название телефона</label>
-        <div class="control">
-          <input class="input" v-model="new_phone.name">
-        </div>
-      </div>
+      <string-input
+       title="Название телефона"
+       :phone="new_phone"></string-input>
 
-      <div class="field">
-        <label class="label">Категория</label>
-        <div class="control">
-          <div class="select">
-            <select v-model="new_phone.category_name">
-              <option value="iphone">iPhone</option>
-              <option value="others">Нормальные телефоны</option>
-            </select>
-          </div>
-        </div>
-      </div>
+      <select-input
+        title="Категория"
+        v-model="new_phone.category_name"></select-input>
 
       <div class="field">
         <label class="label">Продавать или нет?</label>
@@ -74,6 +63,8 @@
 
 <script>
 import {db, storage} from '@/plugins/FirebasePlugin.js'
+import StringInput from '@/components/input/StringInput'
+import SelectInput from '@/components/input/SelectInput'
 export default {
   data() {
     return {
@@ -84,8 +75,24 @@ export default {
         price: null,
         quantity: null,
         img: null
+      },
+      options: {
+        category: [
+          {
+            title: 'iPhone',
+            value: 'iphone'
+          },
+          {
+            title: 'Нормальные телефоны',
+            value: 'others'
+          }
+        ]
       }
     }
+  },
+  components: {
+    StringInput,
+    SelectInput
   },
   methods: {
     uploadImgToFilestore(e) {
